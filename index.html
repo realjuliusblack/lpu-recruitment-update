@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Locums United — Recruitment Agent: Development Update</title>
+<title>Locums United: The Jarvis Stack. One Voice. Runs the Rest.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -34,7 +34,6 @@
   --green: #34D399;
   --yellow: #FBBF24;
   --red: #F87171;
-  --gold: #c9a96e;
   --radius: 16px;
   --radius-sm: 10px;
 }
@@ -80,8 +79,13 @@ html, body {
   pointer-events: auto;
 }
 
+.slide.exit-left {
+  opacity: 0;
+  transform: translateX(-60px);
+}
+
 /* ═══════════════════════════════════════
-   BACKGROUND
+   BACKGROUND EFFECTS
    ═══════════════════════════════════════ */
 .bg-grid {
   position: fixed;
@@ -102,10 +106,103 @@ html, body {
   background: radial-gradient(circle, rgba(0,204,255,0.08) 0%, transparent 70%);
   pointer-events: none;
   z-index: 0;
+  transition: top 1s ease, left 1s ease;
 }
 
 .bg-glow-1 { top: -200px; left: -100px; }
-.bg-glow-2 { bottom: -200px; right: -100px; }
+.bg-glow-2 { bottom: -200px; right: -100px; top: auto; left: auto; }
+
+/* ═══════════════════════════════════════
+   PIPELINE PROGRESS BAR
+   ═══════════════════════════════════════ */
+.pipeline-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 20px 40px;
+  background: linear-gradient(to bottom, rgba(10,11,16,0.95) 60%, transparent);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.pipeline-bar.visible { opacity: 1; }
+
+.pipeline-node {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.pipeline-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
+  position: relative;
+}
+
+.pipeline-icon svg {
+  width: 20px;
+  height: 20px;
+  fill: var(--t3);
+  transition: fill 0.5s ease;
+}
+
+.pipeline-icon.active {
+  border-color: var(--cyan);
+  background: rgba(0,204,255,0.1);
+  box-shadow: 0 0 20px rgba(0,204,255,0.3), 0 0 40px rgba(0,204,255,0.1);
+}
+
+.pipeline-icon.active svg { fill: var(--cyan); }
+
+.pipeline-icon.completed {
+  border-color: var(--cyan-40);
+  background: rgba(0,204,255,0.05);
+}
+
+.pipeline-icon.completed svg { fill: var(--cyan-60); }
+
+.pipeline-label {
+  position: absolute;
+  top: 52px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--t3);
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: color 0.5s ease;
+}
+
+.pipeline-icon.active .pipeline-label,
+.pipeline-icon.completed .pipeline-label { color: var(--cyan); }
+
+.pipeline-connector {
+  width: 60px;
+  height: 2px;
+  background: var(--border);
+  transition: background 0.5s ease;
+}
+
+.pipeline-connector.active {
+  background: linear-gradient(90deg, var(--cyan-40), var(--cyan));
+}
+
+.pipeline-connector.completed {
+  background: var(--cyan-40);
+}
 
 /* ═══════════════════════════════════════
    NAVIGATION
@@ -193,6 +290,12 @@ html, body {
 
 .hero-title .cyan { color: var(--cyan); }
 
+.nav-hint-mobile { display: none; }
+@media (max-width: 768px) {
+  .nav-hint-desktop { display: none; }
+  .nav-hint-mobile { display: inline; }
+}
+
 .hero-subtitle {
   font-size: clamp(18px, 2vw, 24px);
   font-weight: 400;
@@ -231,7 +334,7 @@ html, body {
 }
 
 /* ═══════════════════════════════════════
-   ENGINE LAYOUT
+   ENGINE SLIDES
    ═══════════════════════════════════════ */
 .engine-layout {
   display: flex;
@@ -261,7 +364,6 @@ html, body {
   justify-content: center;
   position: relative;
   background: radial-gradient(circle, rgba(0,204,255,0.05) 0%, transparent 70%);
-  animation: float 4s ease-in-out infinite;
 }
 
 .engine-ring::before {
@@ -287,10 +389,6 @@ html, body {
   filter: drop-shadow(0 0 20px rgba(0,204,255,0.4));
 }
 
-.slide.active .engine-ring {
-  animation: float 4s ease-in-out infinite, pulse-ring 3s ease-in-out infinite;
-}
-
 .engine-number {
   position: absolute;
   top: 20px;
@@ -302,7 +400,10 @@ html, body {
   pointer-events: none;
 }
 
-.engine-content { flex: 1; }
+.engine-content {
+  flex: 1;
+}
+
 .engine-content .section-label { text-align: left; }
 .engine-content .section-title { text-align: left; font-size: clamp(32px, 3.5vw, 48px); }
 
@@ -311,14 +412,14 @@ html, body {
   margin-top: 28px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .engine-bullets li {
   display: flex;
   align-items: flex-start;
   gap: 14px;
-  font-size: 16px;
+  font-size: 17px;
   color: var(--t2);
   line-height: 1.5;
 }
@@ -343,8 +444,8 @@ html, body {
 }
 
 .impact-box {
-  margin-top: 28px;
-  padding: 18px 22px;
+  margin-top: 32px;
+  padding: 20px 24px;
   border-radius: var(--radius-sm);
   background: linear-gradient(135deg, rgba(0,204,255,0.08), rgba(0,204,255,0.03));
   border: 1px solid var(--border-cyan);
@@ -369,11 +470,11 @@ html, body {
   letter-spacing: 2px;
   text-transform: uppercase;
   color: var(--cyan);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
 .impact-text {
-  font-size: 15px;
+  font-size: 16px;
   color: var(--t1);
   line-height: 1.5;
   font-weight: 400;
@@ -388,14 +489,14 @@ html, body {
   gap: 24px;
   max-width: 1100px;
   width: 100%;
-  margin-top: 40px;
+  margin-top: 48px;
 }
 
 .number-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 28px 24px;
+  padding: 32px 28px;
   text-align: center;
   transition: all 0.4s ease;
   position: relative;
@@ -416,7 +517,12 @@ html, body {
 }
 
 .number-card:hover::before { opacity: 1; }
-.number-card:hover { border-color: var(--border-cyan); transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,204,255,0.08); }
+
+.number-card:hover {
+  border-color: var(--border-cyan);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,204,255,0.08);
+}
 
 .number-value {
   font-size: 48px;
@@ -433,22 +539,196 @@ html, body {
 }
 
 .number-desc {
-  font-size: 14px;
+  font-size: 15px;
   color: var(--t3);
   margin-top: 10px;
   line-height: 1.4;
 }
 
 /* ═══════════════════════════════════════
-   BLACK LABEL CERTIFICATION
+   BEFORE / AFTER
+   ═══════════════════════════════════════ */
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 40px;
+  max-width: 1100px;
+  width: 100%;
+  margin-top: 48px;
+  align-items: start;
+}
+
+.compare-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.compare-header {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid;
+}
+
+.compare-col.before .compare-header {
+  color: var(--red);
+  border-color: rgba(248,113,113,0.3);
+}
+
+.compare-col.after .compare-header {
+  color: var(--cyan);
+  border-color: rgba(0,204,255,0.3);
+}
+
+.compare-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--t2);
+}
+
+.compare-item .icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.compare-col.before .icon {
+  background: rgba(248,113,113,0.1);
+}
+
+.compare-col.before .icon svg {
+  width: 12px; height: 12px; fill: var(--red);
+}
+
+.compare-col.after .icon {
+  background: var(--cyan-10);
+}
+
+.compare-col.after .icon svg {
+  width: 12px; height: 12px; fill: var(--cyan);
+}
+
+.compare-divider {
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, var(--border), transparent);
+  min-height: 300px;
+  align-self: stretch;
+}
+
+/* ═══════════════════════════════════════
+   FINAL SLIDE
+   ═══════════════════════════════════════ */
+.final-tagline {
+  font-size: clamp(28px, 3vw, 40px);
+  font-weight: 600;
+  color: var(--t2);
+  text-align: center;
+  max-width: 700px;
+  line-height: 1.4;
+  margin-top: 24px;
+}
+
+.final-cta {
+  margin-top: 48px;
+  padding: 16px 48px;
+  border-radius: 60px;
+  background: var(--cyan);
+  color: var(--bg);
+  font-size: 18px;
+  font-weight: 600;
+  border: none;
+  cursor: default;
+  letter-spacing: 0.5px;
+  box-shadow: 0 0 30px rgba(0,204,255,0.3), 0 0 60px rgba(0,204,255,0.1);
+}
+
+/* ═══════════════════════════════════════
+   PROBLEM SLIDE
+   ═══════════════════════════════════════ */
+.problem-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1000px;
+  width: 100%;
+  margin-top: 48px;
+}
+
+.problem-card {
+  background: var(--surface);
+  border: 1px solid rgba(248,113,113,0.15);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  text-align: center;
+}
+
+.problem-card .p-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(248,113,113,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.problem-card .p-icon svg {
+  width: 24px;
+  height: 24px;
+  fill: var(--red);
+}
+
+.problem-card h3 {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--t1);
+  margin-bottom: 8px;
+}
+
+.problem-card p {
+  font-size: 14px;
+  color: var(--t3);
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════
+   LOGO
+   ═══════════════════════════════════════ */
+.logo-container {
+  margin-bottom: 40px;
+}
+
+.logo-container svg {
+  height: 50px;
+  width: auto;
+}
+
+/* ═══════════════════════════════════════
+   ANIMATIONS
+   ═══════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   BLACK LABEL CERTIFICATION (Luxury)
    ═══════════════════════════════════════ */
 .bl-cert-slide {
   background: radial-gradient(ellipse at center, rgba(201,169,110,0.04) 0%, transparent 60%);
 }
 
 .bl-seal {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   border: 2px solid rgba(201,169,110,0.4);
   display: flex;
@@ -457,7 +737,6 @@ html, body {
   position: relative;
   background: radial-gradient(circle, rgba(201,169,110,0.06) 0%, transparent 70%);
   box-shadow: 0 0 40px rgba(201,169,110,0.1), inset 0 0 30px rgba(201,169,110,0.05);
-  flex-shrink: 0;
 }
 
 .bl-seal::before {
@@ -477,8 +756,8 @@ html, body {
 }
 
 .bl-seal svg {
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   fill: #c9a96e;
   filter: drop-shadow(0 0 8px rgba(201,169,110,0.4));
 }
@@ -491,7 +770,7 @@ html, body {
 }
 
 .bl-phase {
-  padding: 14px 18px;
+  padding: 16px 20px;
   border-radius: 12px;
   background: rgba(201,169,110,0.03);
   border: 1px solid rgba(201,169,110,0.12);
@@ -509,7 +788,7 @@ html, body {
   letter-spacing: 3px;
   text-transform: uppercase;
   color: #c9a96e;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 }
 
 .bl-phase .bl-phase-text {
@@ -518,232 +797,137 @@ html, body {
   line-height: 1.5;
 }
 
+.bl-score {
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: -2px;
+  line-height: 1;
+}
+
+.bl-score-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(201,169,110,0.6);
+  margin-top: 6px;
+}
+
 /* ═══════════════════════════════════════
-   CARD GRID (complexity / next)
+   AGENT FIGURE (Matrix Code Rain)
    ═══════════════════════════════════════ */
-.card-grid {
-  display: grid;
-  gap: 20px;
-  max-width: 1100px;
+@keyframes codeRain {
+  0% { transform: translateY(-50%); }
+  100% { transform: translateY(0); }
+}
+
+.agent-figure {
+  position: relative;
+  width: 140px;
+  height: 260px;
+}
+
+.agent-silhouette {
   width: 100%;
-  margin-top: 36px;
+  height: 100%;
+  position: relative;
+  filter: drop-shadow(0 0 24px rgba(0,204,255,0.35)) drop-shadow(0 0 48px rgba(0,204,255,0.15));
 }
 
-.card-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
-.card-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
-.card-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+/* The code rain container, masked to the human shape */
+.agent-code-fill {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  clip-path: url(#agentClip);
+}
 
-.info-card {
+.agent-code-columns {
+  display: flex;
+  gap: 2px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 200%;
+  animation: codeRain 8s linear infinite;
+}
+
+.agent-code-col {
+  flex: 1;
+  font-family: 'Courier New', monospace;
+  font-size: 9px;
+  line-height: 1.3;
+  color: var(--cyan);
+  writing-mode: vertical-lr;
+  opacity: 0.6;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.agent-code-col:nth-child(odd) { opacity: 0.4; animation-delay: -2s; }
+.agent-code-col:nth-child(3n) { opacity: 0.8; color: #33ddff; }
+
+/* Outline SVG on top */
+.agent-outline {
+  position: absolute;
+  inset: 0;
+}
+.agent-outline svg {
+  width: 100%;
+  height: 100%;
+}
+
+.agent-designation {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 5px;
+  color: var(--cyan);
+  text-align: center;
+  margin-top: 14px;
+  text-shadow: 0 0 20px rgba(0,204,255,0.5);
+  text-transform: uppercase;
+}
+
+/* Engine strip below the figure */
+.engine-strip {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.engine-strip-item {
+  flex: 1;
+  text-align: center;
+  padding: 10px 4px;
+  border-radius: 8px;
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 24px 20px;
-  transition: all 0.3s ease;
+  border: 1px solid rgba(0,204,255,0.15);
 }
 
-.info-card:hover {
-  border-color: var(--border-cyan);
-  transform: translateY(-3px);
-  box-shadow: 0 6px 24px rgba(0,204,255,0.07);
-}
-
-.info-card .card-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: var(--cyan-10);
-  border: 1px solid var(--border-cyan);
+.engine-strip-item .esi-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(0,204,255,0.08);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 14px;
+  margin: 0 auto 6px;
 }
 
-.info-card .card-icon svg {
-  width: 22px;
-  height: 22px;
+.engine-strip-item .esi-icon svg {
+  width: 14px;
+  height: 14px;
   fill: var(--cyan);
 }
 
-.info-card h3 {
-  font-size: 15px;
+.engine-strip-item .esi-label {
+  font-size: 9px;
   font-weight: 700;
-  color: var(--t1);
-  margin-bottom: 8px;
-  line-height: 1.3;
-}
-
-.info-card p {
-  font-size: 13px;
-  color: var(--t3);
-  line-height: 1.55;
-}
-
-/* ═══════════════════════════════════════
-   WORKFLOW PIPELINE (Slide 4)
-   ═══════════════════════════════════════ */
-.wf-pipeline {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-  max-width: 1200px;
-  width: 100%;
-  margin-top: 28px;
-}
-
-.wf-item {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 16px 14px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.wf-item:hover {
-  border-color: var(--border-cyan);
-  box-shadow: 0 4px 20px rgba(0,204,255,0.07);
-}
-
-.wf-item .wf-num {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
+  letter-spacing: 1.5px;
   color: var(--cyan);
-}
-
-.wf-item h4 {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--t1);
-  line-height: 1.3;
-}
-
-.wf-item p {
-  font-size: 11.5px;
-  color: var(--t3);
-  line-height: 1.5;
-  flex: 1;
-}
-
-.wf-item .wf-cert {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 1px;
   text-transform: uppercase;
-  color: var(--green);
-  margin-top: 4px;
-}
-
-.wf-item .wf-cert svg {
-  width: 12px;
-  height: 12px;
-  fill: var(--green);
-}
-
-/* ═══════════════════════════════════════
-   STATUS TABLE (Engine Map slide)
-   ═══════════════════════════════════════ */
-.status-table {
-  max-width: 900px;
-  width: 100%;
-  margin-top: 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.status-row {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px 20px;
-  border-radius: 12px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  transition: border-color 0.3s ease;
-}
-
-.status-row:hover { border-color: var(--border-cyan); }
-
-.status-row .sr-num {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: var(--t3);
-  width: 24px;
-  flex-shrink: 0;
-}
-
-.status-row .sr-name {
-  flex: 1;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--t1);
-}
-
-.status-row .sr-desc {
-  font-size: 12px;
-  color: var(--t3);
-  max-width: 320px;
-  line-height: 1.4;
-}
-
-.status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  flex-shrink: 0;
-}
-
-.status-badge.certified {
-  background: rgba(52,211,153,0.12);
-  color: var(--green);
-  border: 1px solid rgba(52,211,153,0.25);
-}
-
-.status-badge.pending {
-  background: rgba(251,191,36,0.10);
-  color: var(--yellow);
-  border: 1px solid rgba(251,191,36,0.2);
-}
-
-.status-badge.not-built {
-  background: rgba(255,255,255,0.04);
-  color: var(--t3);
-  border: 1px solid var(--border);
-}
-
-/* ═══════════════════════════════════════
-   LOGO
-   ═══════════════════════════════════════ */
-.logo-container { margin-bottom: 36px; }
-.logo-container svg { height: 50px; width: auto; }
-
-/* ═══════════════════════════════════════
-   ANIMATIONS
-   ═══════════════════════════════════════ */
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
 }
 
 @keyframes pulse-ring {
@@ -752,473 +936,1698 @@ html, body {
   100% { box-shadow: 0 0 0 0 rgba(0,204,255,0); }
 }
 
-.slide.active .stagger-1 { animation: fadeInUp 0.6s 0.05s both; }
-.slide.active .stagger-2 { animation: fadeInUp 0.6s 0.15s both; }
-.slide.active .stagger-3 { animation: fadeInUp 0.6s 0.25s both; }
-.slide.active .stagger-4 { animation: fadeInUp 0.6s 0.35s both; }
-.slide.active .stagger-5 { animation: fadeInUp 0.6s 0.45s both; }
-.slide.active .stagger-6 { animation: fadeInUp 0.6s 0.55s both; }
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.engine-ring { animation: float 4s ease-in-out infinite; }
+
+.slide.active .engine-ring { animation: float 4s ease-in-out infinite, pulse-ring 3s ease-in-out infinite; }
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.slide.active .stagger-1 { animation: fadeInUp 0.6s 0.1s both; }
+.slide.active .stagger-2 { animation: fadeInUp 0.6s 0.2s both; }
+.slide.active .stagger-3 { animation: fadeInUp 0.6s 0.3s both; }
+.slide.active .stagger-4 { animation: fadeInUp 0.6s 0.4s both; }
+.slide.active .stagger-5 { animation: fadeInUp 0.6s 0.5s both; }
+.slide.active .stagger-6 { animation: fadeInUp 0.6s 0.6s both; }
+.slide.active .stagger-7 { animation: fadeInUp 0.6s 0.7s both; }
+.slide.active .stagger-8 { animation: fadeInUp 0.6s 0.8s both; }
+
+/* Candidate dot animation for engine visual */
+.candidate-dot {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 12px var(--cyan), 0 0 24px rgba(0,204,255,0.3);
+  opacity: 0;
+}
+
+.slide.active .candidate-dot {
+  animation: orbit 3s ease-in-out infinite;
+}
+
+@keyframes orbit {
+  0% { opacity: 0; transform: rotate(0deg) translateX(130px) rotate(0deg); }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: rotate(360deg) translateX(130px) rotate(-360deg); }
+}
+
+/* Scoring colors for Engine 2 */
+.score-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.score-badge.green { background: rgba(52,211,153,0.15); color: var(--green); }
+.score-badge.yellow { background: rgba(251,191,36,0.15); color: var(--yellow); }
+.score-badge.red { background: rgba(248,113,113,0.15); color: var(--red); }
+
+/* ═══════════════════════════════════════
+   FINANCIAL IMPACT SLIDE
+   ═══════════════════════════════════════ */
+.finance-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  max-width: 1100px;
+  width: 100%;
+  margin-top: 32px;
+}
+
+.finance-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.finance-card.highlight {
+  border-color: var(--border-cyan);
+  background: linear-gradient(135deg, rgba(0,204,255,0.06), rgba(0,204,255,0.02));
+}
+
+.finance-card.highlight::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--cyan), rgba(0,204,255,0.3));
+}
+
+.finance-card.full-width {
+  grid-column: 1 / -1;
+}
+
+.finance-card .f-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--t3);
+  margin-bottom: 12px;
+}
+
+.finance-card .f-value {
+  font-size: 38px;
+  font-weight: 800;
+  color: var(--cyan);
+  line-height: 1;
+  margin-bottom: 8px;
+  font-variant-numeric: tabular-nums;
+}
+
+.finance-card .f-value.white { color: var(--t1); }
+
+.finance-card .f-desc {
+  font-size: 15px;
+  color: var(--t3);
+  line-height: 1.5;
+}
+
+.finance-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  color: var(--cyan);
+  padding: 8px 0;
+}
+
+.valuation-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-top: 16px;
+}
+
+.val-box {
+  flex: 1;
+  text-align: center;
+  padding: 20px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+
+.val-box .v-num {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--t1);
+  line-height: 1;
+}
+
+.val-box .v-num.cyan { color: var(--cyan); }
+
+.val-box .v-label {
+  font-size: 12px;
+  color: var(--t3);
+  margin-top: 6px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 500;
+}
+
+.val-arrow {
+  font-size: 24px;
+  color: var(--cyan);
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════
+   WHAT'S NEXT SLIDE
+   ═══════════════════════════════════════ */
+.next-agents {
+  display: flex;
+  gap: 32px;
+  margin-top: 48px;
+  max-width: 800px;
+  width: 100%;
+}
+
+.next-agent-card {
+  flex: 1;
+  padding: 32px 28px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  text-align: center;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.next-agent-card::after {
+  content: 'COMING SOON';
+  position: absolute;
+  top: 12px;
+  right: -28px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--bg);
+  background: var(--cyan);
+  padding: 3px 32px;
+  transform: rotate(45deg);
+}
+
+.next-agent-card:hover {
+  border-color: var(--border-cyan);
+  transform: translateY(-4px);
+}
+
+.next-agent-card .na-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--cyan-10);
+  border: 1px solid var(--border-cyan);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.next-agent-card .na-icon svg {
+  width: 28px;
+  height: 28px;
+  fill: var(--cyan);
+}
+
+.next-agent-card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--t1);
+  margin-bottom: 8px;
+}
+
+.next-agent-card p {
+  font-size: 14px;
+  color: var(--t3);
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════
+   VALUATION STANDALONE
+   ═══════════════════════════════════════ */
+.val-standalone {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin-top: 48px;
+  max-width: 1000px;
+  width: 100%;
+}
+
+.val-side {
+  flex: 1;
+  text-align: center;
+  padding: 40px 32px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.val-side.after {
+  border-color: var(--border-cyan);
+  background: linear-gradient(135deg, rgba(0,204,255,0.08), rgba(0,204,255,0.02));
+  box-shadow: 0 0 40px rgba(0,204,255,0.08);
+}
+
+.val-side .vs-mult {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--t3);
+  margin-bottom: 12px;
+}
+
+.val-side .vs-range {
+  font-size: clamp(32px, 4vw, 52px);
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.val-side.before .vs-range { color: var(--t3); }
+.val-side.after .vs-range { color: var(--cyan); }
+
+.val-side .vs-label {
+  font-size: 14px;
+  color: var(--t3);
+  margin-top: 12px;
+}
+
+.val-center-arrow {
+  font-size: 48px;
+  color: var(--cyan);
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 10px rgba(0,204,255,0.4));
+}
+
+.val-citation {
+  margin-top: 24px;
+  font-size: 12px;
+  color: var(--t3);
+  text-align: center;
+  max-width: 600px;
+  opacity: 0.7;
+}
+
+/* ═══════════════════════════════════════
+   RESEARCH PROOF SLIDE
+   ═══════════════════════════════════════ */
+.research-card {
+  max-width: 800px;
+  width: 100%;
+  margin-top: 40px;
+  padding: 32px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border-cyan);
+  position: relative;
+}
+
+.research-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+}
+
+.research-sources {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.research-source {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+
+.research-source .rs-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--cyan-10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.research-source .rs-icon svg {
+  width: 16px;
+  height: 16px;
+  fill: var(--cyan);
+}
+
+.research-source .rs-text {
+  font-size: 13px;
+  color: var(--t2);
+}
+
+.research-source .rs-text strong {
+  color: var(--t1);
+}
+
+/* ═══════════════════════════════════════
+   VISION GRID
+   ═══════════════════════════════════════ */
+.vision-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  max-width: 1100px;
+  width: 100%;
+  margin-top: 24px;
+}
+
+.vision-card {
+  padding: 18px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.vision-card:hover {
+  border-color: var(--border-cyan);
+  transform: translateY(-2px);
+}
+
+.vision-card .vc-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: var(--cyan-10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 8px;
+}
+
+.vision-card .vc-icon svg {
+  width: 16px;
+  height: 16px;
+  fill: var(--cyan);
+}
+
+.vision-card h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--t1);
+  margin-bottom: 6px;
+}
+
+.vision-card p {
+  font-size: 12px;
+  color: var(--t3);
+  line-height: 1.4;
+}
 
 /* ═══════════════════════════════════════
    RESPONSIVE
    ═══════════════════════════════════════ */
 @media (max-width: 1024px) {
-  .engine-layout { flex-direction: column; gap: 32px; }
-  .engine-visual { flex: 0 0 auto; height: 180px; }
-  .engine-ring { width: 160px; height: 160px; }
+  .engine-layout { flex-direction: column; gap: 40px; }
+  .engine-visual { flex: 0 0 auto; height: 200px; }
+  .engine-ring { width: 180px; height: 180px; }
   .engine-ring svg { width: 48px; height: 48px; }
   .numbers-grid { grid-template-columns: repeat(2, 1fr); }
-  .card-grid.cols-4 { grid-template-columns: repeat(2, 1fr); }
-  .wf-pipeline { grid-template-columns: repeat(2, 1fr); }
+  .problem-grid { grid-template-columns: repeat(2, 1fr); }
+  .compare-grid { grid-template-columns: 1fr; }
+  .compare-divider { display: none; }
+  .finance-layout { grid-template-columns: 1fr; }
+  .finance-card.full-width { grid-column: 1; }
+  .next-agents { flex-direction: column; }
+  .val-standalone { flex-direction: column; gap: 24px; }
+  .vision-grid { grid-template-columns: repeat(2, 1fr); }
   .slide { padding: 60px 40px; }
 }
 
+/* ═══════════════════════════════════════
+   MOBILE — 768px AND BELOW
+   ═══════════════════════════════════════ */
 @media (max-width: 768px) {
-  .slide { padding: 24px 20px; overflow: hidden; }
-  .hero-title { font-size: clamp(28px, 8vw, 48px); letter-spacing: -1px; }
-  .hero-subtitle { font-size: clamp(14px, 3.5vw, 18px); margin-top: 16px; }
-  .section-title { font-size: clamp(22px, 6vw, 36px); letter-spacing: -0.5px; }
-  .section-desc { font-size: 14px; margin-top: 12px; }
-  .engine-layout { flex-direction: column; gap: 16px; margin-top: 16px; }
-  .engine-visual { height: 140px; }
-  .engine-ring { width: 120px; height: 120px; }
-  .engine-ring svg { width: 32px; height: 32px; }
-  .engine-number { font-size: 50px; }
-  .engine-bullets li { font-size: 13px; gap: 10px; }
-  .engine-bullets { gap: 10px; margin-top: 16px; }
-  .numbers-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 16px; }
-  .number-value { font-size: 32px; }
-  .card-grid.cols-4, .card-grid.cols-3 { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 16px; }
-  .wf-pipeline { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 16px; }
-  .status-table { gap: 6px; margin-top: 16px; }
-  .status-row { padding: 10px 12px; }
-  .status-row .sr-desc { display: none; }
+  /* Slide padding */
+  .slide { padding: 24px 20px; }
+
+  /* Hero title — min 28px */
+  .hero-title {
+    font-size: clamp(28px, 8vw, 48px);
+    letter-spacing: -1px;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(15px, 4vw, 18px);
+    margin-top: 16px;
+  }
+
+  /* Section titles */
+  .section-title {
+    font-size: clamp(22px, 6vw, 36px);
+    letter-spacing: -0.5px;
+  }
+
+  .engine-content .section-title {
+    font-size: clamp(20px, 5.5vw, 30px);
+  }
+
+  .section-desc {
+    font-size: clamp(14px, 3.5vw, 16px);
+    margin-top: 12px;
+  }
+
+  /* Engine ring — 140px */
+  .engine-ring {
+    width: 140px;
+    height: 140px;
+  }
+
+  .engine-ring svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .engine-number {
+    font-size: 52px;
+  }
+
+  /* Engine layout — vertical, tighter gap */
+  .engine-layout {
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 16px;
+  }
+
+  .engine-visual {
+    flex: 0 0 auto;
+    height: 160px;
+  }
+
+  /* Engine bullets — smaller text */
+  .engine-bullets li {
+    font-size: 14px;
+    gap: 10px;
+  }
+
+  .engine-bullets {
+    margin-top: 16px;
+    gap: 12px;
+  }
+
+  .engine-bullets li .bullet-icon {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+  }
+
+  /* Impact box */
+  .impact-box {
+    margin-top: 20px;
+    padding: 14px 16px;
+  }
+
+  .impact-text {
+    font-size: 13px;
+  }
+
+  /* Numbers grid — 1 column */
+  .numbers-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .number-card {
+    padding: 20px 16px;
+  }
+
+  .number-value {
+    font-size: 36px;
+  }
+
+  .number-unit {
+    font-size: 16px;
+  }
+
+  .number-desc {
+    font-size: 13px;
+  }
+
+  /* Problem grid — 1 column */
+  .problem-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .problem-card {
+    padding: 20px 16px;
+  }
+
+  .problem-card h3 {
+    font-size: 15px;
+  }
+
+  /* Finance layout — 1 column */
+  .finance-layout {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .finance-card.full-width {
+    grid-column: 1;
+  }
+
+  .finance-card {
+    padding: 20px 16px;
+  }
+
+  .finance-card .f-value {
+    font-size: 28px;
+  }
+
+  .finance-card .f-desc {
+    font-size: 13px;
+  }
+
+  /* Next agents — stack vertically */
+  .next-agents {
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  .next-agent-card {
+    padding: 20px 16px;
+  }
+
+  .next-agent-card h3 {
+    font-size: 16px;
+  }
+
+  /* Valuation standalone — stack vertically */
+  .val-standalone {
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .val-side {
+    padding: 24px 16px;
+  }
+
+  .val-center-arrow {
+    font-size: 32px;
+    transform: rotate(90deg);
+  }
+
+  .val-side .vs-range {
+    font-size: clamp(24px, 7vw, 36px);
+  }
+
+  /* Vision grid — 2 columns */
+  .vision-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .vision-card {
+    padding: 12px 10px;
+  }
+
+  .vision-card h4 {
+    font-size: 12px;
+  }
+
+  .vision-card p {
+    font-size: 11px;
+  }
+
+  /* Hide nav arrows — swipe is sufficient */
   .nav-arrows { display: none; }
-  .slide-counter { left: 16px; bottom: 20px; font-size: 11px; }
-  .nav-dots { gap: 6px; bottom: 20px; }
-  .nav-dot { width: 6px; height: 6px; }
-  .logo-container svg { height: 36px; }
-  .logo-container { margin-bottom: 20px; }
-  .bl-seal { width: 70px; height: 70px; }
-  .bl-seal svg { width: 30px; height: 30px; }
+
+  /* Slide counter — compact */
+  .slide-counter {
+    left: 16px;
+    bottom: 20px;
+    font-size: 11px;
+  }
+
+  /* Nav dots — smaller */
+  .nav-dot {
+    width: 6px;
+    height: 6px;
+  }
+
+  .nav-dots {
+    gap: 6px;
+    bottom: 20px;
+  }
+
+  /* Pipeline bar — smaller icons and gaps */
+  .pipeline-bar {
+    padding: 12px 16px;
+    gap: 0;
+  }
+
+  .pipeline-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .pipeline-icon svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .pipeline-label {
+    font-size: 9px;
+    top: 38px;
+    letter-spacing: 0;
+  }
+
+  .pipeline-connector {
+    width: 24px;
+  }
+
+  /* Job board slide browser mockup — smaller */
+  [data-slide="3"] .engine-visual {
+    flex: 0 0 auto;
+    height: auto;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  [data-slide="3"] .engine-visual > div {
+    width: 100% !important;
+    max-width: 300px;
+  }
+
+  /* Compare grid adjustments */
+  .compare-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .compare-item {
+    font-size: 14px;
+  }
+
+  /* Research card */
+  .research-card {
+    padding: 20px 16px;
+    margin-top: 20px;
+  }
+
+  .research-source .rs-text {
+    font-size: 12px;
+  }
+
+  /* Final slide */
+  .final-tagline {
+    font-size: clamp(18px, 5vw, 24px);
+    margin-top: 16px;
+  }
+
+  .final-cta {
+    font-size: 15px;
+    padding: 12px 32px;
+    margin-top: 28px;
+  }
+
+  /* Logo */
+  .logo-container {
+    margin-bottom: 20px;
+  }
+
+  .logo-container svg {
+    height: 36px;
+  }
+
+  /* MOBILE: no scrolling, everything must fit */
+  .slide {
+    overflow: hidden;
+  }
+
+  /* Slide 1 (Problem): smaller cards */
+  .problem-card {
+    padding: 14px 12px;
+  }
+  .problem-card .p-icon {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 8px;
+  }
+  .problem-card h3 { font-size: 13px; }
+  .problem-card p { font-size: 11px; }
+
+  /* Slide 3 (Job Board): hide mockup on mobile, show bullets only */
+  [data-slide="3"] .engine-visual {
+    display: none !important;
+  }
+  [data-slide="3"] .engine-layout {
+    margin-top: 20px !important;
+  }
+
+  /* Slide 4 (Qualification): fix score badges wrapping */
+  .score-badge {
+    font-size: 10px;
+    padding: 2px 6px;
+    margin-bottom: 2px;
+  }
+
+  /* Bullet alignment fix */
+  .engine-bullets li {
+    align-items: flex-start;
+    font-size: 13px !important;
+    gap: 10px !important;
+  }
+  .engine-bullets li .bullet-icon {
+    margin-top: 2px;
+    width: 22px !important;
+    height: 22px !important;
+    min-width: 22px;
+  }
+  .engine-bullets li .bullet-icon svg {
+    width: 12px !important;
+    height: 12px !important;
+  }
+  .engine-bullets {
+    gap: 10px !important;
+    margin-top: 16px !important;
+  }
+  .impact-box {
+    margin-top: 16px !important;
+    padding: 14px 16px !important;
+  }
+  .impact-text {
+    font-size: 13px !important;
+  }
+
+  /* Slide 8 (Numbers): 2-col, compact */
+  .numbers-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 6px;
+    margin-top: 16px;
+  }
+  .number-card {
+    padding: 12px 8px;
+  }
+  .number-value {
+    font-size: 28px;
+  }
+  .number-desc {
+    font-size: 11px;
+  }
+
+  /* Slide 10 (Financial): aggressive compression */
+  .finance-layout {
+    margin-top: 12px !important;
+    gap: 8px;
+  }
+  .finance-card {
+    padding: 12px 14px !important;
+  }
+  .finance-card .f-value {
+    font-size: 24px;
+    margin-bottom: 4px;
+  }
+  .finance-card .f-desc {
+    font-size: 11px !important;
+    line-height: 1.3 !important;
+  }
+  .finance-card .f-label {
+    font-size: 9px;
+    margin-bottom: 4px;
+  }
+
+  /* Slide 14 (LU 2.0): compact org chart */
+  .next-agents {
+    gap: 8px !important;
+  }
+  .next-agent-card {
+    padding: 10px 10px !important;
+  }
+  .next-agent-card h3 {
+    font-size: 13px !important;
+  }
+  .next-agent-card p {
+    font-size: 10px !important;
+  }
+  .next-agent-card .na-icon {
+    width: 30px !important;
+    height: 30px !important;
+    margin-bottom: 4px !important;
+  }
+  .next-agent-card::after {
+    font-size: 7px !important;
+    padding: 2px 24px !important;
+    top: 8px !important;
+    right: -30px !important;
+  }
+
+  /* Slide 15 (MSP): remove full-width card text, compress everything */
+  [data-slide="16"] .finance-layout {
+    gap: 6px !important;
+  }
+  [data-slide="16"] .finance-card {
+    padding: 10px 12px !important;
+  }
+  [data-slide="16"] .finance-card .f-desc {
+    font-size: 11px !important;
+    line-height: 1.3 !important;
+  }
+  [data-slide="16"] .finance-card.full-width {
+    display: none !important;
+  }
+  [data-slide="16"] .section-desc {
+    font-size: 12px !important;
+    margin-top: 8px !important;
+  }
+
+  /* Pipeline bar: more compact on mobile */
+  .pipeline-bar {
+    padding: 8px 12px;
+  }
+  .pipeline-icon {
+    width: 28px;
+    height: 28px;
+  }
+  .pipeline-icon svg {
+    width: 14px;
+    height: 14px;
+  }
+  .pipeline-connector {
+    width: 16px;
+  }
+  .pipeline-label {
+    font-size: 7px;
+    top: 34px;
+  }
+
+  /* Engine slides: smaller ring + number on mobile */
+  .engine-ring {
+    width: 120px !important;
+    height: 120px !important;
+  }
+  .engine-ring svg {
+    width: 32px !important;
+    height: 32px !important;
+  }
+  .engine-number {
+    font-size: 50px !important;
+    top: 10px !important;
+    left: 10px !important;
+  }
+  .engine-visual {
+    height: 140px !important;
+  }
+
+  /* Black Label Certification: 2-col phases, smaller seal */
+  .bl-seal {
+    width: 80px;
+    height: 80px;
+  }
+  .bl-seal svg {
+    width: 32px;
+    height: 32px;
+  }
+  .bl-seal::before { inset: -4px; }
+  .bl-seal::after { inset: -10px; }
+  .bl-phase {
+    padding: 10px 12px;
+  }
+  .bl-phase .bl-phase-num {
+    font-size: 8px;
+    letter-spacing: 2px;
+    margin-bottom: 4px;
+  }
+  .bl-phase .bl-phase-text {
+    font-size: 11px;
+    line-height: 1.3;
+  }
+  .bl-cert-slide .finance-layout {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 8px !important;
+    margin-top: 16px !important;
+  }
+  .bl-score {
+    font-size: 36px !important;
+  }
+  .bl-score-label {
+    font-size: 9px;
+  }
 }
+
+/* ═══════════════════════════════════════
+   PIPELINE FLOW VISUAL (Agent 1 rebuild)
+   ═══════════════════════════════════════ */
+.pipeline-flow {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  max-width: 1180px;
+  width: 100%;
+  margin-top: 28px;
+}
+
+.pf-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pf-col-label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 2px;
+}
+
+.pf-node {
+  background: var(--surface);
+  border: 1px solid var(--border-cyan);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.pf-node.full { grid-column: 1 / -1; }
+
+.pf-node::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--cyan);
+  border-radius: 3px 0 0 3px;
+}
+
+.pf-node-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.pf-node-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--t1);
+}
+
+.pf-node-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  background: var(--cyan-10);
+  border: 1px solid var(--border-cyan);
+  padding: 3px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+.pf-node-desc {
+  font-size: 13px;
+  color: var(--t3);
+  line-height: 1.5;
+}
+
+.pf-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cyan);
+  font-size: 18px;
+  opacity: 0.5;
+}
+
+/* Agent 1 hero cert badge */
+.a1-cert-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, rgba(0,204,255,0.15), rgba(0,204,255,0.05));
+  border: 1px solid var(--cyan-40);
+  color: var(--cyan);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 24px;
+}
+
+.a1-cert-badge svg {
+  width: 14px;
+  height: 14px;
+  fill: var(--cyan);
+}
+
+/* In-dev tag */
+.indev-tag {
+  display: inline-block;
+  color: #c9a96e;
+  background: rgba(201,169,110,0.08);
+  border: 1px solid rgba(201,169,110,0.3);
+  padding: 5px 14px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+/* Job board screenshot block */
+.jobboard-block {
+  margin-top: 28px;
+  max-width: 900px;
+  width: 100%;
+  padding: 24px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border-cyan);
+  text-align: center;
+}
+
+.jobboard-block .jb-mock {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 0 auto 16px;
+  max-width: 800px;
+}
+
+.jobboard-block .jb-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+  text-align: left;
+}
+
+.jobboard-block .jb-spec {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.jobboard-block .jb-loc {
+  font-size: 13px;
+  color: var(--t2);
+  margin-bottom: 6px;
+}
+
+.jobboard-block .jb-rate {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--t1);
+}
+
+.jobboard-block .jb-link {
+  display: inline-block;
+  margin-top: 6px;
+  color: var(--cyan);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 10px 20px;
+  border: 1px solid var(--cyan-40);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.jobboard-block .jb-link:hover {
+  background: var(--cyan-10);
+}
+
+/* Black Label Certified hero badge */
+.bl-certified-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 22px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(201,169,110,0.15), rgba(201,169,110,0.03));
+  border: 1px solid rgba(201,169,110,0.4);
+  color: #d4b47a;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+
+.bl-certified-wordmark svg {
+  width: 16px;
+  height: 16px;
+  fill: #d4b47a;
+}
+
+@media (max-width: 1100px) {
+  .pipeline-flow {
+    grid-template-columns: 1fr;
+  }
+  .jobboard-block .jb-mock {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ═══════════════════════════════════════
+   STACK DIAGRAM (Jarvis Stack blueprint)
+   ═══════════════════════════════════════ */
+.stack-diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+  width: 100%;
+  max-width: 1100px;
+}
+.stack-tier {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+}
+.stack-tier::after {
+  content: '';
+  position: absolute;
+  bottom: -14px;
+  left: 50%;
+  width: 2px;
+  height: 14px;
+  background: linear-gradient(to bottom, var(--cyan-40), transparent);
+}
+.stack-tier.agents-tier::after { display: none; }
+.stack-tier.agents-tier {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin-top: 4px;
+}
+.stack-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 14px 20px;
+  text-align: center;
+  min-width: 240px;
+}
+.stack-card.lead {
+  border-color: var(--cyan);
+  background: linear-gradient(135deg, rgba(0,204,255,0.08), rgba(0,204,255,0.02));
+  box-shadow: 0 0 24px rgba(0,204,255,0.12);
+  min-width: 320px;
+}
+.stack-card.small {
+  padding: 10px 8px;
+  min-width: 0;
+}
+.stack-card.small.live {
+  border-color: rgba(52,211,153,0.45);
+  background: linear-gradient(135deg, rgba(52,211,153,0.08), rgba(52,211,153,0.02));
+}
+.stack-role {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 4px;
+}
+.stack-card.small.live .stack-role { color: var(--green); }
+.stack-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--t1);
+  margin-bottom: 2px;
+}
+.stack-card.small .stack-name { font-size: 13px; }
+.stack-desc {
+  font-size: 12px;
+  color: var(--t3);
+  line-height: 1.4;
+}
+.stack-card.small .stack-desc { font-size: 10px; }
+@media (max-width: 900px) {
+  .stack-tier.agents-tier { grid-template-columns: repeat(3, 1fr); }
+  .stack-card.lead { min-width: 0; }
+}
+
+/* ═══════════════════════════════════════
+   BUILD STEPS (Slide 9)
+   ═══════════════════════════════════════ */
+.build-steps {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  max-width: 1160px;
+  width: 100%;
+  margin-top: 32px;
+}
+.build-step {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 20px 16px;
+  text-align: center;
+  position: relative;
+  transition: all 0.4s ease;
+}
+.build-step:hover {
+  border-color: var(--border-cyan);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,204,255,0.08);
+}
+.bs-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--cyan-10);
+  border: 1px solid var(--border-cyan);
+  color: var(--cyan);
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+.bs-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--t1);
+  margin-bottom: 6px;
+}
+.bs-desc {
+  font-size: 12px;
+  color: var(--t3);
+  line-height: 1.45;
+}
+@media (max-width: 1100px) {
+  .build-steps { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 640px) {
+  .build-steps { grid-template-columns: repeat(2, 1fr); }
+}
+
 </style>
 </head>
 <body>
+
 <div class="bg-grid"></div>
 <div class="bg-glow bg-glow-1"></div>
 <div class="bg-glow bg-glow-2"></div>
 
+<!-- NO PIPELINE BAR ON THIS PRESENTATION -->
+<div class="pipeline-bar" id="pipelineBar" style="display:none;">
+  <div class="pipeline-node">
+    <div class="pipeline-icon" data-engine="1">
+      <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+      <span class="pipeline-label">Intake</span>
+    </div>
+  </div>
+  <div class="pipeline-connector" data-connector="1"></div>
+  <div class="pipeline-node">
+    <div class="pipeline-icon" data-engine="2">
+      <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <span class="pipeline-label">Find</span>
+    </div>
+  </div>
+  <div class="pipeline-connector" data-connector="2"></div>
+  <div class="pipeline-node">
+    <div class="pipeline-icon" data-engine="3">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg>
+      <span class="pipeline-label">Qualify</span>
+    </div>
+  </div>
+  <div class="pipeline-connector" data-connector="3"></div>
+  <div class="pipeline-node">
+    <div class="pipeline-icon" data-engine="4">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+      <span class="pipeline-label">Name Clear</span>
+    </div>
+  </div>
+  <div class="pipeline-connector" data-connector="4"></div>
+  <div class="pipeline-node">
+    <div class="pipeline-icon" data-engine="5">
+      <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+      <span class="pipeline-label">Verify</span>
+    </div>
+  </div>
+  <div class="pipeline-connector" data-connector="5"></div>
+  <div class="pipeline-node">
+    <div class="pipeline-icon" data-engine="6">
+      <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+      <span class="pipeline-label">Present</span>
+    </div>
+  </div>
+</div>
+
+<!-- LPU JARVIS STACK. CLIENT BLUEPRINT PRESENTATION -->
 <div class="deck" id="deck">
 
-<!-- SLIDE 0: TITLE -->
+<!-- SLIDE 0: COVER -->
 <div class="slide active" data-slide="0">
   <div class="logo-container stagger-1">
-    <svg viewBox="0 0 822 283.5" style="height:50px;width:auto;">
+    <svg viewBox="0 0 822 283.5" style="height:60px;width:auto;">
       <path fill="#00CCFF" d="M78.1,142l-15.3-14.6L22.2,142l40.6,14.6L78.1,142z M131.8,142l15.3-14.6l40.6,14.6l-40.6,14.6L131.8,142z M86.3,122.6l-0.5-21.2l-39-18.4l18.4,39L86.3,122.6z M124.5,122.6l0.5-21.2l39-18.4l-18.4,39L124.5,122.6z M86.3,160.9l-0.5,21.2l-39,18.4l18.4-39L86.3,160.9z M124.5,160.9l0.5,21.2l39,18.4l-18.4-39L124.5,160.9z M105.2,168.7l14.6,15.3l-14.6,40.6L90.6,184L105.2,168.7z M105.2,114.8l14.6-15.3l-14.6-40.6L90.6,99.5L105.2,114.8z"/>
       <path fill="#fff" d="M773.5,121.1c12.8,0,21.8,7.8,21.8,21.3c0,12.3-7.5,19.6-20.7,19.6H759v-40.8H773.5z M773.7,117.4h-18.9v48.3h20.1c15.4,0,24.9-9.1,24.9-23.5C799.8,126.7,788.9,117.4,773.7,117.4z M712.5,121.1h31v-3.7h-35.2v48.3h35.5v-3.7h-31.4v-19.5h28.4v-3.7h-28.4V121.1z M698.3,117.4h-37.1v3.7h16.4v44.6h4.1v-44.6h16.6V117.4z M650.4,117.4h-4.1v48.3h4.1V117.4z M633.4,117.4h-4.1v41l-0.8-1.2l-33.9-39.8h-3.5v48.3h4.1v-41.9l0.9,1.3l34.8,40.6h2.4V117.4z M578.8,117.4h-4.3v27.9c0,11.4-7.2,17.1-16.7,17.1c-9.7,0-16.7-5.7-16.7-17.1v-27.9h-4.3V145c0,14.1,9.3,21.4,21,21.4c11.4,0,21-7.2,21-21.4V117.4z M502.4,131c0-2.1,2.1-3.9,6.5-3.9c3.7,0,8.8,1.2,13.2,3.4l4.5-9.7c-4.8-2.6-10-4.3-16.6-4.3c-12.4,0-20.1,6.1-20,15.7c0.3,17.3,26.4,12.3,26.4,19.7c0,3-4.3,3.9-7.7,3.9c-5.6,0-11.4-2.4-15.8-4.9l-4.8,9.8c4.6,2.9,12,5.9,20.8,5.9c12.1,0,20.3-5.8,20.3-15.8C529.2,132.6,502.4,138.6,502.4,131z M482.2,117.4h-8.9l-16.2,18.4l-1.4,2.1l-1.4-2.1l-16.2-18.4h-8.9v48.3h12.4v-28.8l1,1.7l11.7,13.9h3l11.7-13.9l0.9-1.6v28.8h12.4V117.4z M421,117.4h-12.5V145c0,6.8-4.6,10.3-10.2,10.3c-5.7,0-10.3-3.6-10.3-10.3v-27.6h-12.5v27.7c0,13.5,9.7,21.5,22.8,21.5c13,0,22.7-7.9,22.7-21.5V117.4z M368.5,157l-7.6-7.9c-4.4,4.3-8.5,6.1-13.2,6.1c-8.5,0-14.4-5.7-14.4-13.8c0-8.1,5.7-13.7,13.9-13.7c5,0,9.2,2.3,11.9,5.4l8.6-7.9c-3.9-4.8-11.4-8.7-20.6-8.7c-15,0-26.5,10.6-26.5,24.9c0,14.8,12.2,25,26.8,25C356.8,166.5,364,162.2,368.5,157z M289,155.4c-8.6,0-14.1-5.7-14.1-13.9c0-8.2,5.5-13.9,14.1-13.9c8.6,0,14.1,5.7,14.1,13.9C303.1,149.7,297.5,155.4,289,155.4z M289,116.5c-15.1,0-26.8,10.3-26.8,25s11.7,25,26.8,25c15.1,0,26.8-10.3,26.8-25S304.1,116.5,289,116.5z"/>
       <polygon fill="#fff" points="237.6,154.8 237.6,117.4 225.2,117.4 225.2,165.7 260.6,165.7 260.6,154.8"/>
     </svg>
   </div>
-  <div class="section-label stagger-2">Recruitment Agent</div>
-  <h1 class="hero-title stagger-3">Development <span class="cyan">Update</span></h1>
-  <p class="hero-subtitle stagger-4">Black Label Certification in Progress. April 2026.</p>
+  <h1 class="hero-title stagger-2">One voice. <br><span class="cyan">Runs the rest.</span></h1>
+  <p class="hero-subtitle stagger-3">Your whole recruitment operation behind a single agent. Your team talks to it. It runs the rest, quietly, every day.</p>
+  <div class="bl-certified-wordmark stagger-4">
+    <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+    Black Label Solutions · The Jarvis Stack Blueprint
+  </div>
+  <p class="hero-subtitle stagger-5" style="margin-top:24px;font-size:14px;color:var(--t3);"><span class="nav-hint-desktop">Press <span style="color:var(--cyan);font-weight:600;">&#8594;</span> to walk through it</span><span class="nav-hint-mobile">Swipe to walk through it <span style="color:var(--cyan);font-weight:600;">&#8594;</span></span></p>
 </div>
 
-<!-- SLIDE 1: WHAT WE'RE BUILDING -->
+<!-- SLIDE 1: THE VISION -->
 <div class="slide" data-slide="1">
-  <span class="section-label stagger-1">The Recruitment Agent</span>
-  <h2 class="section-title stagger-2">One Agent. Six Engines. Zero Manual Work.</h2>
-  <p class="section-desc stagger-3">The Recruitment Agent automates the entire front office. It finds jobs, qualifies candidates, runs background checks, and delivers physician profiles to facilities. Without a recruiter touching it.</p>
-  <div class="card-grid cols-3 stagger-4" style="margin-top:32px;">
-    <div class="info-card" style="border-color:rgba(52,211,153,0.3);background:rgba(52,211,153,0.03);">
-      <div class="card-icon" style="background:rgba(52,211,153,0.1);border-color:rgba(52,211,153,0.3);">
-        <svg viewBox="0 0 24 24" style="fill:var(--green);"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
-      </div>
-      <h3 style="color:var(--green);">Recruitment Agent</h3>
-      <p>Sourcing, qualification, name clearing, background checks, and physician presentations. Fully live.</p>
-      <div style="margin-top:12px;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--green);text-transform:uppercase;">Live</div>
-    </div>
-    <div class="info-card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/></svg>
-      </div>
-      <h3>Credentialing Agent</h3>
-      <p>License verification, DEA, malpractice, and privileges. In production.</p>
-      <div style="margin-top:12px;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--yellow);text-transform:uppercase;">In Production</div>
-    </div>
-    <div class="info-card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>
-      </div>
-      <h3>Scheduling Agent</h3>
-      <p>Shift scheduling, confirmations, and availability tracking. In production.</p>
-      <div style="margin-top:12px;font-size:11px;font-weight:700;letter-spacing:2px;color:var(--yellow);text-transform:uppercase;">In Production</div>
-    </div>
+  <span class="section-label stagger-1">The Vision</span>
+  <h2 class="section-title stagger-2">From many tools. <span class="cyan">To one voice.</span></h2>
+  <p class="section-desc stagger-3" style="max-width:760px;">Today, recruiting means juggling sheets, email threads, dashboards, and multiple tabs. Tomorrow, your team talks to one agent. It finds the jobs, writes the descriptions, reaches the physicians, qualifies them, runs the checks, and presents them to the facility. Every day. Without anyone touching it.</p>
+  <div class="impact-box stagger-4" style="max-width:820px;margin-top:36px;">
+    <div class="impact-label">The promise</div>
+    <div class="impact-text">Ali, Ahmed, and Tyson only have to hold a conversation. The work happens on its own.</div>
   </div>
 </div>
 
-<!-- SLIDE 2: WHAT THE AI JOB SOURCING ENGINE DOES -->
+<!-- SLIDE 2: THREE ROLES, ONE INTERFACE -->
 <div class="slide" data-slide="2">
-  <div class="engine-layout stagger-1">
-    <div class="engine-visual">
-      <div class="engine-ring">
-        <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5z"/></svg>
-      </div>
-      <div class="engine-number">01</div>
+  <span class="section-label stagger-1">For Your Team</span>
+  <h2 class="section-title stagger-2">Three roles. <span class="cyan">One interface.</span></h2>
+  <p class="section-desc stagger-3" style="max-width:680px;">Each person on your team sees exactly what they need. Nothing more, nothing less.</p>
+  <div class="finance-layout stagger-4" style="max-width:1080px;margin-top:32px;grid-template-columns:repeat(3,1fr);">
+    <div class="finance-card highlight">
+      <div class="f-label">Ali Chaudhary, M.D.</div>
+      <div class="f-value" style="font-size:22px;">Strategic</div>
+      <div class="f-desc">Full view of the operation. Sets direction, adjusts policy, approves anything, sees every metric. One chat window to steer the whole system.</div>
     </div>
-    <div class="engine-content">
-      <span class="section-label">Engine 1 of 6</span>
-      <h2 class="section-title">AI Job Sourcing Engine</h2>
-      <ul class="engine-bullets stagger-2">
-        <li>
-          <div class="bullet-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          <div><strong>Market Scanning.</strong> Monitors LocumSmart and LotusOne/Aya around the clock. Every new locums opening hits LPU's tracker before a human recruiter sees it.</div>
-        </li>
-        <li>
-          <div class="bullet-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          <div><strong>Email Job Parsing.</strong> Physician groups email job openings to LPU. Claude reads each one, pulls the specialty, location, facility, and rate, and creates a clean record automatically.</div>
-        </li>
-        <li>
-          <div class="bullet-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          <div><strong>AI Job Descriptions.</strong> Every raw job gets transformed into a branded, physician-first JD. Scored against the LPU style guide. Ready to publish.</div>
-        </li>
-        <li>
-          <div class="bullet-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          <div><strong>Live Job Board.</strong> A real-time public board backed by Google Sheets. Sorted by date. Deduplicated. Updated every scrape cycle.</div>
-        </li>
-        <li>
-          <div class="bullet-icon"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-          <div><strong>Rate Intelligence.</strong> Pay rates extracted from every source. Email rates are authoritative and never overwritten. All rates flow into the rate engine downstream.</div>
-        </li>
-      </ul>
+    <div class="finance-card highlight">
+      <div class="f-label">Ahmed Chaudhary</div>
+      <div class="f-value" style="font-size:22px;">Operations</div>
+      <div class="f-desc">Same full access as Ali. Watches operations, adjusts as needed, handles the business side without touching a spreadsheet.</div>
     </div>
-  </div>
-  <div class="impact-box stagger-3" style="max-width:1200px;width:100%;margin-top:20px;">
-    <div class="impact-label">The Result</div>
-    <div class="impact-text">LPU goes to market with every available locums opening, from every platform and every direct relationship, without anyone manually looking for jobs.</div>
+    <div class="finance-card highlight">
+      <div class="f-label">Tyson Smith</div>
+      <div class="f-value" style="font-size:22px;">Recruiting Floor</div>
+      <div class="f-desc">Live activity feed, approval queue, job tracker, and daily briefing. Handles what needs his attention, ignores what doesn't.</div>
+    </div>
   </div>
 </div>
 
-<!-- SLIDE 3: WHY IT WAS THE HARDEST -->
+<!-- SLIDE 3: THE STACK -->
 <div class="slide" data-slide="3">
-  <span class="section-label stagger-1">The Hardest Problem</span>
-  <h2 class="section-title stagger-2">This Engine Was the Most Complex Piece in the System</h2>
-  <div class="card-grid cols-4 stagger-3">
-    <div class="info-card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+  <span class="section-label stagger-1">The Stack</span>
+  <h2 class="section-title stagger-2">One agent on top. <span class="cyan">A full team underneath.</span></h2>
+  <p class="section-desc stagger-3" style="max-width:720px;">Your team only talks to Top Bot. Underneath, six specialist agents handle the full recruitment pipeline. Each with a clear job. A manager keeps them coordinated.</p>
+  <div class="stack-diagram stagger-4">
+    <div class="stack-tier top-tier">
+      <div class="stack-card lead">
+        <div class="stack-role">Client Agent</div>
+        <div class="stack-name">Top Bot</div>
+        <div class="stack-desc">The only thing your team talks to. Knows who you are, what you can ask, and what it can do on its own.</div>
       </div>
-      <h3>WAF Bypass</h3>
-      <p>LocumSmart actively blocks scrapers. We built a cloud browser agent on Fly.io to route around it. Per-platform scrape locks prevent session collisions.</p>
     </div>
-    <div class="info-card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-1 9H9V9h10v2zm-4 4H9v-2h6v2zm4-8H9V5h10v2z"/></svg>
+    <div class="stack-tier mid-tier">
+      <div class="stack-card">
+        <div class="stack-role">Orchestration</div>
+        <div class="stack-name">Recruitment Manager</div>
+        <div class="stack-desc">Breaks Top Bot's directives into tasks, assigns them to agents, watches the work, reports back up.</div>
       </div>
-      <h3>Three Data Sources</h3>
-      <p>LocumSmart (browser), LotusOne/Aya (separate portal), and physician emails (unstructured text). All normalized to one schema without race conditions.</p>
     </div>
-    <div class="info-card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
-      </div>
-      <h3>Async Architecture</h3>
-      <p>The pipeline blocked callers for 25 minutes. Cloudflare cut connections at 100 seconds. Full rebuild: 202 response in 2.4s, pipeline runs async, polled via execution ID.</p>
+    <div class="stack-tier agents-tier">
+      <div class="stack-card small live"><div class="stack-role">Day 1</div><div class="stack-name">Agent 1</div><div class="stack-desc">Job Sourcing</div></div>
+      <div class="stack-card small"><div class="stack-role">Next</div><div class="stack-name">Agent 2</div><div class="stack-desc">Physician Finder</div></div>
+      <div class="stack-card small"><div class="stack-role">Next</div><div class="stack-name">Agent 3</div><div class="stack-desc">Qualification</div></div>
+      <div class="stack-card small"><div class="stack-role">Next</div><div class="stack-name">Agent 4</div><div class="stack-desc">Name Clear</div></div>
+      <div class="stack-card small"><div class="stack-role">Next</div><div class="stack-name">Agent 5</div><div class="stack-desc">Background Check</div></div>
+      <div class="stack-card small"><div class="stack-role">Next</div><div class="stack-name">Agent 6</div><div class="stack-desc">Facility Presentation</div></div>
     </div>
-    <div class="info-card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-      </div>
-      <h3>Three Cert Cycles</h3>
-      <p>Certified. Revoked after restructuring. Eight bugs fixed. Re-certified. Every failure became a lesson. Every lesson made the system stronger.</p>
-    </div>
-  </div>
-  <div class="impact-box stagger-4" style="max-width:1100px;width:100%;margin-top:20px;">
-    <div class="impact-label">Why This Matters</div>
-    <div class="impact-text">Every hard infrastructure problem in the Recruitment Agent surfaced in the AI Job Sourcing Engine. We solved all of them here. Every other engine inherits the solution.</div>
   </div>
 </div>
 
-<!-- SLIDE 4: WORKFLOW BREAKDOWN -->
+<!-- SLIDE 4: THE COMMAND CENTER -->
 <div class="slide" data-slide="4">
-  <span class="section-label stagger-1">Under the Hood</span>
-  <h2 class="section-title stagger-2">8 Systems. Every One Certified.</h2>
-  <div class="wf-pipeline stagger-3">
-    <div class="wf-item">
-      <div class="wf-num">01</div>
-      <h4>Live Market Scanner</h4>
-      <p>Monitors LocumSmart and LotusOne/Aya continuously. Cloud browser agent bypasses platform restrictions. Returns structured job data in under 90 seconds per run.</p>
-      <div class="wf-cert"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>Certified</div>
+  <span class="section-label stagger-1">The Command Center</span>
+  <h2 class="section-title stagger-2">One portal. <span class="cyan">Everything in one place.</span></h2>
+  <p class="section-desc stagger-3" style="max-width:720px;">Your team's command center. Every surface the operation needs, laid out in one view. No more switching between tools.</p>
+  <div class="finance-layout stagger-4" style="max-width:1120px;margin-top:32px;grid-template-columns:repeat(3,1fr);gap:16px;">
+    <div class="finance-card highlight">
+      <div class="f-label">Live Activity</div>
+      <div class="f-value" style="font-size:20px;">What's happening now</div>
+      <div class="f-desc">Every move the system makes, surfaced as it happens. Know what went live, what's waiting, what just got handled.</div>
     </div>
-    <div class="wf-item">
-      <div class="wf-num">02</div>
-      <h4>Job Publishing Engine</h4>
-      <p>Deduplicates against the live tracker. Generates LPU-branded job descriptions via Claude. Writes every field, title, specialty, location, pay rate, and JD link to the Job Tracker.</p>
-      <div class="wf-cert"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>Certified</div>
+    <div class="finance-card highlight">
+      <div class="f-label">Approval Queue</div>
+      <div class="f-value" style="font-size:20px;">Your attention list</div>
+      <div class="f-desc">Only the items that need a human call. Approve or reject with one click. Everything else runs itself.</div>
     </div>
-    <div class="wf-item">
-      <div class="wf-num">03</div>
-      <h4>Quality Gate</h4>
-      <p>Validates every job before it touches the sheet. Checks required fields, pay rate format, specialty, and location data. Failed jobs are flagged and held, not silently dropped.</p>
-      <div class="wf-cert"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>Certified</div>
+    <div class="finance-card highlight">
+      <div class="f-label">Job Tracker</div>
+      <div class="f-value" style="font-size:20px;">The full pipeline</div>
+      <div class="f-desc">Every job, every stage, every physician attached. No more scrolling sheets. Filter, sort, drill in, edit in place.</div>
     </div>
-    <div class="wf-item">
-      <div class="wf-num">04</div>
-      <h4>Sheet Quality Audit</h4>
-      <p>Scheduled scan of the full Job Tracker. Flags stale records, broken JD links, missing rates, and formatting violations. Routes issues to Tyson. The system checks its own work.</p>
-      <div class="wf-cert"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>Certified</div>
+    <div class="finance-card highlight">
+      <div class="f-label">Chat with Top Bot</div>
+      <div class="f-value" style="font-size:20px;">Ask anything</div>
+      <div class="f-desc">A conversation window right inside the portal. Ask for status, give direction, make changes. The system responds in real time.</div>
     </div>
-    <div class="wf-item">
-      <div class="wf-num">05</div>
-      <h4>Daily Intelligence Brief</h4>
-      <p>Fires every morning before Tyson's day starts. New listings by source, scrape success rates, duplicate catches, QC rejections, and any system errors. One clean report.</p>
-      <div class="wf-cert"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>Certified</div>
+    <div class="finance-card highlight">
+      <div class="f-label">Policy Controls</div>
+      <div class="f-value" style="font-size:20px;">Ali and Ahmed only</div>
+      <div class="f-desc">Decide what the system can do on its own, what needs a check, and what is off limits. Change the dials any time.</div>
     </div>
-    <div class="wf-item">
-      <div class="wf-num">06</div>
-      <h4>Email Intake Agent</h4>
-      <p>Monitors LPU's inbox for job openings. Claude classifies each email as a job or noise. Extracts specialty, location, facility, and pay rate. Routes confirmed jobs to the publishing pipeline.</p>
-      <div class="wf-cert"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>Certified</div>
-    </div>
-    <div class="wf-item">
-      <div class="wf-num">07</div>
-      <h4>Document Parser</h4>
-      <p>Handles job openings sent as PDF or Word attachments. Extracts content, parses with Claude, feeds structured job data into the publishing pipeline. Rates from documents are locked as authoritative.</p>
-      <div class="wf-cert"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>Certified</div>
-    </div>
-    <div class="wf-item">
-      <div class="wf-num">08</div>
-      <h4>Rate Intelligence Engine</h4>
-      <p>Assigns pay and bill rates to every job using the LPU rate matrix by specialty and location. Email and document rates always take precedence. Every job leaves with a rate attached.</p>
-      <div class="wf-cert"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>Certified</div>
+    <div class="finance-card highlight">
+      <div class="f-label">Full Audit Log</div>
+      <div class="f-value" style="font-size:20px;">Every action recorded</div>
+      <div class="f-desc">Every decision the system makes, every approval, every handoff. Searchable. Nothing disappears silently.</div>
     </div>
   </div>
 </div>
 
-<!-- SLIDE 5: BLACK LABEL CERTIFICATION STANDARD -->
-<div class="slide bl-cert-slide" data-slide="5">
-  <div class="bl-seal stagger-1">
-    <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
-  </div>
-  <div class="section-label stagger-2" style="color:#c9a96e;margin-top:20px;">The Standard</div>
-  <h2 class="section-title stagger-3"><span class="bl-gold">Black Label Black Label Certification</span></h2>
-  <div class="card-grid cols-4 stagger-4" style="margin-top:28px;">
-    <div class="bl-phase">
-      <div class="bl-phase-num">Phase 1</div>
-      <div class="bl-phase-text">Core engine tests. 100% pass rate required before proceeding.</div>
+<!-- SLIDE 5: TWO WAYS IN -->
+<div class="slide" data-slide="5">
+  <span class="section-label stagger-1">Two Ways In</span>
+  <h2 class="section-title stagger-2">Portal or Slack. <span class="cyan">Same agent either way.</span></h2>
+  <p class="section-desc stagger-3" style="max-width:720px;">Sometimes the portal is the right place. Sometimes you are already in Slack with the team. Top Bot lives in both. Approvals work in both. Status checks work in both. You choose the surface that fits the moment.</p>
+  <div class="finance-layout stagger-4" style="max-width:1040px;margin-top:32px;grid-template-columns:1fr 1fr;">
+    <div class="finance-card highlight">
+      <div class="f-label">In the Portal</div>
+      <div class="f-value" style="font-size:20px;">Deep work</div>
+      <div class="f-desc">Browse the full job tracker. Configure policy. Read the audit log. Long-form chat with the agent. The full command center experience.</div>
     </div>
-    <div class="bl-phase">
-      <div class="bl-phase-num">Phase 2</div>
-      <div class="bl-phase-text">Per-workflow certification. Every workflow tested individually.</div>
-    </div>
-    <div class="bl-phase">
-      <div class="bl-phase-num">Phase 3</div>
-      <div class="bl-phase-text">Security regression. Auth bypass, injection, XSS, and SSRF.</div>
-    </div>
-    <div class="bl-phase">
-      <div class="bl-phase-num">Phase 4</div>
-      <div class="bl-phase-text">Chaos testing. Empty inputs, retry loops, and simultaneous loads.</div>
+    <div class="finance-card highlight">
+      <div class="f-label">In Slack</div>
+      <div class="f-value" style="font-size:20px;">In the flow</div>
+      <div class="f-desc">Ask a quick question, get an answer. Approve an item with one tap. Get notified when something needs attention. No context switch.</div>
     </div>
   </div>
-  <p class="section-desc stagger-5" style="margin-top:32px;color:rgba(201,169,110,0.8);font-style:italic;">One failure. One revocation. No exceptions.</p>
+  <div class="impact-box stagger-5" style="max-width:1040px;margin-top:24px;">
+    <div class="impact-label">Who sees what</div>
+    <div class="impact-text">Slack knows who you are. Ali gets full access. Ahmed gets full access. Tyson gets his own queue and the tactical side. Permissions match the portal. Same agent, same rules, either surface.</div>
+  </div>
 </div>
 
-<!-- SLIDE 6: AI JOB SOURCING CERT STATUS -->
+<!-- SLIDE 6: THE POLICY DIAL -->
 <div class="slide" data-slide="6">
-  <span class="section-label stagger-1">AI Job Sourcing Engine</span>
-  <h2 class="section-title stagger-2">Black Label Certified</h2>
-  <div class="numbers-grid stagger-3">
-    <div class="number-card">
-      <div class="number-value">138</div>
-      <div class="number-desc">Total tests passed</div>
+  <span class="section-label stagger-1">Policy Dial</span>
+  <h2 class="section-title stagger-2">You choose what's automatic. <span class="cyan">Change it any time.</span></h2>
+  <p class="section-desc stagger-3" style="max-width:760px;">Every action the system can take has a dial. Set it to automatic, to needs-your-approval, or off entirely. Tighten when you want more control. Loosen when you trust it. No developer in the loop.</p>
+  <div class="finance-layout stagger-4" style="max-width:1080px;margin-top:28px;grid-template-columns:repeat(3,1fr);">
+    <div class="finance-card highlight">
+      <div class="f-label">Automatic</div>
+      <div class="f-value" style="font-size:22px;color:var(--green);">Runs itself</div>
+      <div class="f-desc">Routine moves the system is trusted to make on its own. Reads, internal updates, dashboard refreshes.</div>
     </div>
-    <div class="number-card">
-      <div class="number-value">100<span class="number-unit">%</span></div>
-      <div class="number-desc">Pass rate</div>
+    <div class="finance-card highlight">
+      <div class="f-label">Needs Approval</div>
+      <div class="f-value" style="font-size:22px;color:var(--yellow);">Checked first</div>
+      <div class="f-desc">Drops into the approval queue. Nothing happens until a human says yes. Default for anything client-facing.</div>
     </div>
-    <div class="number-card">
-      <div class="number-value">29</div>
-      <div class="number-desc">Security tests</div>
-    </div>
-    <div class="number-card">
-      <div class="number-value">3</div>
-      <div class="number-desc">Certification cycles to earn it</div>
+    <div class="finance-card highlight">
+      <div class="f-label">Hard Block</div>
+      <div class="f-value" style="font-size:22px;color:var(--red);">Not allowed</div>
+      <div class="f-desc">The system will refuse to do this, period. Use it when an action is off the table for now.</div>
     </div>
   </div>
-  <div class="impact-box stagger-4" style="max-width:900px;width:100%;margin-top:28px;border-color:rgba(52,211,153,0.3);background:rgba(52,211,153,0.04);">
-    <div class="impact-label" style="color:var(--green);">Certified</div>
-    <div class="impact-text">AI Job Sourcing Engine. Black Label. Certified April 7, 2026. 20 tests across all 8 systems. Unit, integration, security, and chaos. Every system passed before the engine received its stamp.</div>
+  <div class="impact-box stagger-5" style="max-width:1080px;margin-top:24px;">
+    <div class="impact-label">Example starting point</div>
+    <div class="impact-text">Internal writes on automatic. External outreach needs-approval. High-risk categories hard-block until you say so. Every setting is yours to move.</div>
   </div>
 </div>
 
-<!-- SLIDE 7: THE REVOCATION -->
+<!-- SLIDE 7: SELF-HEALING -->
 <div class="slide" data-slide="7">
-  <span class="section-label stagger-1">The Certification Decision</span>
-  <h2 class="section-title stagger-2">All Other Engine Certifications Have Been Revoked</h2>
-  <div class="card-grid cols-2 stagger-3" style="margin-top:28px;max-width:900px;">
-    <div class="info-card" style="border-color:rgba(248,113,113,0.2);background:rgba(248,113,113,0.03);">
-      <div class="card-icon" style="background:rgba(248,113,113,0.1);border-color:rgba(248,113,113,0.3);">
-        <svg viewBox="0 0 24 24" style="fill:var(--red);"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
-      </div>
-      <h3 style="color:var(--red);">Revoked</h3>
-      <p>AI Qualification. AI Name Clear. AI Background Check. AI Facility Presentation. All four engines carried a collective certification stamp that was not earned to the same standard as the AI Job Sourcing Engine.</p>
+  <span class="section-label stagger-1">Self-Healing</span>
+  <h2 class="section-title stagger-2">It catches itself. <span class="cyan">Before anyone else has to.</span></h2>
+  <p class="section-desc stagger-3" style="max-width:720px;">Things go wrong. A source goes quiet. A data field comes back malformed. A process takes too long. The system notices, reacts, and keeps working on what it still can. Only pulls you in when it genuinely needs you.</p>
+  <div class="finance-layout stagger-4" style="max-width:1080px;margin-top:32px;grid-template-columns:repeat(2,1fr);">
+    <div class="finance-card highlight">
+      <div class="f-label">Catches its own errors</div>
+      <div class="f-value" style="font-size:20px;">Tries the fallback</div>
+      <div class="f-desc">When the first approach fails, it knows the second. When the second fails, it knows to stop and log rather than guess.</div>
     </div>
-    <div class="info-card" style="border-color:rgba(201,169,110,0.2);background:rgba(201,169,110,0.03);">
-      <div class="card-icon" style="background:rgba(201,169,110,0.1);border-color:rgba(201,169,110,0.3);">
-        <svg viewBox="0 0 24 24" style="fill:#c9a96e;"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
-      </div>
-      <h3 style="color:#c9a96e;">Why</h3>
-      <p>We certify each engine to the same standard the AI Job Sourcing Engine was held to. That means per-workflow testing, security regression, and chaos testing. A collective stamp is not a Black Label stamp.</p>
+    <div class="finance-card highlight">
+      <div class="f-label">Logs every incident</div>
+      <div class="f-value" style="font-size:20px;">Nothing disappears</div>
+      <div class="f-desc">Every failure is written down with full context. You can always look back and see exactly what happened and when.</div>
     </div>
-  </div>
-  <div class="impact-box stagger-4" style="max-width:900px;width:100%;margin-top:20px;border-color:rgba(201,169,110,0.3);background:rgba(201,169,110,0.04);">
-    <div class="impact-label" style="color:#c9a96e;">The Standard</div>
-    <div class="impact-text">This is not a setback. This is the standard being applied correctly. Each engine will earn its stamp individually, or it will not ship.</div>
+    <div class="finance-card highlight">
+      <div class="f-label">Escalates to the right person</div>
+      <div class="f-value" style="font-size:20px;">Only what matters</div>
+      <div class="f-desc">If the system cannot recover, it pings the right person in Slack with a one-line summary and a link to the full detail.</div>
+    </div>
+    <div class="finance-card highlight">
+      <div class="f-label">Keeps the rest running</div>
+      <div class="f-value" style="font-size:20px;">Partial beats none</div>
+      <div class="f-desc">A problem in one corner does not stop the whole pipeline. Everything else that can run, runs.</div>
+    </div>
   </div>
 </div>
 
-<!-- SLIDE 8: FULL ENGINE MAP -->
+<!-- SLIDE 8: DAY 1 vs ROADMAP -->
 <div class="slide" data-slide="8">
-  <span class="section-label stagger-1">The Pipeline</span>
-  <h2 class="section-title stagger-2">Where Every Engine Stands Today</h2>
-  <div class="status-table stagger-3">
-    <div class="status-row">
-      <div class="sr-num">01</div>
-      <div class="sr-name">AI Job Sourcing Engine</div>
-      <div class="sr-desc">Scraping, email parsing, JD generation, job board, rate extraction</div>
-      <div class="status-badge certified">
-        <svg viewBox="0 0 24 24" style="width:10px;height:10px;fill:var(--green);"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>
-        Black Label Certified
-      </div>
+  <span class="section-label stagger-1">Day 1 and Beyond</span>
+  <h2 class="section-title stagger-2">Agent 1 on day one. <span class="cyan">Agents 2 through 6 next.</span></h2>
+  <p class="section-desc stagger-3" style="max-width:720px;">The full recruitment team, built in order. Agent 1 ships with the command center. The rest follow, one at a time, each certified before the next starts.</p>
+  <div class="finance-layout stagger-4" style="max-width:1120px;margin-top:28px;grid-template-columns:1fr 1fr;">
+    <div class="finance-card highlight" style="border-color:rgba(52,211,153,0.3);">
+      <div class="f-label" style="color:var(--green);">LIVE DAY 1</div>
+      <div class="f-value" style="font-size:22px;">Your command center</div>
+      <div class="f-desc">Top Bot. Recruitment Manager. Agent 1 Job Sourcing. The full portal. The Slack interface. The policy dial. Everything in this deck except Agents 2 through 6.</div>
     </div>
-    <div class="status-row">
-      <div class="sr-num">02</div>
-      <div class="sr-name">AI Physician Finder</div>
-      <div class="sr-desc">Outbound candidate sourcing from medical directories and databases</div>
-      <div class="status-badge not-built">Not Built</div>
+    <div class="finance-card highlight">
+      <div class="f-label">ROADMAP</div>
+      <div class="f-value" style="font-size:22px;">Agents 2 to 6</div>
+      <div class="f-desc">Agent 2: Physician Finder. Agent 3: Qualification. Agent 4: Name Clear. Agent 5: Background Check. Agent 6: Facility Presentation. Each slots in under the same Top Bot and the same command center.</div>
     </div>
-    <div class="status-row">
-      <div class="sr-num">03</div>
-      <div class="sr-name">AI Qualification Engine</div>
-      <div class="sr-desc">Specialty match, board certification, and availability screening</div>
-      <div class="status-badge pending">Cert Pending</div>
-    </div>
-    <div class="status-row">
-      <div class="sr-num">04</div>
-      <div class="sr-name">AI Name Clear Engine</div>
-      <div class="sr-desc">NPI lookup, sanctions, and exclusion list verification</div>
-      <div class="status-badge pending">Cert Pending</div>
-    </div>
-    <div class="status-row">
-      <div class="sr-num">05</div>
-      <div class="sr-name">AI Background Check Engine</div>
-      <div class="sr-desc">Automated background check initiation and status tracking</div>
-      <div class="status-badge pending">Cert Pending</div>
-    </div>
-    <div class="status-row">
-      <div class="sr-num">06</div>
-      <div class="sr-name">AI Facility Presentation Engine</div>
-      <div class="sr-desc">Branded candidate packages delivered to facility decision-makers</div>
-      <div class="status-badge pending">Cert Pending</div>
-    </div>
+  </div>
+  <div class="impact-box stagger-5" style="max-width:1120px;margin-top:20px;">
+    <div class="impact-label">No rebuild between phases</div>
+    <div class="impact-text">You will not need to re-learn anything or migrate anything. Every new agent shows up inside the same portal, under the same Top Bot, with the same approval queue and policy dial.</div>
   </div>
 </div>
 
-<!-- SLIDE 9: DOWNHILL FROM HERE -->
+<!-- SLIDE 9: BUILD SEQUENCE -->
 <div class="slide" data-slide="9">
-  <span class="section-label stagger-1">What's Next</span>
-  <h2 class="section-title stagger-2">The Hard Part Is Done. Everything Else Is Downhill.</h2>
-  <div class="card-grid cols-3 stagger-3" style="margin-top:28px;">
-    <div class="info-card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-      </div>
-      <h3>Infrastructure Is Live</h3>
-      <p>Fly.io browser agent deployed and battle-tested. n8n Cloud running 27 active workflows. GHL connected with 11 custom fields and a 10-stage pipeline. Engines 3 through 6 plug into the same stack. Zero setup required.</p>
+  <span class="section-label stagger-1">How It Gets Built</span>
+  <h2 class="section-title stagger-2">Every piece certified. <span class="cyan">In order. One at a time.</span></h2>
+  <p class="section-desc stagger-3" style="max-width:720px;">Nothing ships before it passes its own test battery. Every layer gets built, tested, and certified on its own before the next layer starts.</p>
+  <div class="build-steps stagger-4">
+    <div class="build-step">
+      <div class="bs-num">1</div>
+      <div class="bs-title">Foundation</div>
+      <div class="bs-desc">Data layer, identity, the shell for the portal, the shell for Slack access.</div>
     </div>
-    <div class="info-card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24"><path d="M9 4v3H5v3h4v3l4-4.5L9 4zm6 8v-3h4V6h-4V3l-4 4.5 4 4.5z"/></svg>
-      </div>
-      <h3>Every Hard Pattern Is Solved</h3>
-      <p>Async webhooks. Scrape locking. Dedup. Claude prompt tuning. Error handling with auth. Chaos resilience. Every pattern from the AI Job Sourcing Engine is a blueprint for the engines that follow.</p>
+    <div class="build-step">
+      <div class="bs-num">2</div>
+      <div class="bs-title">Agent 1</div>
+      <div class="bs-desc">Job sourcing rebuilt as a proper agent with every tool it needs. Full battery of tests before it moves.</div>
     </div>
-    <div class="info-card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
-      </div>
-      <h3>Certification Playbook Ready</h3>
-      <p>7 test categories built. Regression suites for security, chaos, concurrency, idempotency, and performance. Certifying each engine means running the playbook, not writing it. Days, not weeks.</p>
+    <div class="build-step">
+      <div class="bs-num">3</div>
+      <div class="bs-title">Recruitment Manager</div>
+      <div class="bs-desc">The orchestrator that sits between Top Bot and the agents. Tested on Agent 1 alone first.</div>
     </div>
-  </div>
-  <div class="impact-box stagger-4" style="max-width:1100px;width:100%;margin-top:20px;">
-    <div class="impact-label">The Path Forward</div>
-    <div class="impact-text">Engines 3 through 6 don't face the unknown. They face a known path, with a working system underneath them and a team that has already solved the hardest version of every problem.</div>
+    <div class="build-step">
+      <div class="bs-num">4</div>
+      <div class="bs-title">Top Bot</div>
+      <div class="bs-desc">The client agent. Principal routing, policy enforcement, Slack, portal chat. All tested.</div>
+    </div>
+    <div class="build-step">
+      <div class="bs-num">5</div>
+      <div class="bs-title">The Portal</div>
+      <div class="bs-desc">The command center, role-based access, live feed, approval queue, job tracker, policy page, audit log.</div>
+    </div>
+    <div class="build-step">
+      <div class="bs-num">6</div>
+      <div class="bs-title">Full Chain</div>
+      <div class="bs-desc">End-to-end scenarios walked across every layer. Only then does it go live.</div>
+    </div>
   </div>
 </div>
 
-<!-- SLIDE 10: RATE LOGIC ENGINE -->
+<!-- SLIDE 10: CLOSING -->
 <div class="slide" data-slide="10">
-  <span class="section-label stagger-1">In Development</span>
-  <h2 class="section-title stagger-2">Rate Logic Engine</h2>
-  <p class="section-desc stagger-3">A dedicated rate intelligence layer being added to the AI Job Sourcing Engine. Makes LPU's pricing smarter and fully automated.</p>
-  <div class="card-grid cols-3 stagger-4" style="margin-top:24px;">
-    <div class="info-card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
-      </div>
-      <h3>Specialty-Based Margins</h3>
-      <p>Each specialty carries its own margin. Emergency Medicine, Hospitalist, and Urgent Care run at 22%. Most others at 20%. Orthopedic Surgery at 18%. Configurable without a code deploy.</p>
-    </div>
-    <div class="info-card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
-      </div>
-      <h3>Rate Projection</h3>
-      <p>When a bill rate isn't provided, the engine projects one. It checks historical averages first. If fewer than 5 data points exist, it falls back to MGMA/MedHealthBenchmarks by specialty. Every job leaves with a rate.</p>
-    </div>
-    <div class="info-card">
-      <div class="card-icon">
-        <svg viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
-      </div>
-      <h3>Admin Rate Dashboard</h3>
-      <p>Ali and Ahmed can review every job's pay rate, bill rate, and margin in one place. Override any rate inline. See averages per facility. Backfill missing rates with one click. Full visibility into LPU's pricing.</p>
-    </div>
-  </div>
-  <div class="impact-box stagger-5" style="max-width:1100px;width:100%;margin-top:16px;border-color:rgba(251,191,36,0.3);background:rgba(251,191,36,0.03);">
-    <div class="impact-label" style="color:var(--yellow);">In Development</div>
-    <div class="impact-text">The Rate Logic Engine is the next build inside the AI Job Sourcing Engine. Email and document rates are always authoritative and never overwritten. Projected rates are clearly labeled with confidence levels so nothing is treated as fact when it's an estimate.</div>
-  </div>
-</div>
-
-<!-- SLIDE 11: CLOSING -->
-<div class="slide bl-cert-slide" data-slide="11">
-  <div class="bl-seal stagger-1">
-    <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
-  </div>
-  <h2 class="section-title stagger-2" style="margin-top:24px;font-size:clamp(40px,5vw,64px);"><span class="bl-gold">Excellence in Execution.</span></h2>
-  <p class="section-desc stagger-3" style="color:rgba(201,169,110,0.75);max-width:600px;">We do not ship what is not certified. We do not certify what is not excellent. That is the only standard that matters.</p>
-  <div class="impact-box stagger-4" style="max-width:700px;width:100%;margin-top:28px;border-color:rgba(0,204,255,0.25);background:rgba(0,204,255,0.04);">
-    <div class="impact-label">Living System</div>
-    <div class="impact-text">This system is not static. Every workflow, every margin, every rule can be tuned based on feedback. No code deploys required for most changes. The system learns as LPU grows.</div>
-  </div>
-  <div class="logo-container stagger-5" style="margin-top:32px;margin-bottom:0;">
-    <svg viewBox="0 0 822 283.5" style="height:36px;width:auto;opacity:0.6;">
+  <div class="logo-container stagger-1">
+    <svg viewBox="0 0 822 283.5" style="height:60px;width:auto;">
       <path fill="#00CCFF" d="M78.1,142l-15.3-14.6L22.2,142l40.6,14.6L78.1,142z M131.8,142l15.3-14.6l40.6,14.6l-40.6,14.6L131.8,142z M86.3,122.6l-0.5-21.2l-39-18.4l18.4,39L86.3,122.6z M124.5,122.6l0.5-21.2l39-18.4l-18.4,39L124.5,122.6z M86.3,160.9l-0.5,21.2l-39,18.4l18.4-39L86.3,160.9z M124.5,160.9l0.5,21.2l39,18.4l-18.4-39L124.5,160.9z M105.2,168.7l14.6,15.3l-14.6,40.6L90.6,184L105.2,168.7z M105.2,114.8l14.6-15.3l-14.6-40.6L90.6,99.5L105.2,114.8z"/>
       <path fill="#fff" d="M773.5,121.1c12.8,0,21.8,7.8,21.8,21.3c0,12.3-7.5,19.6-20.7,19.6H759v-40.8H773.5z M773.7,117.4h-18.9v48.3h20.1c15.4,0,24.9-9.1,24.9-23.5C799.8,126.7,788.9,117.4,773.7,117.4z M712.5,121.1h31v-3.7h-35.2v48.3h35.5v-3.7h-31.4v-19.5h28.4v-3.7h-28.4V121.1z M698.3,117.4h-37.1v3.7h16.4v44.6h4.1v-44.6h16.6V117.4z M650.4,117.4h-4.1v48.3h4.1V117.4z M633.4,117.4h-4.1v41l-0.8-1.2l-33.9-39.8h-3.5v48.3h4.1v-41.9l0.9,1.3l34.8,40.6h2.4V117.4z M578.8,117.4h-4.3v27.9c0,11.4-7.2,17.1-16.7,17.1c-9.7,0-16.7-5.7-16.7-17.1v-27.9h-4.3V145c0,14.1,9.3,21.4,21,21.4c11.4,0,21-7.2,21-21.4V117.4z M502.4,131c0-2.1,2.1-3.9,6.5-3.9c3.7,0,8.8,1.2,13.2,3.4l4.5-9.7c-4.8-2.6-10-4.3-16.6-4.3c-12.4,0-20.1,6.1-20,15.7c0.3,17.3,26.4,12.3,26.4,19.7c0,3-4.3,3.9-7.7,3.9c-5.6,0-11.4-2.4-15.8-4.9l-4.8,9.8c4.6,2.9,12,5.9,20.8,5.9c12.1,0,20.3-5.8,20.3-15.8C529.2,132.6,502.4,138.6,502.4,131z M482.2,117.4h-8.9l-16.2,18.4l-1.4,2.1l-1.4-2.1l-16.2-18.4h-8.9v48.3h12.4v-28.8l1,1.7l11.7,13.9h3l11.7-13.9l0.9-1.6v28.8h12.4V117.4z M421,117.4h-12.5V145c0,6.8-4.6,10.3-10.2,10.3c-5.7,0-10.3-3.6-10.3-10.3v-27.6h-12.5v27.7c0,13.5,9.7,21.5,22.8,21.5c13,0,22.7-7.9,22.7-21.5V117.4z M368.5,157l-7.6-7.9c-4.4,4.3-8.5,6.1-13.2,6.1c-8.5,0-14.4-5.7-14.4-13.8c0-8.1,5.7-13.7,13.9-13.7c5,0,9.2,2.3,11.9,5.4l8.6-7.9c-3.9-4.8-11.4-8.7-20.6-8.7c-15,0-26.5,10.6-26.5,24.9c0,14.8,12.2,25,26.8,25C356.8,166.5,364,162.2,368.5,157z M289,155.4c-8.6,0-14.1-5.7-14.1-13.9c0-8.2,5.5-13.9,14.1-13.9c8.6,0,14.1,5.7,14.1,13.9C303.1,149.7,297.5,155.4,289,155.4z M289,116.5c-15.1,0-26.8,10.3-26.8,25s11.7,25,26.8,25c15.1,0,26.8-10.3,26.8-25S304.1,116.5,289,116.5z"/>
       <polygon fill="#fff" points="237.6,154.8 237.6,117.4 225.2,117.4 225.2,165.7 260.6,165.7 260.6,154.8"/>
     </svg>
+  </div>
+  <h2 class="section-title stagger-2" style="font-size:clamp(40px,5vw,64px);margin-top:24px;">Your team. One interface. <br><span class="cyan">The rest runs itself.</span></h2>
+  <p class="final-tagline stagger-3" style="max-width:680px;">The recruitment operation you already run, wired into a single voice. Built for Ali Chaudhary, M.D. and the LPU team.</p>
+  <div class="bl-certified-wordmark stagger-4" style="margin-top:32px;">
+    <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+    Black Label Solutions · Jarvis Stack
   </div>
 </div>
 
 </div><!-- /deck -->
 
-<div class="nav-dots" id="navDots"></div>
 
+<!-- NAVIGATION -->
+<div class="nav-dots" id="navDots"></div>
 <div class="nav-arrows">
-  <button class="nav-arrow" id="prevBtn">&#8592;</button>
-  <button class="nav-arrow" id="nextBtn">&#8594;</button>
+  <div class="nav-arrow" id="prevBtn">&#8592;</div>
+  <div class="nav-arrow" id="nextBtn">&#8594;</div>
 </div>
 <div class="slide-counter" id="slideCounter"></div>
 
@@ -1242,9 +2651,75 @@ html, body {
 
   const dots = document.querySelectorAll('.nav-dot');
   const counter = document.getElementById('slideCounter');
+  const pipelineBar = document.getElementById('pipelineBar');
+  const pipelineIcons = document.querySelectorAll('.pipeline-icon');
+  const pipelineConnectors = document.querySelectorAll('.pipeline-connector');
 
   function updateCounter() {
     counter.textContent = (current + 1) + ' / ' + totalSlides;
+  }
+
+  function updatePipeline() {
+    const slideEl = slides[current];
+    const engineNum = parseInt(slideEl.dataset.engine || '0');
+    const isEngineSlide = engineNum > 0;
+
+    // Show pipeline bar only on slides that have a data-engine attribute, plus the numbers slide (11)
+    const hasEngine = !!slideEl.dataset.engine;
+    pipelineBar.classList.toggle('visible', hasEngine || current === 11);
+
+    pipelineIcons.forEach(icon => {
+      const eng = parseInt(icon.dataset.engine);
+      icon.classList.remove('active', 'completed');
+      if (eng === engineNum) icon.classList.add('active');
+      else if (eng < engineNum) icon.classList.add('completed');
+    });
+
+    pipelineConnectors.forEach(conn => {
+      const connIdx = parseInt(conn.dataset.connector);
+      conn.classList.remove('active', 'completed');
+      if (connIdx === engineNum - 1) conn.classList.add('active');
+      else if (connIdx < engineNum - 1) conn.classList.add('completed');
+      // When on numbers slide (11), light up all
+      if (current === 11) {
+        conn.classList.add('completed');
+      }
+    });
+
+    // On numbers slide, mark all engines completed
+    if (current === 11) {
+      pipelineIcons.forEach(icon => {
+        icon.classList.remove('active');
+        icon.classList.add('completed');
+      });
+    }
+  }
+
+  function animateCounters() {
+    // Animate counters on any slide that has .counter elements
+    const counters = slides[current].querySelectorAll('.counter');
+    if (counters.length === 0) return;
+    counters.forEach(el => {
+      const target = parseInt(el.dataset.target);
+      const display = el.dataset.display;
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      if (display === 'ZERO') {
+        el.textContent = 'ZERO';
+        return;
+      }
+      const duration = 1500;
+      const start = performance.now();
+      function tick(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = prefix + Math.round(target * eased).toLocaleString() + suffix;
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      el.textContent = prefix + '0' + suffix;
+      requestAnimationFrame(tick);
+    });
   }
 
   function goTo(index) {
@@ -1255,41 +2730,52 @@ html, body {
     const fromSlide = slides[current];
     const toSlide = slides[index];
 
+    // Clear any leftover inline styles on all slides first
     slides.forEach(s => { s.style.transform = ''; s.style.opacity = ''; s.style.transition = ''; });
 
+    // Position the incoming slide off-screen with no transition
     toSlide.style.transition = 'none';
     toSlide.style.transform = 'translateX(' + (direction * 60) + 'px)';
     toSlide.style.opacity = '0';
 
+    // Force reflow so the browser registers the starting position
     void toSlide.offsetHeight;
 
+    // Re-enable transitions
     toSlide.style.transition = '';
 
+    // Animate outgoing slide away
     fromSlide.classList.remove('active');
     fromSlide.style.transform = 'translateX(' + (direction * -60) + 'px)';
     fromSlide.style.opacity = '0';
 
+    // Animate incoming slide in
     toSlide.classList.add('active');
     toSlide.style.transform = 'translateX(0)';
     toSlide.style.opacity = '1';
 
+    // Update nav state
     dots[current].classList.remove('active');
     current = index;
     dots[current].classList.add('active');
     updateCounter();
+    updatePipeline();
 
     setTimeout(() => {
+      // Clean up inline styles so CSS classes take over
       fromSlide.style.transform = '';
       fromSlide.style.opacity = '';
       toSlide.style.transform = '';
       toSlide.style.opacity = '';
       transitioning = false;
+      animateCounters();
     }, 650);
   }
 
   function goNext() { goTo(current + 1); }
   function goPrev() { goTo(current - 1); }
 
+  // Keyboard
   document.addEventListener('keydown', e => {
     if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); goNext(); }
     if (e.key === 'ArrowLeft') { e.preventDefault(); goPrev(); }
@@ -1297,9 +2783,11 @@ html, body {
     if (e.key === 'End') { e.preventDefault(); goTo(totalSlides - 1); }
   });
 
+  // Buttons
   document.getElementById('nextBtn').addEventListener('click', goNext);
   document.getElementById('prevBtn').addEventListener('click', goPrev);
 
+  // Touch support
   let touchStartX = 0;
   document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
   document.addEventListener('touchend', e => {
@@ -1310,7 +2798,9 @@ html, body {
     }
   }, { passive: true });
 
+  // Init
   updateCounter();
+  updatePipeline();
 })();
 </script>
 </body>
