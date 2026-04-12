@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Locums United: The Jarvis Stack. One Voice. Runs the Rest.</title>
+<title>Locums United: Agent 1 is Live.</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -65,12 +65,13 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 60px 80px;
+  padding: 50px 80px;
   opacity: 0;
   transform: translateX(60px);
   pointer-events: none;
   transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1);
   will-change: opacity, transform;
+  overflow: hidden;
 }
 
 .slide.active {
@@ -1395,13 +1396,13 @@ html, body {
 }
 
 /* ═══════════════════════════════════════
-   MOBILE — 768px AND BELOW
+   MOBILE : 768px AND BELOW
    ═══════════════════════════════════════ */
 @media (max-width: 768px) {
   /* Slide padding */
   .slide { padding: 24px 20px; }
 
-  /* Hero title — min 28px */
+  /* Hero title : min 28px */
   .hero-title {
     font-size: clamp(28px, 8vw, 48px);
     letter-spacing: -1px;
@@ -1427,7 +1428,7 @@ html, body {
     margin-top: 12px;
   }
 
-  /* Engine ring — 140px */
+  /* Engine ring : 140px */
   .engine-ring {
     width: 140px;
     height: 140px;
@@ -1442,7 +1443,7 @@ html, body {
     font-size: 52px;
   }
 
-  /* Engine layout — vertical, tighter gap */
+  /* Engine layout : vertical, tighter gap */
   .engine-layout {
     flex-direction: column;
     gap: 20px;
@@ -1454,7 +1455,7 @@ html, body {
     height: 160px;
   }
 
-  /* Engine bullets — smaller text */
+  /* Engine bullets : smaller text */
   .engine-bullets li {
     font-size: 14px;
     gap: 10px;
@@ -1481,7 +1482,7 @@ html, body {
     font-size: 13px;
   }
 
-  /* Numbers grid — 1 column */
+  /* Numbers grid : 1 column */
   .numbers-grid {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -1504,7 +1505,7 @@ html, body {
     font-size: 13px;
   }
 
-  /* Problem grid — 1 column */
+  /* Problem grid : 1 column */
   .problem-grid {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -1519,7 +1520,7 @@ html, body {
     font-size: 15px;
   }
 
-  /* Finance layout — 1 column */
+  /* Finance layout : 1 column */
   .finance-layout {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -1542,7 +1543,7 @@ html, body {
     font-size: 13px;
   }
 
-  /* Next agents — stack vertically */
+  /* Next agents : stack vertically */
   .next-agents {
     flex-direction: column;
     gap: 12px;
@@ -1557,7 +1558,7 @@ html, body {
     font-size: 16px;
   }
 
-  /* Valuation standalone — stack vertically */
+  /* Valuation standalone : stack vertically */
   .val-standalone {
     flex-direction: column;
     gap: 16px;
@@ -1577,7 +1578,7 @@ html, body {
     font-size: clamp(24px, 7vw, 36px);
   }
 
-  /* Vision grid — 2 columns */
+  /* Vision grid : 2 columns */
   .vision-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 8px;
@@ -1596,17 +1597,17 @@ html, body {
     font-size: 11px;
   }
 
-  /* Hide nav arrows — swipe is sufficient */
+  /* Hide nav arrows : swipe is sufficient */
   .nav-arrows { display: none; }
 
-  /* Slide counter — compact */
+  /* Slide counter : compact */
   .slide-counter {
     left: 16px;
     bottom: 20px;
     font-size: 11px;
   }
 
-  /* Nav dots — smaller */
+  /* Nav dots : smaller */
   .nav-dot {
     width: 6px;
     height: 6px;
@@ -1617,7 +1618,7 @@ html, body {
     bottom: 20px;
   }
 
-  /* Pipeline bar — smaller icons and gaps */
+  /* Pipeline bar : smaller icons and gaps */
   .pipeline-bar {
     padding: 12px 16px;
     gap: 0;
@@ -1643,7 +1644,7 @@ html, body {
     width: 24px;
   }
 
-  /* Job board slide browser mockup — smaller */
+  /* Job board slide browser mockup : smaller */
   [data-slide="3"] .engine-visual {
     flex: 0 0 auto;
     height: auto;
@@ -1702,6 +1703,264 @@ html, body {
   /* MOBILE: no scrolling, everything must fit */
   .slide {
     overflow: hidden;
+    padding: 16px 12px;
+  }
+
+  /* LocumOS new slides: force grids to stack and shrink type */
+  [data-slide="5"] .finance-layout,
+  [data-slide="6"] .finance-layout,
+  [data-slide="7"] .finance-layout,
+  [data-slide="8"] .finance-layout {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px !important;
+    margin-top: 10px !important;
+  }
+  [data-slide="5"] .finance-card,
+  [data-slide="6"] .finance-card,
+  [data-slide="7"] .finance-card,
+  [data-slide="8"] .finance-card {
+    padding: 8px 10px !important;
+  }
+  [data-slide="5"] .finance-card .f-label,
+  [data-slide="6"] .finance-card .f-label,
+  [data-slide="7"] .finance-card .f-label,
+  [data-slide="8"] .finance-card .f-label {
+    font-size: 9px !important;
+  }
+  [data-slide="5"] .finance-card .f-value,
+  [data-slide="6"] .finance-card .f-value,
+  [data-slide="7"] .finance-card .f-value,
+  [data-slide="8"] .finance-card .f-value {
+    font-size: 13px !important;
+    margin-bottom: 2px !important;
+  }
+  [data-slide="5"] .finance-card .f-desc,
+  [data-slide="6"] .finance-card .f-desc,
+  [data-slide="7"] .finance-card .f-desc,
+  [data-slide="8"] .finance-card .f-desc {
+    font-size: 10px !important;
+    line-height: 1.3 !important;
+    margin-top: 2px !important;
+  }
+  /* Shrink section title and desc on the new slides */
+  [data-slide="5"] .section-title,
+  [data-slide="6"] .section-title,
+  [data-slide="7"] .section-title,
+  [data-slide="8"] .section-title {
+    font-size: clamp(18px, 5vw, 24px) !important;
+    line-height: 1.15 !important;
+  }
+  [data-slide="5"] .section-desc,
+  [data-slide="6"] .section-desc,
+  [data-slide="7"] .section-desc,
+  [data-slide="8"] .section-desc {
+    font-size: 11px !important;
+    line-height: 1.35 !important;
+    margin-top: 4px !important;
+    padding: 0 4px;
+  }
+  [data-slide="5"] .section-label,
+  [data-slide="6"] .section-label,
+  [data-slide="7"] .section-label,
+  [data-slide="8"] .section-label {
+    font-size: 10px !important;
+    letter-spacing: 1.5px !important;
+    margin-bottom: 4px !important;
+  }
+  /* Newsletter slide: stack the 2-col impact row */
+  [data-slide="5"] > div:last-child {
+    grid-template-columns: 1fr !important;
+    gap: 6px !important;
+    margin-top: 8px !important;
+  }
+  [data-slide="5"] .impact-box,
+  [data-slide="6"] .impact-box,
+  [data-slide="7"] .impact-box,
+  [data-slide="8"] .impact-box {
+    padding: 8px 12px !important;
+    margin-top: 8px !important;
+  }
+  [data-slide="5"] .impact-label,
+  [data-slide="6"] .impact-label,
+  [data-slide="7"] .impact-label,
+  [data-slide="8"] .impact-label {
+    font-size: 9px !important;
+  }
+  [data-slide="5"] .impact-text,
+  [data-slide="6"] .impact-text,
+  [data-slide="7"] .impact-text,
+  [data-slide="8"] .impact-text {
+    font-size: 11px !important;
+    line-height: 1.35 !important;
+  }
+
+  /* LocumOS slides 1 and 2: collapse inline multi-col grids and shrink type */
+  [data-slide="1"] .finance-layout,
+  [data-slide="2"] .finance-layout {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px !important;
+    margin-top: 10px !important;
+  }
+  [data-slide="1"] .finance-card,
+  [data-slide="2"] .finance-card {
+    padding: 8px 10px !important;
+  }
+  [data-slide="1"] .finance-card .f-label,
+  [data-slide="2"] .finance-card .f-label {
+    font-size: 9px !important;
+  }
+  [data-slide="1"] .finance-card .f-value,
+  [data-slide="2"] .finance-card .f-value {
+    font-size: 13px !important;
+    margin-bottom: 2px !important;
+  }
+  [data-slide="1"] .finance-card .f-desc,
+  [data-slide="2"] .finance-card .f-desc {
+    font-size: 10px !important;
+    line-height: 1.3 !important;
+    margin-top: 2px !important;
+  }
+  [data-slide="1"] .section-title,
+  [data-slide="2"] .section-title {
+    font-size: clamp(18px, 5vw, 24px) !important;
+    line-height: 1.15 !important;
+  }
+  [data-slide="1"] .section-desc,
+  [data-slide="2"] .section-desc {
+    font-size: 11px !important;
+    line-height: 1.35 !important;
+    margin-top: 4px !important;
+    padding: 0 4px;
+  }
+  [data-slide="1"] .section-label,
+  [data-slide="2"] .section-label {
+    font-size: 10px !important;
+    letter-spacing: 1.5px !important;
+    margin-bottom: 4px !important;
+  }
+  [data-slide="1"] .impact-box,
+  [data-slide="2"] .impact-box {
+    padding: 8px 12px !important;
+    margin-top: 8px !important;
+  }
+  [data-slide="1"] .impact-label,
+  [data-slide="2"] .impact-label {
+    font-size: 9px !important;
+  }
+  [data-slide="1"] .impact-text,
+  [data-slide="2"] .impact-text {
+    font-size: 11px !important;
+    line-height: 1.35 !important;
+  }
+
+  /* Slide 3 (Operator Top Bot): collapse 3-col to 2-col, tighten */
+  [data-slide="3"] .finance-layout {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px !important;
+    margin-top: 10px !important;
+  }
+  [data-slide="3"] .finance-card {
+    padding: 8px 10px !important;
+  }
+  [data-slide="3"] .finance-card .f-label {
+    font-size: 9px !important;
+  }
+  [data-slide="3"] .finance-card .f-value {
+    font-size: 14px !important;
+    margin-bottom: 2px !important;
+  }
+  [data-slide="3"] .finance-card .f-desc {
+    font-size: 10px !important;
+    line-height: 1.3 !important;
+  }
+  [data-slide="3"] .section-title {
+    font-size: clamp(18px, 5vw, 24px) !important;
+    line-height: 1.15 !important;
+  }
+  [data-slide="3"] .section-desc {
+    font-size: 11px !important;
+    line-height: 1.35 !important;
+    margin-top: 4px !important;
+  }
+
+  /* Slide 9 (Status): collapse numbers to 2-col, shrink finance grid */
+  [data-slide="9"] .numbers-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px !important;
+    margin-top: 10px !important;
+  }
+  [data-slide="9"] .number-card {
+    padding: 10px 8px !important;
+  }
+  [data-slide="9"] .number-value {
+    font-size: 26px !important;
+  }
+  [data-slide="9"] .number-desc {
+    font-size: 10px !important;
+    line-height: 1.3 !important;
+  }
+  [data-slide="9"] .finance-layout {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 6px !important;
+    margin-top: 10px !important;
+  }
+  [data-slide="9"] .finance-card {
+    padding: 8px 10px !important;
+  }
+  [data-slide="9"] .finance-card .f-label {
+    font-size: 9px !important;
+  }
+  [data-slide="9"] .finance-card .f-value {
+    font-size: 13px !important;
+  }
+  [data-slide="9"] .finance-card .f-desc {
+    font-size: 10px !important;
+    line-height: 1.3 !important;
+  }
+  [data-slide="9"] .section-title {
+    font-size: clamp(18px, 5vw, 24px) !important;
+    line-height: 1.15 !important;
+  }
+  [data-slide="9"] .section-desc {
+    font-size: 11px !important;
+    line-height: 1.35 !important;
+    margin-top: 4px !important;
+  }
+
+  /* Slide 4 (Stack / pipeline-flow): stack the 3 manager columns vertically */
+  [data-slide="4"] .pipeline-flow {
+    flex-direction: column !important;
+    gap: 8px !important;
+    margin-top: 10px !important;
+  }
+  [data-slide="4"] .pf-col {
+    gap: 6px !important;
+  }
+  [data-slide="4"] .pf-col-label {
+    font-size: 10px !important;
+  }
+  [data-slide="4"] .pf-node {
+    padding: 8px 10px !important;
+  }
+  [data-slide="4"] .pf-node-title {
+    font-size: 12px !important;
+  }
+  [data-slide="4"] .pf-node-badge {
+    font-size: 8px !important;
+    padding: 2px 6px !important;
+  }
+  [data-slide="4"] .pf-node-desc {
+    font-size: 10px !important;
+    line-height: 1.3 !important;
+  }
+  [data-slide="4"] .section-title {
+    font-size: clamp(18px, 5vw, 24px) !important;
+    line-height: 1.15 !important;
+  }
+  [data-slide="4"] .section-desc {
+    font-size: 11px !important;
+    line-height: 1.35 !important;
+    margin-top: 4px !important;
   }
 
   /* Slide 1 (Problem): smaller cards */
@@ -2139,149 +2398,6 @@ html, body {
     grid-template-columns: 1fr;
   }
 }
-
-
-/* ═══════════════════════════════════════
-   STACK DIAGRAM (Jarvis Stack blueprint)
-   ═══════════════════════════════════════ */
-.stack-diagram {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  margin-top: 24px;
-  width: 100%;
-  max-width: 1100px;
-}
-.stack-tier {
-  display: flex;
-  gap: 12px;
-  justify-content: center;
-  width: 100%;
-  position: relative;
-}
-.stack-tier::after {
-  content: '';
-  position: absolute;
-  bottom: -14px;
-  left: 50%;
-  width: 2px;
-  height: 14px;
-  background: linear-gradient(to bottom, var(--cyan-40), transparent);
-}
-.stack-tier.agents-tier::after { display: none; }
-.stack-tier.agents-tier {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 8px;
-  margin-top: 4px;
-}
-.stack-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 14px 20px;
-  text-align: center;
-  min-width: 240px;
-}
-.stack-card.lead {
-  border-color: var(--cyan);
-  background: linear-gradient(135deg, rgba(0,204,255,0.08), rgba(0,204,255,0.02));
-  box-shadow: 0 0 24px rgba(0,204,255,0.12);
-  min-width: 320px;
-}
-.stack-card.small {
-  padding: 10px 8px;
-  min-width: 0;
-}
-.stack-card.small.live {
-  border-color: rgba(52,211,153,0.45);
-  background: linear-gradient(135deg, rgba(52,211,153,0.08), rgba(52,211,153,0.02));
-}
-.stack-role {
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--cyan);
-  margin-bottom: 4px;
-}
-.stack-card.small.live .stack-role { color: var(--green); }
-.stack-name {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--t1);
-  margin-bottom: 2px;
-}
-.stack-card.small .stack-name { font-size: 13px; }
-.stack-desc {
-  font-size: 12px;
-  color: var(--t3);
-  line-height: 1.4;
-}
-.stack-card.small .stack-desc { font-size: 10px; }
-@media (max-width: 900px) {
-  .stack-tier.agents-tier { grid-template-columns: repeat(3, 1fr); }
-  .stack-card.lead { min-width: 0; }
-}
-
-/* ═══════════════════════════════════════
-   BUILD STEPS (Slide 9)
-   ═══════════════════════════════════════ */
-.build-steps {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 12px;
-  max-width: 1160px;
-  width: 100%;
-  margin-top: 32px;
-}
-.build-step {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 20px 16px;
-  text-align: center;
-  position: relative;
-  transition: all 0.4s ease;
-}
-.build-step:hover {
-  border-color: var(--border-cyan);
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0,204,255,0.08);
-}
-.bs-num {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--cyan-10);
-  border: 1px solid var(--border-cyan);
-  color: var(--cyan);
-  font-weight: 700;
-  font-size: 14px;
-  margin-bottom: 12px;
-}
-.bs-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--t1);
-  margin-bottom: 6px;
-}
-.bs-desc {
-  font-size: 12px;
-  color: var(--t3);
-  line-height: 1.45;
-}
-@media (max-width: 1100px) {
-  .build-steps { grid-template-columns: repeat(3, 1fr); }
-}
-@media (max-width: 640px) {
-  .build-steps { grid-template-columns: repeat(2, 1fr); }
-}
-
 </style>
 </head>
 <body>
@@ -2335,289 +2451,372 @@ html, body {
   </div>
 </div>
 
-<!-- LPU JARVIS STACK. CLIENT BLUEPRINT PRESENTATION -->
+<!-- LOCUMOS ECOSYSTEM CLIENT UPDATE PRESENTATION -->
 <div class="deck" id="deck">
 
 <!-- SLIDE 0: COVER -->
 <div class="slide active" data-slide="0">
   <div class="logo-container stagger-1">
-    <svg viewBox="0 0 822 283.5" style="height:60px;width:auto;">
-      <path fill="#00CCFF" d="M78.1,142l-15.3-14.6L22.2,142l40.6,14.6L78.1,142z M131.8,142l15.3-14.6l40.6,14.6l-40.6,14.6L131.8,142z M86.3,122.6l-0.5-21.2l-39-18.4l18.4,39L86.3,122.6z M124.5,122.6l0.5-21.2l39-18.4l-18.4,39L124.5,122.6z M86.3,160.9l-0.5,21.2l-39,18.4l18.4-39L86.3,160.9z M124.5,160.9l0.5,21.2l39,18.4l-18.4-39L124.5,160.9z M105.2,168.7l14.6,15.3l-14.6,40.6L90.6,184L105.2,168.7z M105.2,114.8l14.6-15.3l-14.6-40.6L90.6,99.5L105.2,114.8z"/>
-      <path fill="#fff" d="M773.5,121.1c12.8,0,21.8,7.8,21.8,21.3c0,12.3-7.5,19.6-20.7,19.6H759v-40.8H773.5z M773.7,117.4h-18.9v48.3h20.1c15.4,0,24.9-9.1,24.9-23.5C799.8,126.7,788.9,117.4,773.7,117.4z M712.5,121.1h31v-3.7h-35.2v48.3h35.5v-3.7h-31.4v-19.5h28.4v-3.7h-28.4V121.1z M698.3,117.4h-37.1v3.7h16.4v44.6h4.1v-44.6h16.6V117.4z M650.4,117.4h-4.1v48.3h4.1V117.4z M633.4,117.4h-4.1v41l-0.8-1.2l-33.9-39.8h-3.5v48.3h4.1v-41.9l0.9,1.3l34.8,40.6h2.4V117.4z M578.8,117.4h-4.3v27.9c0,11.4-7.2,17.1-16.7,17.1c-9.7,0-16.7-5.7-16.7-17.1v-27.9h-4.3V145c0,14.1,9.3,21.4,21,21.4c11.4,0,21-7.2,21-21.4V117.4z M502.4,131c0-2.1,2.1-3.9,6.5-3.9c3.7,0,8.8,1.2,13.2,3.4l4.5-9.7c-4.8-2.6-10-4.3-16.6-4.3c-12.4,0-20.1,6.1-20,15.7c0.3,17.3,26.4,12.3,26.4,19.7c0,3-4.3,3.9-7.7,3.9c-5.6,0-11.4-2.4-15.8-4.9l-4.8,9.8c4.6,2.9,12,5.9,20.8,5.9c12.1,0,20.3-5.8,20.3-15.8C529.2,132.6,502.4,138.6,502.4,131z M482.2,117.4h-8.9l-16.2,18.4l-1.4,2.1l-1.4-2.1l-16.2-18.4h-8.9v48.3h12.4v-28.8l1,1.7l11.7,13.9h3l11.7-13.9l0.9-1.6v28.8h12.4V117.4z M421,117.4h-12.5V145c0,6.8-4.6,10.3-10.2,10.3c-5.7,0-10.3-3.6-10.3-10.3v-27.6h-12.5v27.7c0,13.5,9.7,21.5,22.8,21.5c13,0,22.7-7.9,22.7-21.5V117.4z M368.5,157l-7.6-7.9c-4.4,4.3-8.5,6.1-13.2,6.1c-8.5,0-14.4-5.7-14.4-13.8c0-8.1,5.7-13.7,13.9-13.7c5,0,9.2,2.3,11.9,5.4l8.6-7.9c-3.9-4.8-11.4-8.7-20.6-8.7c-15,0-26.5,10.6-26.5,24.9c0,14.8,12.2,25,26.8,25C356.8,166.5,364,162.2,368.5,157z M289,155.4c-8.6,0-14.1-5.7-14.1-13.9c0-8.2,5.5-13.9,14.1-13.9c8.6,0,14.1,5.7,14.1,13.9C303.1,149.7,297.5,155.4,289,155.4z M289,116.5c-15.1,0-26.8,10.3-26.8,25s11.7,25,26.8,25c15.1,0,26.8-10.3,26.8-25S304.1,116.5,289,116.5z"/>
-      <polygon fill="#fff" points="237.6,154.8 237.6,117.4 225.2,117.4 225.2,165.7 260.6,165.7 260.6,154.8"/>
-    </svg>
+    <div style="font-family:'Outfit',sans-serif;font-weight:800;font-size:38px;letter-spacing:-1.5px;line-height:1;text-align:center;">
+      <span style="color:#ffffff;">Locums</span> <span style="color:#00CCFF;">United</span>
+    </div>
   </div>
-  <h1 class="hero-title stagger-2">One voice. <br><span class="cyan">Runs the rest.</span></h1>
-  <p class="hero-subtitle stagger-3">Your whole recruitment operation behind a single agent. Your team talks to it. It runs the rest, quietly, every day.</p>
+  <h1 class="hero-title stagger-2">Agent 1 is <span class="cyan">Live.</span></h1>
+  <p class="hero-subtitle stagger-3" style="max-width:820px;">The Job Sourcing Agent is shipped, certified, and running. Seven engines across one agent, all green. This deck walks through what that means, the four-tier stack it sits on, and what comes next.</p>
   <div class="bl-certified-wordmark stagger-4">
     <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
-    Black Label Solutions · The Jarvis Stack Blueprint
+    Agent 1 CERTIFIED
   </div>
   <p class="hero-subtitle stagger-5" style="margin-top:24px;font-size:14px;color:var(--t3);"><span class="nav-hint-desktop">Press <span style="color:var(--cyan);font-weight:600;">&#8594;</span> to walk through it</span><span class="nav-hint-mobile">Swipe to walk through it <span style="color:var(--cyan);font-weight:600;">&#8594;</span></span></p>
 </div>
 
-<!-- SLIDE 1: THE VISION -->
+<!-- SLIDE 1: WHAT AGENT 1 LIVE MEANS -->
 <div class="slide" data-slide="1">
-  <span class="section-label stagger-1">The Vision</span>
-  <h2 class="section-title stagger-2">From many tools. <span class="cyan">To one voice.</span></h2>
-  <p class="section-desc stagger-3" style="max-width:760px;">Today, recruiting means juggling sheets, email threads, dashboards, and multiple tabs. Tomorrow, your team talks to one agent. It finds the jobs, writes the descriptions, reaches the physicians, qualifies them, runs the checks, and presents them to the facility. Every day. Without anyone touching it.</p>
-  <div class="impact-box stagger-4" style="max-width:820px;margin-top:36px;">
-    <div class="impact-label">The promise</div>
-    <div class="impact-text">Ali, Ahmed, and Tyson only have to hold a conversation. The work happens on its own.</div>
+  <span class="section-label stagger-1">Start Here</span>
+  <h2 class="section-title stagger-2">Agent 1 is the MVP. <span class="cyan">Not the finish line.</span></h2>
+  <p class="section-desc stagger-3" style="max-width:900px;font-size:13px;line-height:1.5;margin-top:8px;">MVP means Minimum Viable Product. The smallest slice of the automated front office that works end-to-end, live and certified. Agent 1 is Job Sourcing. It finds every open job, writes the JD, and drops it on the board without a human touching it. That foundation holds. Everything else stacks on top.</p>
+  <div class="finance-layout stagger-4" style="max-width:1080px;margin-top:18px;grid-template-columns:repeat(3,1fr);gap:12px;">
+    <div class="finance-card highlight" style="padding:14px 16px;">
+      <div class="f-label" style="font-size:11px;">What shipped</div>
+      <div class="f-value" style="font-size:18px;">Job Sourcing Agent</div>
+      <div class="f-desc" style="font-size:12px;line-height:1.45;margin-top:4px;">Seven engines. Vendors, direct emails, JD writing, quality audit, daily health. Eight out of eight workflows green. One agent, fully automated, running live.</div>
+    </div>
+    <div class="finance-card highlight" style="padding:14px 16px;">
+      <div class="f-label" style="font-size:11px;">What it replaces</div>
+      <div class="f-value" style="font-size:18px;">The manual front end</div>
+      <div class="f-desc" style="font-size:12px;line-height:1.45;margin-top:4px;">No more inbox triage. No more copy-pasting rates. No more broken pipeline when Tyson is buried. Jobs go from vendor to live posting with zero human steps.</div>
+    </div>
+    <div class="finance-card highlight" style="padding:14px 16px;">
+      <div class="f-label" style="font-size:11px;">What comes next</div>
+      <div class="f-value" style="font-size:18px;">Agent 2, then 3-6</div>
+      <div class="f-desc" style="font-size:12px;line-height:1.45;margin-top:4px;">Physician Finder is in Build right now. Qualification, Name Clear, Background, Facility Presentation are scaffolded. Each one stacks on top of the agents below it.</div>
+    </div>
+  </div>
+  <div class="impact-box stagger-5" style="max-width:1080px;margin-top:14px;padding:12px 18px;">
+    <div class="impact-label" style="font-size:11px;">The rest of this deck</div>
+    <div class="impact-text" style="font-size:12px;line-height:1.45;margin-top:3px;">Walks you through the four-tier stack, how Agent 1 actually works, what is running right now, and what you get next.</div>
   </div>
 </div>
 
-<!-- SLIDE 2: THREE ROLES, ONE INTERFACE -->
+<!-- SLIDE 2: THE HIERARCHY -->
 <div class="slide" data-slide="2">
-  <span class="section-label stagger-1">For Your Team</span>
-  <h2 class="section-title stagger-2">Three roles. <span class="cyan">One interface.</span></h2>
-  <p class="section-desc stagger-3" style="max-width:680px;">Each person on your team sees exactly what they need. Nothing more, nothing less.</p>
-  <div class="finance-layout stagger-4" style="max-width:1080px;margin-top:32px;grid-template-columns:repeat(3,1fr);">
-    <div class="finance-card highlight">
-      <div class="f-label">Ali Chaudhary, M.D.</div>
-      <div class="f-value" style="font-size:22px;">Strategic</div>
-      <div class="f-desc">Full view of the operation. Sets direction, adjusts policy, approves anything, sees every metric. One chat window to steer the whole system.</div>
+  <span class="section-label stagger-1">The Hierarchy</span>
+  <h2 class="section-title stagger-2">You sit above the stack. <span class="cyan">Four tiers do the work.</span></h2>
+  <p class="section-desc stagger-3" style="max-width:920px;font-size:14px;line-height:1.55;">LPU runs on a four-tier hierarchy borrowed from how real companies work. You are the principal. You never enter the stack. You give one directive to Midas, the Operator tier, and it routes everything down to the Recruitment Manager and its six agents, then reports everything back up. Each tier only talks to the tiers directly above and below it.</p>
+  <div class="finance-layout stagger-4" style="max-width:1080px;margin-top:22px;grid-template-columns:repeat(4,1fr);gap:10px;">
+    <div class="finance-card highlight" style="padding:14px 16px;">
+      <div class="f-label" style="font-size:11px;">Tier 1</div>
+      <div class="f-value" style="font-size:18px;">Operator</div>
+      <div class="f-desc" style="font-size:12px;line-height:1.45;margin-top:4px;">Midas. Your single interface. Takes your directive, routes it down the stack, reports results back up. Sees the whole portfolio. Never touches execution itself.</div>
     </div>
-    <div class="finance-card highlight">
-      <div class="f-label">Ahmed Chaudhary</div>
-      <div class="f-value" style="font-size:22px;">Operations</div>
-      <div class="f-desc">Same full access as Ali. Watches operations, adjusts as needed, handles the business side without touching a spreadsheet.</div>
+    <div class="finance-card highlight" style="padding:14px 16px;">
+      <div class="f-label" style="font-size:11px;">Tier 2</div>
+      <div class="f-value" style="font-size:18px;">Manager</div>
+      <div class="f-desc" style="font-size:12px;line-height:1.45;margin-top:4px;">Recruitment Manager. One department head. Translates Midas's directive into a plan. Delegates to the six recruitment agents. Reports back up.</div>
     </div>
-    <div class="finance-card highlight">
-      <div class="f-label">Tyson Smith</div>
-      <div class="f-value" style="font-size:22px;">Recruiting Floor</div>
-      <div class="f-desc">Live activity feed, approval queue, job tracker, and daily briefing. Handles what needs his attention, ignores what doesn't.</div>
+    <div class="finance-card highlight" style="padding:14px 16px;">
+      <div class="f-label" style="font-size:11px;">Tier 3</div>
+      <div class="f-value" style="font-size:18px;">Agent</div>
+      <div class="f-desc" style="font-size:12px;line-height:1.45;margin-top:4px;">Six domain experts. Job Sourcing, Physician Finder, Qualification, Name Clear, Background, Facility Presentation. Each decides what to do and when.</div>
     </div>
+    <div class="finance-card highlight" style="padding:14px 16px;">
+      <div class="f-label" style="font-size:11px;">Tier 4</div>
+      <div class="f-value" style="font-size:18px;">Engine</div>
+      <div class="f-desc" style="font-size:12px;line-height:1.45;margin-top:4px;">The thing that actually does the work. Ingests a vendor feed. Writes a JD. Runs a background check. No autonomy, just execution. Called by an Agent.</div>
+    </div>
+  </div>
+  <div class="impact-box stagger-5" style="max-width:1080px;margin-top:14px;padding:12px 18px;">
+    <div class="impact-label" style="font-size:11px;">Why this matters</div>
+    <div class="impact-text" style="font-size:12px;line-height:1.45;margin-top:3px;">You never manage agents or debug engines. You message Midas, work flows down the stack, and the answer comes back to you in the same thread. One directive in, one answer out. The recruiters you still have stay at the top of the funnel, because the automation owns the bottom.</div>
   </div>
 </div>
 
-<!-- SLIDE 3: THE STACK -->
+<!-- SLIDE 3: MIDAS OPERATOR -->
 <div class="slide" data-slide="3">
-  <span class="section-label stagger-1">The Stack</span>
-  <h2 class="section-title stagger-2">One agent on top. <span class="cyan">A full team underneath.</span></h2>
-  <p class="section-desc stagger-3" style="max-width:720px;">Your team only talks to Top Bot. Underneath, six specialist agents handle the full recruitment pipeline. Each with a clear job. A manager keeps them coordinated.</p>
-  <div class="stack-diagram stagger-4">
-    <div class="stack-tier top-tier">
-      <div class="stack-card lead">
-        <div class="stack-role">Client Agent</div>
-        <div class="stack-name">Top Bot</div>
-        <div class="stack-desc">The only thing your team talks to. Knows who you are, what you can ask, and what it can do on its own.</div>
-      </div>
+  <span class="section-label stagger-1" style="margin-bottom:6px;">Tier 1: Operator</span>
+  <h2 class="section-title stagger-2" style="font-size:clamp(26px,3vw,40px);line-height:1.15;">Midas. <span class="cyan">Your single pane of glass.</span></h2>
+  <p class="section-desc stagger-3" style="max-width:900px;font-size:13px;margin-top:6px;line-height:1.4;">Midas is the Operator tier. One interface. You ask a question, give a directive, or flag an issue. Midas routes it into the Recruitment Manager, waits for the result, and answers you back. No dashboards to check, no Google Sheets to scroll, no workflows to babysit. Everything flows through one conversation.</p>
+  <div class="finance-layout stagger-4" style="max-width:1080px;margin-top:14px;grid-template-columns:repeat(3,1fr);gap:10px;">
+    <div class="finance-card highlight" style="padding:12px 14px;">
+      <div class="f-label" style="font-size:10px;">What you do</div>
+      <div class="f-value" style="font-size:16px;">Give one directive</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.4;margin-top:4px;">Ask a question, change a priority, approve a JD, surface a gap. One message. You never have to remember which agent or which engine touches what.</div>
     </div>
-    <div class="stack-tier mid-tier">
-      <div class="stack-card">
-        <div class="stack-role">Orchestration</div>
-        <div class="stack-name">Recruitment Manager</div>
-        <div class="stack-desc">Breaks Top Bot's directives into tasks, assigns them to agents, watches the work, reports back up.</div>
-      </div>
+    <div class="finance-card highlight" style="padding:12px 14px;">
+      <div class="f-label" style="font-size:10px;">What Midas knows</div>
+      <div class="f-value" style="font-size:16px;">Everything, always</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.4;margin-top:4px;">Every job ingested, every JD written, every vendor feed health score. Portfolio-wide memory. Never cold. If something broke yesterday, Midas already knows.</div>
     </div>
-    <div class="stack-tier agents-tier">
-      <div class="stack-card small live"><div class="stack-role">Day 1</div><div class="stack-name">Agent 1</div><div class="stack-desc">Job Sourcing</div></div>
-      <div class="stack-card small"><div class="stack-role">Next</div><div class="stack-name">Agent 2</div><div class="stack-desc">Physician Finder</div></div>
-      <div class="stack-card small"><div class="stack-role">Next</div><div class="stack-name">Agent 3</div><div class="stack-desc">Qualification</div></div>
-      <div class="stack-card small"><div class="stack-role">Next</div><div class="stack-name">Agent 4</div><div class="stack-desc">Name Clear</div></div>
-      <div class="stack-card small"><div class="stack-role">Next</div><div class="stack-name">Agent 5</div><div class="stack-desc">Background Check</div></div>
-      <div class="stack-card small"><div class="stack-role">Next</div><div class="stack-name">Agent 6</div><div class="stack-desc">Facility Presentation</div></div>
+    <div class="finance-card highlight" style="padding:12px 14px;">
+      <div class="f-label" style="font-size:10px;">What sits underneath</div>
+      <div class="f-value" style="font-size:16px;">One Recruitment Manager</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.4;margin-top:4px;">The Recruitment Manager owns every recruitment agent. Midas delegates down to it, it delegates across to its six agents, work gets done, answers come back up the same path.</div>
     </div>
+  </div>
+  <div class="impact-box stagger-5" style="max-width:1080px;margin-top:12px;padding:10px 18px;">
+    <div class="impact-label" style="font-size:10px;">Why it matters</div>
+    <div class="impact-text" style="font-size:12px;line-height:1.4;margin-top:3px;">The same Midas sees both Locums United and Locums Plus United at the portfolio level. One Operator across everything you run. Permissions are locked down: Tyson, Ahmed, and the recruiting team see only LPU. Only you and Julius see the whole picture.</div>
   </div>
 </div>
 
-<!-- SLIDE 4: THE COMMAND CENTER -->
+<!-- SLIDE 4: THE STACK -->
 <div class="slide" data-slide="4">
-  <span class="section-label stagger-1">The Command Center</span>
-  <h2 class="section-title stagger-2">One portal. <span class="cyan">Everything in one place.</span></h2>
-  <p class="section-desc stagger-3" style="max-width:720px;">Your team's command center. Every surface the operation needs, laid out in one view. No more switching between tools.</p>
-  <div class="finance-layout stagger-4" style="max-width:1120px;margin-top:32px;grid-template-columns:repeat(3,1fr);gap:16px;">
-    <div class="finance-card highlight">
-      <div class="f-label">Live Activity</div>
-      <div class="f-value" style="font-size:20px;">What's happening now</div>
-      <div class="f-desc">Every move the system makes, surfaced as it happens. Know what went live, what's waiting, what just got handled.</div>
+  <span class="section-label stagger-1">The Stack</span>
+  <h2 class="section-title stagger-2" style="font-size:clamp(26px,3vw,40px);line-height:1.15;">One manager. <span class="cyan">Six agents. Locked hierarchy.</span></h2>
+  <p class="section-desc stagger-3" style="max-width:900px;font-size:13px;margin-top:6px;line-height:1.4;">The Recruitment Manager owns the entire automated front office. Underneath it sit six agents, one per stage of the recruitment funnel. Each agent has its own engines. Agent 1 is live right now. Agent 2 is mid-build. Agents 3 through 6 are scaffolded and waiting their turn.</p>
+  <div class="pipeline-flow stagger-4">
+    <div class="pf-col">
+      <div class="pf-col-label">Agent 1</div>
+      <div class="pf-node">
+        <div class="pf-node-head">
+          <div class="pf-node-title">Job Sourcing</div>
+          <span class="pf-node-badge" style="background:rgba(0,204,255,0.18);border-color:rgba(0,204,255,0.55);color:#00CCFF;">LIVE</span>
+        </div>
+        <div class="pf-node-desc">Seven engines. Vendors, direct emails, JD writing, quality audit, daily health. Eight out of eight workflows certified. Jobs go vendor to board with zero human touches.</div>
+      </div>
+      <div class="pf-node">
+        <div class="pf-node-head">
+          <div class="pf-node-title">Agent 2</div>
+          <span class="pf-node-badge">In Build</span>
+        </div>
+        <div class="pf-node-desc">Physician Finder. Finds the right physicians for the right jobs. Phase A build started with the new Managed Agent pilot.</div>
+      </div>
     </div>
-    <div class="finance-card highlight">
-      <div class="f-label">Approval Queue</div>
-      <div class="f-value" style="font-size:20px;">Your attention list</div>
-      <div class="f-desc">Only the items that need a human call. Approve or reject with one click. Everything else runs itself.</div>
+    <div class="pf-col">
+      <div class="pf-col-label">Agents 3 and 4</div>
+      <div class="pf-node">
+        <div class="pf-node-head">
+          <div class="pf-node-title">Qualification</div>
+          <span class="pf-node-badge">Built</span>
+        </div>
+        <div class="pf-node-desc">Eight engines already built. Screens candidates against specialty, state, availability. Waiting for its turn in the Plan-Build-Certify queue.</div>
+      </div>
+      <div class="pf-node">
+        <div class="pf-node-head">
+          <div class="pf-node-title">Name Clear</div>
+          <span class="pf-node-badge">Built</span>
+        </div>
+        <div class="pf-node-desc">Seven engines. Clears candidate names against facility blacklists. Handles the legal and compliance gate before submission.</div>
+      </div>
     </div>
-    <div class="finance-card highlight">
-      <div class="f-label">Job Tracker</div>
-      <div class="f-value" style="font-size:20px;">The full pipeline</div>
-      <div class="f-desc">Every job, every stage, every physician attached. No more scrolling sheets. Filter, sort, drill in, edit in place.</div>
-    </div>
-    <div class="finance-card highlight">
-      <div class="f-label">Chat with Top Bot</div>
-      <div class="f-value" style="font-size:20px;">Ask anything</div>
-      <div class="f-desc">A conversation window right inside the portal. Ask for status, give direction, make changes. The system responds in real time.</div>
-    </div>
-    <div class="finance-card highlight">
-      <div class="f-label">Policy Controls</div>
-      <div class="f-value" style="font-size:20px;">Ali and Ahmed only</div>
-      <div class="f-desc">Decide what the system can do on its own, what needs a check, and what is off limits. Change the dials any time.</div>
-    </div>
-    <div class="finance-card highlight">
-      <div class="f-label">Full Audit Log</div>
-      <div class="f-value" style="font-size:20px;">Every action recorded</div>
-      <div class="f-desc">Every decision the system makes, every approval, every handoff. Searchable. Nothing disappears silently.</div>
+    <div class="pf-col">
+      <div class="pf-col-label">Agents 5 and 6</div>
+      <div class="pf-node">
+        <div class="pf-node-head">
+          <div class="pf-node-title">Background Check</div>
+          <span class="pf-node-badge">Built</span>
+        </div>
+        <div class="pf-node-desc">Four engines. Runs background and credential verification. Works with your existing vendor relationships, no new contracts.</div>
+      </div>
+      <div class="pf-node">
+        <div class="pf-node-head">
+          <div class="pf-node-title">Facility Presentation</div>
+          <span class="pf-node-badge">Built</span>
+        </div>
+        <div class="pf-node-desc">Three engines. Packages the qualified, cleared, checked candidate into a facility-ready submission. Final handoff to Tyson or direct to the facility portal.</div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- SLIDE 5: TWO WAYS IN -->
+<!-- SLIDE 5: AGENT 1 INSIDE -->
 <div class="slide" data-slide="5">
-  <span class="section-label stagger-1">Two Ways In</span>
-  <h2 class="section-title stagger-2">Portal or Slack. <span class="cyan">Same agent either way.</span></h2>
-  <p class="section-desc stagger-3" style="max-width:720px;">Sometimes the portal is the right place. Sometimes you are already in Slack with the team. Top Bot lives in both. Approvals work in both. Status checks work in both. You choose the surface that fits the moment.</p>
-  <div class="finance-layout stagger-4" style="max-width:1040px;margin-top:32px;grid-template-columns:1fr 1fr;">
-    <div class="finance-card highlight">
-      <div class="f-label">In the Portal</div>
-      <div class="f-value" style="font-size:20px;">Deep work</div>
-      <div class="f-desc">Browse the full job tracker. Configure policy. Read the audit log. Long-form chat with the agent. The full command center experience.</div>
+  <span class="section-label stagger-1" style="margin-bottom:6px;">Agent 1 · Job Sourcing · LIVE</span>
+  <h2 class="section-title stagger-2" style="font-size:clamp(26px,3vw,40px);line-height:1.15;max-width:960px;">Seven engines. <span class="cyan">Zero human touches.</span></h2>
+  <p class="section-desc stagger-3" style="max-width:940px;font-size:13px;margin-top:6px;line-height:1.4;">Agent 1 takes a live vendor feed, a direct-client email, or a stale record and turns it into a job on the board. Nobody copies, pastes, rewrites, or babysits. It runs on its own cadence and reports back to Midas every morning.</p>
+  <div class="finance-layout stagger-4" style="max-width:1100px;margin-top:14px;grid-template-columns:repeat(4,1fr);gap:8px;">
+    <div class="finance-card highlight" style="padding:10px 12px;">
+      <div class="f-label" style="font-size:10px;">Engine 01</div>
+      <div class="f-value" style="font-size:14px;">LocumSmart Ingest</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.35;margin-top:3px;">REST pull from LocumSmart. Every new job lands in the Job Tracker with source URL, rate, facility, and specialty.</div>
     </div>
-    <div class="finance-card highlight">
-      <div class="f-label">In Slack</div>
-      <div class="f-value" style="font-size:20px;">In the flow</div>
-      <div class="f-desc">Ask a quick question, get an answer. Approve an item with one tap. Get notified when something needs attention. No context switch.</div>
+    <div class="finance-card highlight" style="padding:10px 12px;">
+      <div class="f-label" style="font-size:10px;">Engine 02</div>
+      <div class="f-value" style="font-size:14px;">LotusOne Ingest</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.35;margin-top:3px;">Aya Healthcare feed, token rotation handled end-to-end. Same normalization as LocumSmart. Off-spec roles filtered out.</div>
+    </div>
+    <div class="finance-card highlight" style="padding:10px 12px;">
+      <div class="f-label" style="font-size:10px;">Engine 03</div>
+      <div class="f-value" style="font-size:14px;">Email Ingest</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.35;margin-top:3px;">Vendor and direct-client emails land in a dedicated inbox. Parser extracts jobs and flags direct-client rows as priority.</div>
+    </div>
+    <div class="finance-card highlight" style="padding:10px 12px;">
+      <div class="f-label" style="font-size:10px;">Engine 04</div>
+      <div class="f-value" style="font-size:14px;">JD Engine</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.35;margin-top:3px;">Every new row runs through Claude. Facility scrubbed, rate normalized, JD rewritten in LPU voice. Approval queue for direct jobs.</div>
+    </div>
+    <div class="finance-card highlight" style="padding:10px 12px;">
+      <div class="f-label" style="font-size:10px;">Engine 05</div>
+      <div class="f-value" style="font-size:14px;">Sheet Quality Audit</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.35;margin-top:3px;">Hourly structural check. Missing fields, broken URLs, invalid states, bad dates. Clean sheet, always.</div>
+    </div>
+    <div class="finance-card highlight" style="padding:10px 12px;">
+      <div class="f-label" style="font-size:10px;">Engine 06</div>
+      <div class="f-value" style="font-size:14px;">Daily Health Report</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.35;margin-top:3px;">7am recap. New jobs overnight, expired rows, failing engines, rate anomalies. Your morning coffee tab.</div>
+    </div>
+    <div class="finance-card highlight" style="padding:10px 12px;">
+      <div class="f-label" style="font-size:10px;">Engine 07</div>
+      <div class="f-value" style="font-size:14px;">Stale Job Poller</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.35;margin-top:3px;">Anything unverified for 14 days pings the source. Dead jobs are removed automatically. No zombie rows.</div>
+    </div>
+    <div class="finance-card highlight" style="padding:10px 12px;border-color:rgba(0,204,255,0.55);background:rgba(0,204,255,0.08);">
+      <div class="f-label" style="font-size:10px;color:#00CCFF;">Certified</div>
+      <div class="f-value" style="font-size:14px;">8 of 8 green</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.35;margin-top:3px;">Every workflow tested against real dependencies. No mocks. Wipe-and-repopulate E2E passed. Agent 1 is in production.</div>
     </div>
   </div>
-  <div class="impact-box stagger-5" style="max-width:1040px;margin-top:24px;">
-    <div class="impact-label">Who sees what</div>
-    <div class="impact-text">Slack knows who you are. Ali gets full access. Ahmed gets full access. Tyson gets his own queue and the tactical side. Permissions match the portal. Same agent, same rules, either surface.</div>
+  <div class="impact-box stagger-5" style="max-width:1100px;margin-top:12px;padding:10px 18px;">
+    <div class="impact-label" style="font-size:10px;">What the recruiters do now</div>
+    <div class="impact-text" style="font-size:12px;line-height:1.4;margin-top:3px;">Tyson's team starts the day on the same job board you see. No Excel exports, no vendor portal babysitting, no chasing the freshest rate. They pick, they call, they fill. The front of the funnel is solved.</div>
   </div>
 </div>
 
-<!-- SLIDE 6: THE POLICY DIAL -->
+<!-- SLIDE 6: AGENT 2 PHYSICIAN FINDER -->
 <div class="slide" data-slide="6">
-  <span class="section-label stagger-1">Policy Dial</span>
-  <h2 class="section-title stagger-2">You choose what's automatic. <span class="cyan">Change it any time.</span></h2>
-  <p class="section-desc stagger-3" style="max-width:760px;">Every action the system can take has a dial. Set it to automatic, to needs-your-approval, or off entirely. Tighten when you want more control. Loosen when you trust it. No developer in the loop.</p>
-  <div class="finance-layout stagger-4" style="max-width:1080px;margin-top:28px;grid-template-columns:repeat(3,1fr);">
-    <div class="finance-card highlight">
-      <div class="f-label">Automatic</div>
-      <div class="f-value" style="font-size:22px;color:var(--green);">Runs itself</div>
-      <div class="f-desc">Routine moves the system is trusted to make on its own. Reads, internal updates, dashboard refreshes.</div>
+  <span class="section-label stagger-1" style="margin-bottom:6px;">Agent 2 · Physician Finder · In Build</span>
+  <h2 class="section-title stagger-2" style="font-size:clamp(26px,3vw,40px);line-height:1.15;max-width:940px;">Agent 2 knows <span class="cyan">who to call first.</span></h2>
+  <p class="section-desc stagger-3" style="max-width:940px;font-size:13px;margin-top:6px;line-height:1.4;">Agent 2 turns a live job into the right physician in your GHL. Built as our first Anthropic Managed Agent: reasoning on top, deterministic LPU tools underneath. Phase A build opens this week.</p>
+  <div class="finance-layout stagger-4" style="max-width:1080px;margin-top:14px;grid-template-columns:repeat(3,1fr);gap:10px;">
+    <div class="finance-card highlight" style="padding:12px 14px;">
+      <div class="f-label" style="font-size:10px;">Step 01 · Trigger</div>
+      <div class="f-value" style="font-size:15px;">A new job surfaces</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.4;margin-top:4px;">Agent 1 publishes a row. Agent 2 sees it immediately and starts the match run against your existing GHL list.</div>
     </div>
-    <div class="finance-card highlight">
-      <div class="f-label">Needs Approval</div>
-      <div class="f-value" style="font-size:22px;color:var(--yellow);">Checked first</div>
-      <div class="f-desc">Drops into the approval queue. Nothing happens until a human says yes. Default for anything client-facing.</div>
+    <div class="finance-card highlight" style="padding:12px 14px;">
+      <div class="f-label" style="font-size:10px;">Step 02 · Match</div>
+      <div class="f-value" style="font-size:15px;">Ranked, not filtered</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.4;margin-top:4px;">Specialty, sub-specialty, licensure state, rate expectation, availability window, prior responsiveness. Every candidate gets a score.</div>
     </div>
-    <div class="finance-card highlight">
-      <div class="f-label">Hard Block</div>
-      <div class="f-value" style="font-size:22px;color:var(--red);">Not allowed</div>
-      <div class="f-desc">The system will refuse to do this, period. Use it when an action is off the table for now.</div>
+    <div class="finance-card highlight" style="padding:12px 14px;">
+      <div class="f-label" style="font-size:10px;">Step 03 · Reach</div>
+      <div class="f-value" style="font-size:15px;">Personalized outreach</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.4;margin-top:4px;">One email per match. LPU voice. Rate, facility, shift pattern stated plainly. Not a blast. Not a template. Each one written for the candidate.</div>
+    </div>
+    <div class="finance-card highlight" style="padding:12px 14px;">
+      <div class="f-label" style="font-size:10px;">Step 04 · Reply</div>
+      <div class="f-value" style="font-size:15px;">Read, classify, route</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.4;margin-top:4px;">When a candidate responds, Agent 2 reads the reply, classifies intent, and routes. Interested goes to Agent 3. Unsubscribes are honored instantly.</div>
+    </div>
+    <div class="finance-card highlight" style="padding:12px 14px;">
+      <div class="f-label" style="font-size:10px;">Step 05 · Loop</div>
+      <div class="f-value" style="font-size:15px;">Never spam, always warm</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.4;margin-top:4px;">Non-responders get re-touched only when the next genuinely matching job lands. No weekly newsletters, no drip sludge, no burned list.</div>
+    </div>
+    <div class="finance-card highlight" style="padding:12px 14px;">
+      <div class="f-label" style="font-size:10px;">Step 06 · Report</div>
+      <div class="f-value" style="font-size:15px;">Up to Midas</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.4;margin-top:4px;">Every match, every send, every reply logged. Midas reports cadence, conversion, and candidate quality back to you on request.</div>
     </div>
   </div>
-  <div class="impact-box stagger-5" style="max-width:1080px;margin-top:24px;">
-    <div class="impact-label">Example starting point</div>
-    <div class="impact-text">Internal writes on automatic. External outreach needs-approval. High-risk categories hard-block until you say so. Every setting is yours to move.</div>
+  <div class="impact-box stagger-5" style="max-width:1080px;margin-top:12px;padding:10px 18px;">
+    <div class="impact-label" style="font-size:10px;">Why a Managed Agent</div>
+    <div class="impact-text" style="font-size:12px;line-height:1.4;margin-top:3px;">LPU's first Anthropic Managed Agent pilot. The reasoning layer handles the judgment calls, such as whether this match is worth emailing and which tone fits this candidate. The tool layer stays deterministic: GHL writes, match scores, email sends, unsubscribe handling. Thin agent, thick tools. Same architecture every future LPU agent will use.</div>
   </div>
 </div>
 
-<!-- SLIDE 7: SELF-HEALING -->
+<!-- SLIDE 7: AGENTS 3 THROUGH 6 -->
 <div class="slide" data-slide="7">
-  <span class="section-label stagger-1">Self-Healing</span>
-  <h2 class="section-title stagger-2">It catches itself. <span class="cyan">Before anyone else has to.</span></h2>
-  <p class="section-desc stagger-3" style="max-width:720px;">Things go wrong. A source goes quiet. A data field comes back malformed. A process takes too long. The system notices, reacts, and keeps working on what it still can. Only pulls you in when it genuinely needs you.</p>
-  <div class="finance-layout stagger-4" style="max-width:1080px;margin-top:32px;grid-template-columns:repeat(2,1fr);">
-    <div class="finance-card highlight">
-      <div class="f-label">Catches its own errors</div>
-      <div class="f-value" style="font-size:20px;">Tries the fallback</div>
-      <div class="f-desc">When the first approach fails, it knows the second. When the second fails, it knows to stop and log rather than guess.</div>
+  <span class="section-label stagger-1" style="margin-bottom:6px;">Agents 3, 4, 5, 6 · The Back-End Pipeline</span>
+  <h2 class="section-title stagger-2" style="font-size:clamp(26px,3vw,40px);line-height:1.15;max-width:940px;">Once a physician says yes, <span class="cyan">four more agents take over.</span></h2>
+  <p class="section-desc stagger-3" style="max-width:940px;font-size:13px;margin-top:6px;line-height:1.4;">Agent 1 finds the job. Agent 2 finds the physician. From there, the candidate moves through a sequence that ends with a facility-ready packet. All four back-end agents are already built and scoped. They light up the moment Agent 2 starts delivering matched candidates.</p>
+  <div class="finance-layout stagger-4" style="max-width:1100px;margin-top:14px;grid-template-columns:repeat(4,1fr);gap:8px;">
+    <div class="finance-card highlight" style="padding:10px 12px;">
+      <div class="f-label" style="font-size:10px;">Agent 3 · 8 engines</div>
+      <div class="f-value" style="font-size:15px;">Qualification</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.35;margin-top:3px;">CV parse, specialty confirm, state licensure cross-check, rate agreement, availability lock. Candidate becomes a real shortlist entry, not a warm body.</div>
     </div>
-    <div class="finance-card highlight">
-      <div class="f-label">Logs every incident</div>
-      <div class="f-value" style="font-size:20px;">Nothing disappears</div>
-      <div class="f-desc">Every failure is written down with full context. You can always look back and see exactly what happened and when.</div>
+    <div class="finance-card highlight" style="padding:10px 12px;">
+      <div class="f-label" style="font-size:10px;">Agent 4 · 7 engines</div>
+      <div class="f-value" style="font-size:15px;">Name Clear</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.35;margin-top:3px;">Vendor-neutral name clearance with the facility. Conflict check, hold window, release flag. No double-submissions. No burned relationships.</div>
     </div>
-    <div class="finance-card highlight">
-      <div class="f-label">Escalates to the right person</div>
-      <div class="f-value" style="font-size:20px;">Only what matters</div>
-      <div class="f-desc">If the system cannot recover, it pings the right person in Slack with a one-line summary and a link to the full detail.</div>
+    <div class="finance-card highlight" style="padding:10px 12px;">
+      <div class="f-label" style="font-size:10px;">Agent 5 · 4 engines</div>
+      <div class="f-value" style="font-size:15px;">Background Check</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.35;margin-top:3px;">Triggers the compliance run, tracks status, flags any hits for Tyson. Candidate stays moving or gets stopped cleanly, never stuck.</div>
     </div>
-    <div class="finance-card highlight">
-      <div class="f-label">Keeps the rest running</div>
-      <div class="f-value" style="font-size:20px;">Partial beats none</div>
-      <div class="f-desc">A problem in one corner does not stop the whole pipeline. Everything else that can run, runs.</div>
+    <div class="finance-card highlight" style="padding:10px 12px;">
+      <div class="f-label" style="font-size:10px;">Agent 6 · 3 engines</div>
+      <div class="f-value" style="font-size:15px;">Facility Presentation</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.35;margin-top:3px;">Final packet the facility sees. CV, headshot, rate, availability, background status, licensure copies. Clean, consistent, on-brand.</div>
     </div>
+  </div>
+  <div class="impact-box stagger-5" style="max-width:1080px;margin-top:12px;padding:10px 18px;">
+    <div class="impact-label" style="font-size:10px;">Why they are parked</div>
+    <div class="impact-text" style="font-size:12px;line-height:1.4;margin-top:3px;">The back-end agents do not run until the front-end agents feed them clean candidates. We built them first to prove the architecture works end to end, then sequenced Agent 1 and Agent 2 in front of them. When Agent 2 certifies, this entire pipeline goes hot at once. Twenty-two back-end engines waiting for their green light.</div>
   </div>
 </div>
 
-<!-- SLIDE 8: DAY 1 vs ROADMAP -->
+<!-- SLIDE 8: THE DEV CYCLE -->
 <div class="slide" data-slide="8">
-  <span class="section-label stagger-1">Day 1 and Beyond</span>
-  <h2 class="section-title stagger-2">Agent 1 on day one. <span class="cyan">Agents 2 through 6 next.</span></h2>
-  <p class="section-desc stagger-3" style="max-width:720px;">The full recruitment team, built in order. Agent 1 ships with the command center. The rest follow, one at a time, each certified before the next starts.</p>
-  <div class="finance-layout stagger-4" style="max-width:1120px;margin-top:28px;grid-template-columns:1fr 1fr;">
-    <div class="finance-card highlight" style="border-color:rgba(52,211,153,0.3);">
-      <div class="f-label" style="color:var(--green);">LIVE DAY 1</div>
-      <div class="f-value" style="font-size:22px;">Your command center</div>
-      <div class="f-desc">Top Bot. Recruitment Manager. Agent 1 Job Sourcing. The full portal. The Slack interface. The policy dial. Everything in this deck except Agents 2 through 6.</div>
+  <span class="section-label stagger-1" style="margin-bottom:6px;">The Method · Black Label Dev Cycle</span>
+  <h2 class="section-title stagger-2" style="font-size:clamp(26px,3vw,40px);line-height:1.15;max-width:940px;">Four phases. No shortcut. <span class="cyan">That is why Agent 1 shipped clean.</span></h2>
+  <p class="section-desc stagger-3" style="max-width:940px;font-size:13px;margin-top:6px;line-height:1.4;">Every engine inside every agent moves through the same four phases. One engine at a time. No engine leaves Build until Build passes. No engine leaves Iterate until it runs clean against real dependencies. No engine goes live until Certify returns green. This is why the 8 out of 8 on Agent 1 is real.</p>
+  <div class="finance-layout stagger-4" style="max-width:1080px;margin-top:14px;grid-template-columns:repeat(4,1fr);gap:8px;">
+    <div class="finance-card highlight" style="padding:10px 12px;">
+      <div class="f-label" style="font-size:10px;">Phase 01</div>
+      <div class="f-value" style="font-size:15px;">Plan</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.35;margin-top:3px;">Agenda locked. Contract written. Inputs, outputs, dependencies, known failure modes, test criteria. All on paper before any code.</div>
+    </div>
+    <div class="finance-card highlight" style="padding:10px 12px;">
+      <div class="f-label" style="font-size:10px;">Phase 02</div>
+      <div class="f-value" style="font-size:15px;">Build</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.35;margin-top:3px;">Implement to the plan. Save locally first. Deploy after. No scope creep. No surprise features. The plan is the fence.</div>
+    </div>
+    <div class="finance-card highlight" style="padding:10px 12px;">
+      <div class="f-label" style="font-size:10px;">Phase 03</div>
+      <div class="f-value" style="font-size:15px;">Iterate</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.35;margin-top:3px;">Run against real dependencies. Real LocumSmart, real Aya, real GHL, real Claude. No mocks. Every run logged with a pass or fail and a fix.</div>
+    </div>
+    <div class="finance-card highlight" style="padding:10px 12px;">
+      <div class="f-label" style="font-size:10px;">Phase 04</div>
+      <div class="f-value" style="font-size:15px;">Certify</div>
+      <div class="f-desc" style="font-size:11px;line-height:1.35;margin-top:3px;">Automated cert spec runs. Three verdicts: CERTIFIED, CONDITIONAL, REVOKED. Only CERTIFIED ships. Everything else goes back to Iterate.</div>
+    </div>
+  </div>
+  <div class="impact-box stagger-5" style="max-width:1080px;margin-top:12px;padding:10px 18px;">
+    <div class="impact-label" style="font-size:10px;">Cert is not forever</div>
+    <div class="impact-text" style="font-size:12px;line-height:1.4;margin-top:3px;">Cert re-runs on every code change. Cert re-runs on every dependency change. Cert auto-expires after 14 days. An agent is not trusted because it once passed. It is trusted because it is currently certified. This is the only reason LPU can ship production software one engine at a time without breaking.</div>
+  </div>
+</div>
+
+<!-- SLIDE 9: STATUS AND WHAT IS NEXT -->
+<div class="slide" data-slide="9">
+  <span class="section-label stagger-1">Where LPU Stands Today</span>
+  <h2 class="section-title stagger-2">Agent 1 live. <span class="cyan">Five more agents behind it.</span></h2>
+  <p class="section-desc stagger-3" style="max-width:860px;font-size:14px;line-height:1.55;">The first LPU agent is in production. The next is in Build. The back four are scoped, built, and waiting. Every engine from here forward follows the same path Agent 1 did. One agent live is not the win. The win is a process that ships the other five the same way.</p>
+  <div class="numbers-grid stagger-4" style="grid-template-columns:repeat(4,1fr);max-width:1080px;margin-top:22px;">
+    <div class="number-card">
+      <div class="number-value" style="font-size:42px;"><span class="counter" data-target="8">8</span><span class="number-unit">/8</span></div>
+      <div class="number-desc">Agent 1 workflows certified</div>
+    </div>
+    <div class="number-card">
+      <div class="number-value" style="font-size:42px;"><span class="counter" data-target="6">6</span></div>
+      <div class="number-desc">Agents scoped and locked</div>
+    </div>
+    <div class="number-card">
+      <div class="number-value" style="font-size:42px;"><span class="counter" data-target="36">36</span></div>
+      <div class="number-desc">Engines across all six agents</div>
+    </div>
+    <div class="number-card">
+      <div class="number-value" style="font-size:42px;"><span class="counter" data-target="1">1</span></div>
+      <div class="number-desc">Agent live in production</div>
+    </div>
+  </div>
+  <div class="finance-layout stagger-5" style="max-width:1080px;margin-top:22px;grid-template-columns:1fr 1fr;gap:12px;">
+    <div class="finance-card highlight">
+      <div class="f-label">Next Up</div>
+      <div class="f-value" style="font-size:20px;">Agent 2 Phase A Build</div>
+      <div class="f-desc">Physician Finder opens Build this week. First Anthropic Managed Agent pilot for LPU. Certification target before month end.</div>
     </div>
     <div class="finance-card highlight">
-      <div class="f-label">ROADMAP</div>
-      <div class="f-value" style="font-size:22px;">Agents 2 to 6</div>
-      <div class="f-desc">Agent 2: Physician Finder. Agent 3: Qualification. Agent 4: Name Clear. Agent 5: Background Check. Agent 6: Facility Presentation. Each slots in under the same Top Bot and the same command center.</div>
+      <div class="f-label">After That</div>
+      <div class="f-value" style="font-size:20px;">Back-End Pipeline Hydrates</div>
+      <div class="f-desc">Agents 3 through 6 go hot the moment Agent 2 starts delivering matched candidates. Twenty-two engines waiting for their green light.</div>
     </div>
   </div>
-  <div class="impact-box stagger-5" style="max-width:1120px;margin-top:20px;">
-    <div class="impact-label">No rebuild between phases</div>
-    <div class="impact-text">You will not need to re-learn anything or migrate anything. Every new agent shows up inside the same portal, under the same Top Bot, with the same approval queue and policy dial.</div>
-  </div>
-</div>
-
-<!-- SLIDE 9: BUILD SEQUENCE -->
-<div class="slide" data-slide="9">
-  <span class="section-label stagger-1">How It Gets Built</span>
-  <h2 class="section-title stagger-2">Every piece certified. <span class="cyan">In order. One at a time.</span></h2>
-  <p class="section-desc stagger-3" style="max-width:720px;">Nothing ships before it passes its own test battery. Every layer gets built, tested, and certified on its own before the next layer starts.</p>
-  <div class="build-steps stagger-4">
-    <div class="build-step">
-      <div class="bs-num">1</div>
-      <div class="bs-title">Foundation</div>
-      <div class="bs-desc">Data layer, identity, the shell for the portal, the shell for Slack access.</div>
-    </div>
-    <div class="build-step">
-      <div class="bs-num">2</div>
-      <div class="bs-title">Agent 1</div>
-      <div class="bs-desc">Job sourcing rebuilt as a proper agent with every tool it needs. Full battery of tests before it moves.</div>
-    </div>
-    <div class="build-step">
-      <div class="bs-num">3</div>
-      <div class="bs-title">Recruitment Manager</div>
-      <div class="bs-desc">The orchestrator that sits between Top Bot and the agents. Tested on Agent 1 alone first.</div>
-    </div>
-    <div class="build-step">
-      <div class="bs-num">4</div>
-      <div class="bs-title">Top Bot</div>
-      <div class="bs-desc">The client agent. Principal routing, policy enforcement, Slack, portal chat. All tested.</div>
-    </div>
-    <div class="build-step">
-      <div class="bs-num">5</div>
-      <div class="bs-title">The Portal</div>
-      <div class="bs-desc">The command center, role-based access, live feed, approval queue, job tracker, policy page, audit log.</div>
-    </div>
-    <div class="build-step">
-      <div class="bs-num">6</div>
-      <div class="bs-title">Full Chain</div>
-      <div class="bs-desc">End-to-end scenarios walked across every layer. Only then does it go live.</div>
-    </div>
-  </div>
-</div>
-
-<!-- SLIDE 10: CLOSING -->
-<div class="slide" data-slide="10">
-  <div class="logo-container stagger-1">
-    <svg viewBox="0 0 822 283.5" style="height:60px;width:auto;">
-      <path fill="#00CCFF" d="M78.1,142l-15.3-14.6L22.2,142l40.6,14.6L78.1,142z M131.8,142l15.3-14.6l40.6,14.6l-40.6,14.6L131.8,142z M86.3,122.6l-0.5-21.2l-39-18.4l18.4,39L86.3,122.6z M124.5,122.6l0.5-21.2l39-18.4l-18.4,39L124.5,122.6z M86.3,160.9l-0.5,21.2l-39,18.4l18.4-39L86.3,160.9z M124.5,160.9l0.5,21.2l39,18.4l-18.4-39L124.5,160.9z M105.2,168.7l14.6,15.3l-14.6,40.6L90.6,184L105.2,168.7z M105.2,114.8l14.6-15.3l-14.6-40.6L90.6,99.5L105.2,114.8z"/>
-      <path fill="#fff" d="M773.5,121.1c12.8,0,21.8,7.8,21.8,21.3c0,12.3-7.5,19.6-20.7,19.6H759v-40.8H773.5z M773.7,117.4h-18.9v48.3h20.1c15.4,0,24.9-9.1,24.9-23.5C799.8,126.7,788.9,117.4,773.7,117.4z M712.5,121.1h31v-3.7h-35.2v48.3h35.5v-3.7h-31.4v-19.5h28.4v-3.7h-28.4V121.1z M698.3,117.4h-37.1v3.7h16.4v44.6h4.1v-44.6h16.6V117.4z M650.4,117.4h-4.1v48.3h4.1V117.4z M633.4,117.4h-4.1v41l-0.8-1.2l-33.9-39.8h-3.5v48.3h4.1v-41.9l0.9,1.3l34.8,40.6h2.4V117.4z M578.8,117.4h-4.3v27.9c0,11.4-7.2,17.1-16.7,17.1c-9.7,0-16.7-5.7-16.7-17.1v-27.9h-4.3V145c0,14.1,9.3,21.4,21,21.4c11.4,0,21-7.2,21-21.4V117.4z M502.4,131c0-2.1,2.1-3.9,6.5-3.9c3.7,0,8.8,1.2,13.2,3.4l4.5-9.7c-4.8-2.6-10-4.3-16.6-4.3c-12.4,0-20.1,6.1-20,15.7c0.3,17.3,26.4,12.3,26.4,19.7c0,3-4.3,3.9-7.7,3.9c-5.6,0-11.4-2.4-15.8-4.9l-4.8,9.8c4.6,2.9,12,5.9,20.8,5.9c12.1,0,20.3-5.8,20.3-15.8C529.2,132.6,502.4,138.6,502.4,131z M482.2,117.4h-8.9l-16.2,18.4l-1.4,2.1l-1.4-2.1l-16.2-18.4h-8.9v48.3h12.4v-28.8l1,1.7l11.7,13.9h3l11.7-13.9l0.9-1.6v28.8h12.4V117.4z M421,117.4h-12.5V145c0,6.8-4.6,10.3-10.2,10.3c-5.7,0-10.3-3.6-10.3-10.3v-27.6h-12.5v27.7c0,13.5,9.7,21.5,22.8,21.5c13,0,22.7-7.9,22.7-21.5V117.4z M368.5,157l-7.6-7.9c-4.4,4.3-8.5,6.1-13.2,6.1c-8.5,0-14.4-5.7-14.4-13.8c0-8.1,5.7-13.7,13.9-13.7c5,0,9.2,2.3,11.9,5.4l8.6-7.9c-3.9-4.8-11.4-8.7-20.6-8.7c-15,0-26.5,10.6-26.5,24.9c0,14.8,12.2,25,26.8,25C356.8,166.5,364,162.2,368.5,157z M289,155.4c-8.6,0-14.1-5.7-14.1-13.9c0-8.2,5.5-13.9,14.1-13.9c8.6,0,14.1,5.7,14.1,13.9C303.1,149.7,297.5,155.4,289,155.4z M289,116.5c-15.1,0-26.8,10.3-26.8,25s11.7,25,26.8,25c15.1,0,26.8-10.3,26.8-25S304.1,116.5,289,116.5z"/>
-      <polygon fill="#fff" points="237.6,154.8 237.6,117.4 225.2,117.4 225.2,165.7 260.6,165.7 260.6,154.8"/>
-    </svg>
-  </div>
-  <h2 class="section-title stagger-2" style="font-size:clamp(40px,5vw,64px);margin-top:24px;">Your team. One interface. <br><span class="cyan">The rest runs itself.</span></h2>
-  <p class="final-tagline stagger-3" style="max-width:680px;">The recruitment operation you already run, wired into a single voice. Built for Ali Chaudhary, M.D. and the LPU team.</p>
-  <div class="bl-certified-wordmark stagger-4" style="margin-top:32px;">
-    <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
-    Black Label Solutions · Jarvis Stack
-  </div>
+  <p class="section-desc stagger-5" style="max-width:820px;font-size:13px;margin-top:18px;color:var(--t3);">When Agent 6 ships, LPU runs on autopilot from the vendor feed all the way to the facility packet. Your recruiters stay on the calls. The agents handle the rest.</p>
 </div>
 
 </div><!-- /deck -->
