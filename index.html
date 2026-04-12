@@ -2319,6 +2319,16 @@ html, body {
     grid-template-columns: 1fr;
   }
 }
+
+/* Overflow fix: dense slides get scroll + top-align so nothing clips */
+.slide[data-slide="2"],
+.slide[data-slide="8"],
+.slide[data-slide="14"] {
+  overflow-y: auto;
+  justify-content: flex-start;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
 </style>
 </head>
 <body>
