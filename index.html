@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Locums United: Daily Update 2026-04-17</title>
+<title>Locums United: Daily Updates</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -17,133 +17,88 @@
   --green:#34D399;
   --radius:16px;
 }
-html, body { font-family:'Outfit',sans-serif; background:var(--bg); color:var(--t1); height:100%; overflow:hidden; -webkit-font-smoothing:antialiased; }
-.deck { position:relative; width:100vw; height:100vh; overflow:hidden; }
-.slide { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 80px; opacity:0; transform:translateX(60px); pointer-events:none; transition:opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1); }
-.slide.active { opacity:1; transform:translateX(0); pointer-events:auto; }
-.nav { position:fixed; bottom:28px; right:32px; display:flex; gap:10px; align-items:center; font-size:13px; color:var(--t4); z-index:100; }
-.nav button { background:var(--surface-2); border:1px solid var(--border); color:var(--t2); font-family:inherit; font-size:14px; font-weight:600; padding:8px 16px; border-radius:10px; cursor:pointer; }
-.nav button:disabled { opacity:0.35; cursor:not-allowed; }
-.progress { position:fixed; top:0; left:0; height:3px; background:var(--cyan); transition:width 0.6s cubic-bezier(0.16,1,0.3,1); z-index:100; }
-.badge { display:inline-flex; align-items:center; gap:8px; background:var(--cyan-15); border:1px solid var(--border-cyan); color:var(--cyan); font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; padding:6px 14px; border-radius:999px; }
-.cert-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(52,211,153,0.15); border:1px solid rgba(52,211,153,0.4); color:var(--green); font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; padding:6px 14px; border-radius:999px; }
-h1 { font-size:clamp(48px,7vw,92px); font-weight:800; line-height:1.05; letter-spacing:-0.02em; }
-h2 { font-size:clamp(32px,4.5vw,60px); font-weight:700; line-height:1.1; margin-bottom:24px; letter-spacing:-0.01em; }
-h3 { font-size:clamp(20px,2vw,28px); font-weight:600; line-height:1.3; margin-bottom:10px; }
-p { font-size:clamp(16px,1.3vw,22px); line-height:1.65; color:var(--t3); max-width:860px; }
-.lead { font-size:clamp(20px,1.6vw,28px); color:var(--t2); font-weight:400; line-height:1.5; }
+html, body { font-family:'Outfit',sans-serif; background:var(--bg); color:var(--t1); min-height:100%; -webkit-font-smoothing:antialiased; }
+body { padding:60px 32px 80px; display:flex; flex-direction:column; align-items:center; }
+.container { max-width:1100px; width:100%; }
+.header { text-align:center; margin-bottom:48px; }
+.badge { display:inline-flex; align-items:center; gap:8px; background:var(--cyan-15); border:1px solid var(--border-cyan); color:var(--cyan); font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; padding:6px 14px; border-radius:999px; margin-bottom:20px; }
+h1 { font-size:clamp(36px,5vw,64px); font-weight:800; line-height:1.1; letter-spacing:-0.02em; }
+.lead { font-size:clamp(16px,1.4vw,20px); color:var(--t3); margin-top:18px; max-width:680px; margin-left:auto; margin-right:auto; line-height:1.6; }
 .small { font-size:13px; color:var(--t4); letter-spacing:0.02em; }
+.grid { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; margin-top:24px; }
+@media (max-width:760px) { .grid { grid-template-columns:1fr; } }
+.tile { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:32px; text-decoration:none; color:inherit; display:block; transition:border-color 0.2s, transform 0.2s, background 0.2s; }
+.tile:hover { border-color:var(--border-cyan); transform:translateY(-2px); background:var(--surface-2); }
+.tile-status { display:inline-block; padding:4px 12px; border-radius:999px; font-size:11px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; margin-bottom:16px; }
+.status-live { background:rgba(52,211,153,0.15); color:var(--green); }
+.status-coming { background:rgba(251,191,36,0.15); color:#FBBF24; }
+.status-build { background:var(--cyan-15); color:var(--cyan); }
+.tile h2 { font-size:28px; font-weight:700; margin-bottom:8px; line-height:1.2; }
+.tile p { font-size:15px; color:var(--t3); line-height:1.55; margin-bottom:18px; }
+.tile-cta { color:var(--cyan); font-size:14px; font-weight:600; }
+.footer { margin-top:48px; text-align:center; color:var(--t4); font-size:13px; }
 .cyan { color:var(--cyan); }
-.green-text { color:var(--green); }
-.center { text-align:center; }
-.metric-row { display:flex; gap:32px; justify-content:center; flex-wrap:wrap; margin-top:36px; }
-.metric-block { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:28px 36px; min-width:200px; text-align:center; }
-.metric-num { font-size:clamp(48px,5vw,72px); font-weight:800; letter-spacing:-0.03em; line-height:1; color:var(--cyan); }
-.metric-label { font-size:13px; color:var(--t4); text-transform:uppercase; letter-spacing:0.08em; margin-top:10px; font-weight:600; }
-.next-row { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; max-width:1100px; width:100%; margin-top:24px; }
-.step-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:28px; }
-.step-num { font-size:14px; font-weight:700; color:var(--cyan); letter-spacing:0.1em; }
-.step-title { font-size:22px; font-weight:700; margin-top:10px; }
-.step-desc { font-size:15px; color:var(--t3); margin-top:10px; line-height:1.5; }
-@media (max-width:900px) { .next-row { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
-<div class="progress" id="progress"></div>
-<div class="deck" id="deck">
+<div class="container">
 
-  <!-- Slide 1: Headline -->
-  <section class="slide active">
-    <div class="center">
-      <div class="badge" style="margin-bottom:24px;">Daily Update · 2026-04-17</div>
-      <h1>The Qualification Agent is built.<br><span class="cyan">All systems green.</span></h1>
-      <p class="lead" style="margin-top:32px; max-width:820px;">
-        The doorman is in place. Every physician application gets scored in two seconds, gets a tailored email immediately, and lands in Tyson's queue only if it needs his decision. Doctors no longer wait days for a response. Tyson decides only what matters.
-      </p>
-      <div class="metric-row">
-        <div class="metric-block">
-          <div class="metric-num">5 / 5</div>
-          <div class="metric-label">Tools certified</div>
-        </div>
-        <div class="metric-block">
-          <div class="metric-num">49 / 49</div>
-          <div class="metric-label">Tests passing</div>
-        </div>
-        <div class="metric-block">
-          <div class="metric-num">1.3 s</div>
-          <div class="metric-label">Time to first email</div>
-        </div>
-      </div>
-      <div style="margin-top:28px;">
-        <span class="cert-badge">Certified</span>
-      </div>
-    </div>
-  </section>
+  <div class="header">
+    <div class="badge">Daily Updates · 2026-04-17</div>
+    <h1>Locums United <span class="cyan">recruitment system</span></h1>
+    <p class="lead">Six agents are being built. Each one removes a slow step in the recruitment pipeline. Pick an agent to see what it does and where it stands today.</p>
+  </div>
 
-  <!-- Slide 2: What it does (plain language) -->
-  <section class="slide">
-    <h2 class="center">What the Qualification Agent actually does.</h2>
-    <p class="lead center" style="margin-bottom:32px; max-width:840px;">
-      The robot does the boring fast work. Tyson does the important slow work. Doctors get answers in seconds. Nobody gets told "no" by a machine.
-    </p>
-    <div style="max-width:880px;">
-      <p style="margin-bottom:14px;">
-        <strong style="color:var(--t1);">When a doctor applies:</strong> the Qualification Agent reads the application in two seconds. Checks the license, certs, malpractice, NPI, and federal exclusion list. Sorts them into looks-good / one-thing-to-clarify / probably-not-a-fit.
-      </p>
-      <p style="margin-bottom:14px;">
-        <strong style="color:var(--t1);">Then three things happen at once:</strong> the doctor gets a tailored email immediately so they're not ghosted. Tyson gets pinged at the level his attention deserves: silent for the looks-good, FYI for clarify, action-required for probably-not. Greens roll into name-clear automatically.
-      </p>
-      <p style="margin-bottom:14px;">
-        <strong style="color:var(--t1);">When the doctor writes back:</strong> the Qualification Agent drafts a response, double-checks it with a second AI to make sure nothing was made up, and puts it in Tyson's inbox. One click and it ships.
-      </p>
-      <p>
-        <strong style="color:var(--t1);">Every morning at 6 ET:</strong> Tyson gets one email summarizing the prior day. If he sits on a Red 72 hours, the system escalates to Ali, Julius, and Ahmed automatically.
-      </p>
-    </div>
-  </section>
+  <div class="grid">
 
-  <!-- Slide 3: What's next -->
-  <section class="slide">
-    <h2 class="center">What's between us and going live.</h2>
-    <p class="lead center" style="margin-bottom:8px;">One thing.</p>
-    <p class="small center" style="margin-bottom:32px;">No code work outstanding. No certs failing. No deployment gaps.</p>
-    <div class="next-row">
-      <div class="step-card" style="border-color:var(--border-cyan); background:var(--surface-2);">
-        <div class="step-num">Friday 2026-04-24</div>
-        <div class="step-title cyan">Tyson session</div>
-        <div class="step-desc">
-          60-minute Zoom. We capture his canonical question wording, his actual DQ letter copy, and what he needs to see in alerts to decide fast. He also scores 10 test candidates blind so we can compare to the AI.
-        </div>
-      </div>
-      <div class="step-card">
-        <div class="step-num">Same week</div>
-        <div class="step-title">Plug in the content</div>
-        <div class="step-desc">
-          Swap placeholder copy for Tyson's actual language. Re-run all 7 cert specs to confirm zero regression. Walk Tyson through his inbox once. Get sign-off in writing.
-        </div>
-      </div>
-      <div class="step-card">
-        <div class="step-num">Then</div>
-        <div class="step-title green-text">Lights on</div>
-        <div class="step-desc">
-          Flip the recipient from Julius to Tyson. First real applicants flow. The Qualification Agent goes live. The Name Clear Agent follows on its own cert cycle.
-        </div>
-      </div>
+    <a class="tile" href="job-sourcing-agent.html">
+      <span class="tile-status status-live">Live</span>
+      <h2>Job Sourcing Agent</h2>
+      <p>Pulls fresh physician roles from vendor portals every few hours, writes a clean description, posts to the public job board. 95 live roles right now.</p>
+      <span class="tile-cta">View daily update &rarr;</span>
+    </a>
+
+    <a class="tile" href="qualification-agent.html">
+      <span class="tile-status status-live">Built</span>
+      <h2>Qualification Agent</h2>
+      <p>Scores every physician application in two seconds. Routes to next step automatically with Tyson on every disqualification. Live after Friday session.</p>
+      <span class="tile-cta">View daily update &rarr;</span>
+    </a>
+
+    <div class="tile" style="opacity:0.6;">
+      <span class="tile-status status-coming">Next</span>
+      <h2>Name Clear Agent</h2>
+      <p>Once a physician is qualified, this agent runs the credentialing checks with the facility. In development.</p>
+      <span class="tile-cta" style="color:var(--t4);">Coming soon</span>
     </div>
-    <div class="center" style="margin-top:40px;">
-      <span class="cert-badge">Built for Locums United</span>
+
+    <div class="tile" style="opacity:0.6;">
+      <span class="tile-status status-coming">Next</span>
+      <h2>Background Check Agent</h2>
+      <p>OIG and reference checks. Built, awaiting bring-up after Name Clear.</p>
+      <span class="tile-cta" style="color:var(--t4);">Coming soon</span>
     </div>
-  </section>
+
+    <div class="tile" style="opacity:0.45;">
+      <span class="tile-status status-build">Planned</span>
+      <h2>Facility Presentation Agent</h2>
+      <p>Packages cleared physicians and presents them to the facility for final approval.</p>
+      <span class="tile-cta" style="color:var(--t4);">In planning</span>
+    </div>
+
+    <div class="tile" style="opacity:0.45;">
+      <span class="tile-status status-build">Planned</span>
+      <h2>Physician Finder Agent</h2>
+      <p>Outbound sourcing. Finds physicians who never came to the website but match the open roles. In development.</p>
+      <span class="tile-cta" style="color:var(--t4);">In planning</span>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    Built for Locums United · Updated 2026-04-17
+  </div>
 
 </div>
-<div class="nav"><span id="counter">1 / 3</span><button id="prev">Back</button><button id="next">Next</button></div>
-<script>
-const slides=document.querySelectorAll('.slide'),counter=document.getElementById('counter'),progress=document.getElementById('progress'),prevBtn=document.getElementById('prev'),nextBtn=document.getElementById('next');let current=0;
-function show(i){current=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,idx)=>s.classList.toggle('active',idx===current));counter.textContent=(current+1)+' / '+slides.length;progress.style.width=((current+1)/slides.length*100)+'%';prevBtn.disabled=current===0;nextBtn.disabled=current===slides.length-1;}
-prevBtn.addEventListener('click',()=>show(current-1));nextBtn.addEventListener('click',()=>show(current+1));
-document.addEventListener('keydown',(e)=>{if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();show(current+1);}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(current-1);}if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1);});
-let t=0;document.addEventListener('touchstart',(e)=>{t=e.changedTouches[0].screenX;});document.addEventListener('touchend',(e)=>{const d=e.changedTouches[0].screenX-t;if(Math.abs(d)>60)show(current+(d<0?1:-1));});
-show(0);
-</script>
 </body>
 </html>

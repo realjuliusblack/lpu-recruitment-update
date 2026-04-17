@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Locums United: Job Sourcing Agent — Daily Update</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+:root {
+  --cyan:#00CCFF; --cyan-15:rgba(0,204,255,0.15); --cyan-25:rgba(0,204,255,0.25);
+  --bg:#0a0b10; --surface:#141520; --surface-2:#1c1d28;
+  --border:rgba(255,255,255,0.08); --border-cyan:rgba(0,204,255,0.2);
+  --t1:#fff; --t2:rgba(255,255,255,0.92); --t3:rgba(255,255,255,0.78); --t4:rgba(255,255,255,0.55);
+  --green:#34D399;
+  --radius:16px;
+}
+html, body { font-family:'Outfit',sans-serif; background:var(--bg); color:var(--t1); height:100%; overflow:hidden; -webkit-font-smoothing:antialiased; }
+.deck { position:relative; width:100vw; height:100vh; overflow:hidden; }
+.slide { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 80px; opacity:0; transform:translateX(60px); pointer-events:none; transition:opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+.slide.active { opacity:1; transform:translateX(0); pointer-events:auto; }
+.nav { position:fixed; bottom:28px; right:32px; display:flex; gap:10px; align-items:center; font-size:13px; color:var(--t4); z-index:100; }
+.nav button { background:var(--surface-2); border:1px solid var(--border); color:var(--t2); font-family:inherit; font-size:14px; font-weight:600; padding:8px 16px; border-radius:10px; cursor:pointer; }
+.nav button:disabled { opacity:0.35; cursor:not-allowed; }
+.nav a { color:var(--cyan); text-decoration:none; font-size:13px; font-weight:600; padding:8px 12px; border:1px solid var(--border-cyan); border-radius:10px; }
+.progress { position:fixed; top:0; left:0; height:3px; background:var(--cyan); transition:width 0.6s cubic-bezier(0.16,1,0.3,1); z-index:100; }
+.badge { display:inline-flex; align-items:center; gap:8px; background:var(--cyan-15); border:1px solid var(--border-cyan); color:var(--cyan); font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; padding:6px 14px; border-radius:999px; }
+.cert-badge { display:inline-flex; align-items:center; gap:8px; background:rgba(52,211,153,0.15); border:1px solid rgba(52,211,153,0.4); color:var(--green); font-size:12px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; padding:6px 14px; border-radius:999px; }
+h1 { font-size:clamp(48px,7vw,92px); font-weight:800; line-height:1.05; letter-spacing:-0.02em; }
+h2 { font-size:clamp(32px,4.5vw,60px); font-weight:700; line-height:1.1; margin-bottom:24px; letter-spacing:-0.01em; }
+p { font-size:clamp(16px,1.3vw,22px); line-height:1.65; color:var(--t3); max-width:860px; }
+.lead { font-size:clamp(20px,1.6vw,28px); color:var(--t2); font-weight:400; line-height:1.5; }
+.small { font-size:13px; color:var(--t4); letter-spacing:0.02em; }
+.cyan { color:var(--cyan); }
+.green-text { color:var(--green); }
+.center { text-align:center; }
+.metric-row { display:flex; gap:32px; justify-content:center; flex-wrap:wrap; margin-top:36px; }
+.metric-block { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:28px 36px; min-width:200px; text-align:center; }
+.metric-num { font-size:clamp(48px,5vw,72px); font-weight:800; letter-spacing:-0.03em; line-height:1; color:var(--cyan); }
+.metric-label { font-size:13px; color:var(--t4); text-transform:uppercase; letter-spacing:0.08em; margin-top:10px; font-weight:600; }
+.next-row { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; max-width:1100px; width:100%; margin-top:24px; }
+.step-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:28px; }
+.step-num { font-size:14px; font-weight:700; color:var(--cyan); letter-spacing:0.1em; }
+.step-title { font-size:22px; font-weight:700; margin-top:10px; }
+.step-desc { font-size:15px; color:var(--t3); margin-top:10px; line-height:1.5; }
+@media (max-width:900px) { .next-row { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="deck" id="deck">
+
+  <!-- Slide 1: Headline -->
+  <section class="slide active">
+    <div class="center">
+      <div class="badge" style="margin-bottom:24px;">Daily Update · 2026-04-17</div>
+      <h1>The Job Sourcing Agent is running.<br><span class="cyan">95 live roles right now.</span></h1>
+      <p class="lead" style="margin-top:32px; max-width:820px;">
+        The scout is on the road. Every few hours it pulls fresh physician jobs from our vendor portals, writes a clean job description for each one, dedupes, and posts them to the public board. No one touches it.
+      </p>
+      <div class="metric-row">
+        <div class="metric-block">
+          <div class="metric-num">95</div>
+          <div class="metric-label">Live jobs on the board</div>
+        </div>
+        <div class="metric-block">
+          <div class="metric-num">42</div>
+          <div class="metric-label">Specialties covered</div>
+        </div>
+        <div class="metric-block">
+          <div class="metric-num">21</div>
+          <div class="metric-label">States represented</div>
+        </div>
+      </div>
+      <div style="margin-top:28px;">
+        <span class="cert-badge">Certified</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide 2: What it does (plain language) -->
+  <section class="slide">
+    <h2 class="center">What the Job Sourcing Agent actually does.</h2>
+    <p class="lead center" style="margin-bottom:32px; max-width:840px;">
+      The scout. Pulls from vendors, writes descriptions, posts to the board, watches for stale roles. Runs on its own.
+    </p>
+    <div style="max-width:880px;">
+      <p style="margin-bottom:14px;">
+        <strong style="color:var(--t1);">Every few hours:</strong> the scout checks LocumSmart and LotusOne for new physician roles. Pulls down whatever is new. 82 of today's 95 live jobs came from LocumSmart, 13 from LotusOne. CRNAs and APPs are pulled too, not just physicians.
+      </p>
+      <p style="margin-bottom:14px;">
+        <strong style="color:var(--t1);">For every new role:</strong> Claude writes a clean job description in LPU's voice. No corporate fluff, no recruiter-speak. Direct and physician-to-physician.
+      </p>
+      <p style="margin-bottom:14px;">
+        <strong style="color:var(--t1);">Then it posts:</strong> the role lands on locumsunited.com/jobs-beta within minutes. Dedup logic prevents the same role appearing twice when LocumSmart and LotusOne both list it.
+      </p>
+      <p>
+        <strong style="color:var(--t1);">Every morning:</strong> a stale-job poller checks for roles that have been on the board too long without activity and quietly archives them. A daily health report tells us what came in, what shipped, what failed.
+      </p>
+    </div>
+  </section>
+
+  <!-- Slide 3: What's coming -->
+  <section class="slide">
+    <h2 class="center">What's next for the Job Sourcing Agent.</h2>
+    <p class="lead center" style="margin-bottom:32px;">Two upgrades on the runway.</p>
+    <div class="next-row">
+      <div class="step-card" style="border-color:var(--border-cyan); background:var(--surface-2);">
+        <div class="step-num">Coming back online</div>
+        <div class="step-title cyan">Email-sourced jobs</div>
+        <div class="step-desc">
+          When a hospital or facility emails LPU directly with a role, the system catches it, processes it like any other source, and lands it on the board after Ali approves. Currently paused while Gmail credentials are rebuilt.
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">After Qualification Agent</div>
+        <div class="step-title">Rate Engine</div>
+        <div class="step-desc">
+          The framework is built. Waiting on a working session with Ahmed to capture his rate methodology so the system can apply LPU's pricing to every published role automatically.
+        </div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">Always running</div>
+        <div class="step-title green-text">Health monitoring</div>
+        <div class="step-desc">
+          Daily report at 06:00 ET tells us what came in, what shipped, what failed. If anything breaks for more than a few hours, we know.
+        </div>
+      </div>
+    </div>
+    <div class="center" style="margin-top:40px;">
+      <span class="cert-badge">Built for Locums United</span>
+    </div>
+  </section>
+
+</div>
+<div class="nav">
+  <a href="index.html" style="color:var(--cyan); text-decoration:none; font-size:13px; font-weight:600; padding:8px 12px; border:1px solid var(--border-cyan); border-radius:10px;">&larr; All agents</a>
+  <a href="qualification-agent.html" style="color:var(--cyan); text-decoration:none; font-size:13px; font-weight:600; padding:8px 12px; border:1px solid var(--border-cyan); border-radius:10px;">Qualification &rarr;</a>
+  <span id="counter">1 / 3</span>
+  <button id="prev">Back</button>
+  <button id="next">Next</button>
+</div>
+<script>
+const slides=document.querySelectorAll('.slide'),counter=document.getElementById('counter'),progress=document.getElementById('progress'),prevBtn=document.getElementById('prev'),nextBtn=document.getElementById('next');let current=0;
+function show(i){current=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,idx)=>s.classList.toggle('active',idx===current));counter.textContent=(current+1)+' / '+slides.length;progress.style.width=((current+1)/slides.length*100)+'%';prevBtn.disabled=current===0;nextBtn.disabled=current===slides.length-1;}
+prevBtn.addEventListener('click',()=>show(current-1));nextBtn.addEventListener('click',()=>show(current+1));
+document.addEventListener('keydown',(e)=>{if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){e.preventDefault();show(current+1);}if(e.key==='ArrowLeft'||e.key==='PageUp'){e.preventDefault();show(current-1);}if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1);});
+let t=0;document.addEventListener('touchstart',(e)=>{t=e.changedTouches[0].screenX;});document.addEventListener('touchend',(e)=>{const d=e.changedTouches[0].screenX-t;if(Math.abs(d)>60)show(current+(d<0?1:-1));});
+show(0);
+</script>
+</body>
+</html>
