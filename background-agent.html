@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Locums United: Qualification Agent — Daily Update</title>
+<title>Locums United: Background Check Agent — Daily Update</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -21,10 +21,10 @@ html { scroll-behavior: smooth; }
 body { font-family: 'Outfit', system-ui, sans-serif; background: var(--bg); color: var(--t1); -webkit-font-smoothing: antialiased; line-height: 1.5; }
 
 .topbar { position: sticky; top: 0; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 14px 24px; background: rgba(10,11,16,0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); font-size: 13px; color: var(--t4); }
-.topbar .brand { font-weight: 700; color: var(--t2); letter-spacing: 0.02em; }
-.topbar .links { display: flex; gap: 12px; }
-.topbar a { color: var(--cyan); text-decoration: none; font-weight: 600; padding: 7px 12px; border: 1px solid var(--border-cyan); border-radius: 999px; font-size: 12px; transition: background 0.15s; }
-.topbar a:hover { background: var(--cyan-15); }
+.topbar .brand { font-weight: 700; color: var(--t2); letter-spacing: 0.02em; text-decoration: none; }
+.topbar .links { display: flex; gap: 12px; flex-wrap: wrap; }
+.topbar a.link { color: var(--cyan); text-decoration: none; font-weight: 600; padding: 7px 12px; border: 1px solid var(--border-cyan); border-radius: 999px; font-size: 12px; transition: background 0.15s; }
+.topbar a.link:hover { background: var(--cyan-15); }
 
 section { padding: 80px 24px; max-width: 1100px; margin: 0 auto; }
 section.hero { padding: 100px 24px 80px; text-align: center; }
@@ -62,9 +62,9 @@ p { font-size: clamp(15px, 1.15vw, 18px); line-height: 1.65; color: var(--t3); }
 .footer a { color: var(--cyan); text-decoration: none; font-weight: 600; }
 
 @media (max-width: 720px) {
-  .topbar { padding: 10px 14px; font-size: 12px; }
-  .topbar .links { gap: 8px; }
-  .topbar a { padding: 6px 10px; font-size: 11px; }
+  .topbar { padding: 10px 14px; font-size: 12px; flex-wrap: wrap; gap: 8px; }
+  .topbar .links { gap: 6px; }
+  .topbar a.link { padding: 5px 9px; font-size: 11px; }
   section { padding: 50px 18px; }
   section.hero { padding: 60px 18px 50px; }
   section.alt > .inner { padding: 0 18px; }
@@ -85,65 +85,64 @@ p { font-size: clamp(15px, 1.15vw, 18px); line-height: 1.65; color: var(--t3); }
 <body>
 
 <nav class="topbar">
-  <a class="brand" href="index.html" style="color:var(--t2);text-decoration:none;">Locums United</a>
+  <a class="brand" href="index.html">Locums United</a>
   <div class="links">
-    <a href="job-sourcing-agent.html">Sourcing</a>
-    <a href="qualification-agent.html">Qualification</a>
-    <a href="background-agent.html">Background</a>
-    <a href="presentation-agent.html">Presentation</a>
-    <a href="audit-team.html">Audit</a>
+    <a class="link" href="job-sourcing-agent.html">Sourcing</a>
+    <a class="link" href="qualification-agent.html">Qualification</a>
+    <a class="link" href="background-agent.html">Background</a>
+    <a class="link" href="presentation-agent.html">Presentation</a>
+    <a class="link" href="audit-team.html">Audit</a>
   </div>
 </nav>
 
 <section class="hero">
-  <div class="badge">Daily Update · 2026-04-17</div>
-  <h1>The Qualification Agent is built.<br><span class="cyan">All systems green.</span></h1>
-  <p class="lead">The doorman is in place. Every physician application gets scored in two seconds, gets a tailored email immediately, and lands in Tyson's queue only if it needs his decision. Doctors no longer wait days for a response. Tyson decides only what matters.</p>
+  <div class="badge">Daily Update · 2026-04-18</div>
+  <h1>The Background Check Agent is built.<br><span class="cyan">Flags, never blocks.</span></h1>
+  <p class="lead">The watchdog runs in parallel with the main pipeline. It verifies NPI against CMS, checks the federal exclusion list, and reads every clinical reference response. Clean physicians pass silently. Anything flagged goes to Tyson for a one-click decision. The machine never auto-rejects.</p>
   <div class="metric-row">
-    <div class="metric-block"><div class="metric-num">5 / 5</div><div class="metric-label">Tools certified</div></div>
-    <div class="metric-block"><div class="metric-num">49 / 49</div><div class="metric-label">Tests passing</div></div>
-    <div class="metric-block"><div class="metric-num">1.3 s</div><div class="metric-label">Time to first email</div></div>
+    <div class="metric-block"><div class="metric-num">3 / 3</div><div class="metric-label">Tools Certified</div></div>
+    <div class="metric-block"><div class="metric-num">39 / 40</div><div class="metric-label">Tests Passing</div></div>
+    <div class="metric-block"><div class="metric-num">0</div><div class="metric-label">Auto-DQs</div></div>
   </div>
-  <div><span class="cert-badge">Certified</span></div>
+  <div><span class="cert-badge">Certified parallel v1</span></div>
 </section>
 
 <section class="alt">
   <div class="inner">
-    <h2>What the Qualification Agent actually does.</h2>
-    <p class="lead center" style="margin-bottom: 36px;">The robot does the boring fast work. Tyson does the important slow work. Doctors get answers in seconds. Nobody gets told "no" by a machine.</p>
+    <h2>What the Background Check Agent actually does.</h2>
+    <p class="lead center" style="margin-bottom: 36px;">Parallel, non-blocking, never auto-disqualifying. Software flags the issues. Humans decide.</p>
     <div class="body-block">
-      <p><strong>When a doctor applies:</strong> the Qualification Agent reads the application in two seconds. Checks the license, certs, malpractice, NPI, and federal exclusion list. Sorts them into looks-good / one-thing-to-clarify / probably-not-a-fit.</p>
-      <p><strong>Then three things happen at once:</strong> the doctor gets a tailored email immediately so they're not ghosted. Tyson gets pinged at the level his attention deserves: silent for the looks-good, FYI for clarify, action-required for probably-not. Greens roll into name-clear automatically.</p>
-      <p><strong>When the doctor writes back:</strong> the Qualification Agent drafts a response, double-checks it with a second AI to make sure nothing was made up, and puts it in Tyson's inbox. One click and it ships.</p>
-      <p><strong>Every morning at 6 ET:</strong> Tyson gets one email summarizing the prior day. If he sits on a Red 72 hours, the system escalates to Ali, Julius, and Ahmed automatically.</p>
+      <p><strong>When a physician clears Qualification:</strong> the Background Check Agent runs in parallel. It queries CMS NPPES to confirm the NPI is real and active, checks the HHS OIG exclusion list (monthly refreshed) for any match by NPI or name, and inspects both reference form responses the doctor submitted earlier in the flow.</p>
+      <p><strong>The negative-signal rule is explicit:</strong> any reference with work-again of No, or any of the four 1-to-5 ratings at 3 or below, counts as a flag. Missing NPPES record, any exclusion match, or stale reference data also flag. Clean checks pass silently and the physician keeps moving through the rest of the pipeline.</p>
+      <p><strong>When something flags:</strong> the physician is not rejected. Their main status never changes. The flags accumulate under a separate background state, and Tyson sees the case in Slack with Approve-Clear and Confirm-DQ buttons. Only Tyson's click can set a terminal rejection.</p>
+      <p><strong>What we don't do:</strong> no Checkr, no paid background vendor. No NPDB for the MVP — hospitals handle that at credentialing. We're the pre-screen, not the full occupational risk suite.</p>
     </div>
   </div>
 </section>
 
 <section>
-  <h2>What's between us and going live.</h2>
-  <p class="lead center">One thing.</p>
-  <p class="center" style="color: var(--t4); font-size: 13px; margin-top: 8px;">No code work outstanding. No certs failing. No deployment gaps.</p>
+  <h2>What's next.</h2>
+  <p class="lead center">Running today. A few polish items.</p>
   <div class="next-row">
     <div class="step-card featured">
-      <div class="step-num">Friday 2026-04-24</div>
-      <div class="step-title cyan">Tyson session</div>
-      <div class="step-desc">60-minute Zoom. We capture his canonical question wording, his actual DQ letter copy, and what he needs to see in alerts to decide fast. He also scores 10 test candidates blind so we can compare to the AI.</div>
+      <div class="step-num">Next</div>
+      <div class="step-title cyan">Slack console</div>
+      <div class="step-desc">The flag-and-resolve panel. Every incident already logs with full context. The Slack surface lights up the same week the workspace is provisioned.</div>
     </div>
     <div class="step-card">
-      <div class="step-num">Same week</div>
-      <div class="step-title">Plug in the content</div>
-      <div class="step-desc">Swap placeholder copy for Tyson's actual language. Re-run all 7 cert specs to confirm zero regression. Walk Tyson through his inbox once. Get sign-off in writing.</div>
+      <div class="step-num">Ongoing</div>
+      <div class="step-title">Monthly LEIE refresh</div>
+      <div class="step-desc">The federal exclusion list refreshes on the first of the month. A daily canary raises an alert if the cache is older than 35 days. Fail-closed.</div>
     </div>
     <div class="step-card">
-      <div class="step-num">Then</div>
-      <div class="step-title green-text">Lights on</div>
-      <div class="step-desc">Flip the recipient from Julius to Tyson. First real applicants flow. The Qualification Agent goes live. The Name Clear Agent follows on its own cert cycle.</div>
+      <div class="step-num">Later</div>
+      <div class="step-title green-text">Per-client toggle</div>
+      <div class="step-desc">Optional per-client run-background setting for edge cases (short-notice locum gigs where the hospital runs its own pre-screen immediately).</div>
     </div>
   </div>
 </section>
 
-<div class="footer">Built for Locums United · Updated 2026-04-17 · <a href="job-sourcing-agent.html">Job Sourcing Agent &rarr;</a></div>
+<div class="footer">Built for Locums United · Updated 2026-04-18 · <a href="qualification-agent.html">&larr; Qualification</a> · <a href="presentation-agent.html">Presentation &rarr;</a></div>
 
 </body>
 </html>
