@@ -86,7 +86,7 @@ p { font-size: clamp(16px, 1.2vw, 19px); line-height: 1.7; color: var(--t3); }
 <section class="hero">
   <div class="badge">Cross-cutting &middot; Audit</div>
   <h1>The team that <span class="cyan">watches the team</span>.</h1>
-  <p class="lead">Twice a day, an auditor runs a full check on every agent, every scheduled job, and every number that shows up in a report. If anything drifts, contradicts, or quietly stops working, it raises a flag before the day gets going. Nothing hides.</p>
+  <p class="lead">Twice a day, a full check across every agent, every job, every number. Anything off gets flagged before the day starts. Nothing hides.</p>
   <div class="metric-row">
     <div class="metric-block"><div class="metric-num">2</div><div class="metric-label">Runs per day</div></div>
     <div class="metric-block"><div class="metric-num">5</div><div class="metric-label">Agents audited</div></div>
@@ -101,67 +101,66 @@ p { font-size: clamp(16px, 1.2vw, 19px); line-height: 1.7; color: var(--t3); }
     <h2>Think of it like an auditor.</h2>
     <div class="analogy-card">
       <div class="tag">The analogy</div>
-      <div class="head">A good auditor shows up on a schedule. Checks the books. Cross-references every number against the source. Tells you what does not add up, before it becomes a problem.</div>
-      <p>That is this team's whole job. Twice a day, it runs a full sweep: did every scheduled job fire, do the numbers in the morning report match the numbers in the database, are the rules we care about still holding, are the outside systems we depend on healthy.</p>
-      <p>Most days it reports everything is green. The whole point is that on the day something is not, you know immediately, not a week later.</p>
+      <div class="head">A good auditor shows up on a schedule. Checks the books. Cross-references every number. Tells you what doesn't add up before it becomes a problem.</div>
+      <p>Most days it reports everything green. The point is that on the day it isn't, you know right away, not a week later.</p>
     </div>
   </div>
 </section>
 
 <section>
-  <h2>What it checks every run.</h2>
-  <p class="lead center">Four passes. Four flavors of answer.</p>
+  <h2>What it checks.</h2>
+  <p class="lead center">Four passes, every run.</p>
   <div class="day-row">
     <div class="day-card">
       <div class="day-num">Pass 1</div>
       <div class="day-title">Did every job run?</div>
-      <div class="day-desc">Every scheduled task has an expected cadence. The auditor reads the last-run record for each and flags anything that stopped firing.</div>
+      <div class="day-desc">Flags anything that stopped firing.</div>
     </div>
     <div class="day-card">
       <div class="day-num">Pass 2</div>
       <div class="day-title">Are the rules still true?</div>
-      <div class="day-desc">Nine simple rules that should always hold. Things like no stuck jobs older than a day, no orphaned approvals, vendor logins still fresh. Each one checked, every run.</div>
+      <div class="day-desc">Nine invariants checked every run. No stuck jobs. No stale logins.</div>
     </div>
     <div class="day-card">
       <div class="day-num">Pass 3</div>
       <div class="day-title">Do the numbers match?</div>
-      <div class="day-desc">Every headline number in a daily report gets cross-checked against its source. If the job board says 95 and the database says 97, that is a contradiction and it gets flagged.</div>
+      <div class="day-desc">Board says 95, database says 97? Flagged as a contradiction.</div>
     </div>
     <div class="day-card">
       <div class="day-num">Pass 4</div>
       <div class="day-title">Is the audit working?</div>
-      <div class="day-desc">The auditor checks itself. If a subsystem quietly fell off the schedule and never got a score this run, the audit catches its own blind spot.</div>
+      <div class="day-desc">Catches its own blind spots. A missing check is itself a finding.</div>
     </div>
   </div>
 </section>
 
 <section class="alt">
   <div class="inner">
-    <h2>Three rules that make this work.</h2>
-    <p class="lead center">The whole point of the audit is to be the thing you can trust. Here's how.</p>
+    <h2>Three rules.</h2>
+    <p class="lead center">This is the layer you have to trust.</p>
     <div class="promise-row">
       <div class="promise-card">
         <div class="promise-num">1</div>
-        <div class="promise-title">Covers every agent and every vendor.</div>
-        <div class="promise-desc">Sourcing, Physician Finder, Qualification, Background, Presentation. Plus the Manager. Plus the scheduler. Plus every outside system we depend on. One status per subsystem, every run.</div>
+        <div class="promise-title">Covers everything.</div>
+        <div class="promise-desc">Every agent, the Manager, the scheduler, every vendor. One status per subsystem, every run.</div>
       </div>
       <div class="promise-card">
         <div class="promise-num">2</div>
         <div class="promise-title">Cross-checks every number.</div>
-        <div class="promise-desc">No number shows up in a report without being verified against its source. If two places disagree, the audit flags the disagreement instead of picking one.</div>
+        <div class="promise-desc">Two sources disagree? Flagged. Never picks one silently.</div>
       </div>
       <div class="promise-card">
         <div class="promise-num">3</div>
         <div class="promise-title">Catches its own blind spots.</div>
-        <div class="promise-desc">If a subsystem silently disappears from the schedule, the auditor notices. A missing check is itself a finding.</div>
+        <div class="promise-desc">A missing check is a finding. Nothing falls off quietly.</div>
       </div>
     </div>
   </div>
 </section>
 
 <section>
-  <h2>What it covers, end to end.</h2>
-  <p class="lead center">Every moving part in the system. One status per run.</p>
+  <h2>What it covers.</h2>
+  <p class="lead center">Every moving part. One status per run.</p>
   <div class="next-row">
     <div class="step-card">
       <div class="step-num">Subsystem</div>
@@ -171,17 +170,17 @@ p { font-size: clamp(16px, 1.2vw, 19px); line-height: 1.7; color: var(--t3); }
     <div class="step-card">
       <div class="step-num">Subsystem</div>
       <div class="step-title">The Manager</div>
-      <div class="step-desc">The coordinator layer that keeps the agents in sync. Heartbeats and directive tracking.</div>
+      <div class="step-desc">The coordinator. Heartbeats and directive tracking.</div>
     </div>
     <div class="step-card">
       <div class="step-num">Subsystem</div>
       <div class="step-title">Infrastructure</div>
-      <div class="step-desc">Scheduler, database, API limits, the audit itself. Infra problems and agent problems stay separate.</div>
+      <div class="step-desc">Scheduler, database, API limits, the audit itself.</div>
     </div>
     <div class="step-card">
       <div class="step-num">Subsystem</div>
       <div class="step-title">Outside vendors</div>
-      <div class="step-desc">Every external system we depend on. Token freshness and health checked for each one.</div>
+      <div class="step-desc">Every external system. Token freshness and health.</div>
     </div>
   </div>
 </section>
@@ -190,8 +189,7 @@ p { font-size: clamp(16px, 1.2vw, 19px); line-height: 1.7; color: var(--t3); }
   <div class="inner">
     <h2>The bottom line.</h2>
     <div class="body-block center">
-      <p class="big">The other agents do the work. This one checks that the work was actually done, the numbers actually match, and nothing quietly broke.</p>
-      <p>Most companies skip this layer. That is why you can trust the rest.</p>
+      <p class="big">The agents do the work. This one checks that the work got done and the numbers match. Most companies skip this layer. That's why you can trust the rest.</p>
     </div>
   </div>
 </section>

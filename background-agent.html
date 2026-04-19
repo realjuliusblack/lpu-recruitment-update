@@ -87,7 +87,7 @@ p { font-size: clamp(16px, 1.2vw, 19px); line-height: 1.7; color: var(--t3); }
 <section class="hero">
   <div class="badge">Agent 4 &middot; Background</div>
   <h1>The <span class="cyan">watchdog</span>. Flags, never blocks.</h1>
-  <p class="lead">It quietly runs an identity check, a federal exclusion list check, and reviews the two clinical references every doctor submits. Clean doctors move through with no one noticing. Anything off goes to Tyson for a one-click decision. The machine never auto-rejects anyone.</p>
+  <p class="lead">Identity, exclusion list, references. Clean doctors pass silently. Anything off goes to Tyson with one-click buttons. Never auto-rejects.</p>
   <div class="metric-row">
     <div class="metric-block"><div class="metric-num">3 / 3</div><div class="metric-label">Tools certified</div></div>
     <div class="metric-block"><div class="metric-num">39 / 40</div><div class="metric-label">Tests passing</div></div>
@@ -101,59 +101,58 @@ p { font-size: clamp(16px, 1.2vw, 19px); line-height: 1.7; color: var(--t3); }
     <h2>Think of it like a watchdog.</h2>
     <div class="analogy-card">
       <div class="tag">The analogy</div>
-      <div class="head">A good watchdog stays quiet most of the time. Only barks when something is actually off. Never bites on its own.</div>
-      <p>That is this agent's whole job. It checks every qualified doctor against the sources that matter. Most come back clean and nobody ever has to look. The rare ones that flag, Tyson sees with a short summary and two buttons: clear them or confirm a decline.</p>
-      <p>It runs in parallel with the rest of the pipeline. Nothing waits on it. The main flow keeps moving.</p>
+      <div class="head">A good watchdog stays quiet. Only barks when something is off. Never bites on its own.</div>
+      <p>Runs in parallel with the main flow. Never blocks. Rare flag goes to Tyson with two buttons: clear or confirm.</p>
     </div>
   </div>
 </section>
 
 <section>
-  <h2>What it does for every qualified doctor.</h2>
-  <p class="lead center">Four checks. All running at the same time. Usually finished before the next step even starts.</p>
+  <h2>What it checks.</h2>
+  <p class="lead center">Four checks. All at once. Usually done before the next step starts.</p>
   <div class="day-row">
     <div class="day-card">
       <div class="day-num">Check 1</div>
       <div class="day-title">Identity is real.</div>
-      <div class="day-desc">Looks up the doctor's NPI in the federal registry. Confirms name, specialty, and active status match what they told us.</div>
+      <div class="day-desc">NPI verified in the federal registry.</div>
     </div>
     <div class="day-card">
       <div class="day-num">Check 2</div>
-      <div class="day-title">Not on the exclusion list.</div>
-      <div class="day-desc">Checks the federal healthcare exclusion list. If any doctor is on it for past issues, we need to know before a facility ever sees them.</div>
+      <div class="day-title">Not on exclusion list.</div>
+      <div class="day-desc">Federal healthcare exclusion list, checked every time.</div>
     </div>
     <div class="day-card">
       <div class="day-num">Check 3</div>
-      <div class="day-title">References sent and read.</div>
-      <div class="day-desc">Emails both clinical references the doctor submitted. When replies come in, the agent reads them and flags anything concerning.</div>
+      <div class="day-title">References read.</div>
+      <div class="day-desc">Both references emailed. Replies read and flagged if off.</div>
     </div>
     <div class="day-card">
       <div class="day-num">Check 4</div>
       <div class="day-title">Tyson gets the flags.</div>
-      <div class="day-desc">Anything off the agent saw goes to Tyson. Clear it or confirm a decline. One click either way.</div>
+      <div class="day-desc">Clear or confirm a decline. One click either way.</div>
     </div>
   </div>
 </section>
 
 <section class="alt">
   <div class="inner">
-    <h2>Three rules that keep it safe.</h2>
-    <p class="lead center">This is the part that has to be done right. Here's how.</p>
+    <h2>Three rules.</h2>
+    <p class="lead center">This part has to be done right.</p>
     <div class="promise-row">
       <div class="promise-card">
         <div class="promise-num">1</div>
         <div class="promise-title">Never auto-disqualifies.</div>
-        <div class="promise-desc">The agent cannot reject a doctor by itself. Every flag waits for Tyson. No matter what the sources say.</div>
+        <div class="promise-desc">Every flag waits for Tyson. No exceptions.</div>
       </div>
       <div class="promise-card">
         <div class="promise-num">2</div>
-        <div class="promise-title">Runs in parallel, never blocks.</div>
-        <div class="promise-desc">The main pipeline does not wait for the background check. If references are slow, presentation can still move forward. The two flows stay independent.</div>
+        <div class="promise-title">Runs in parallel.</div>
+        <div class="promise-desc">Main pipeline doesn't wait. Slow references don't hold up presentation.</div>
       </div>
       <div class="promise-card">
         <div class="promise-num">3</div>
-        <div class="promise-title">Clear scope. No scope creep.</div>
-        <div class="promise-desc">Identity, exclusion list, and clinical references. That's it. We are the pre-screen. The hospital runs the full credentialing file at hire.</div>
+        <div class="promise-title">Clear scope.</div>
+        <div class="promise-desc">Identity, exclusion, references. We're the pre-screen. The hospital runs credentialing at hire.</div>
       </div>
     </div>
   </div>
@@ -161,22 +160,21 @@ p { font-size: clamp(16px, 1.2vw, 19px); line-height: 1.7; color: var(--t3); }
 
 <section>
   <h2>What's next.</h2>
-  <p class="lead center">Certified and running. A few polish items.</p>
   <div class="next-row">
     <div class="step-card featured">
       <div class="step-num">Next</div>
       <div class="step-title cyan">Slack console</div>
-      <div class="step-desc">A flag-and-resolve panel where Tyson gets a short summary with two buttons. All the logging is already in place. The Slack surface lights up the same week we provision the workspace.</div>
+      <div class="step-desc">Tyson's flag-and-resolve panel. Lights up the week the workspace lands.</div>
     </div>
     <div class="step-card">
       <div class="step-num">Ongoing</div>
       <div class="step-title">Federal list refresh</div>
-      <div class="step-desc">The federal exclusion list updates on the first of every month. A daily check raises an alert if our copy is older than 35 days. Fail-closed means we never check against stale data.</div>
+      <div class="step-desc">Updates monthly. Daily check catches stale data. Fail-closed.</div>
     </div>
     <div class="step-card">
       <div class="step-num">Later</div>
-      <div class="step-title green-text">Skip when the client already checks.</div>
-      <div class="step-desc">Some hospitals run their own full background check every time, especially for short-notice fills. For those clients, ours is duplicate work. A small switch will let Tyson skip it per client when they ask.</div>
+      <div class="step-title green-text">Skip when the client checks.</div>
+      <div class="step-desc">Hospitals that run their own full check? Per-client switch to skip ours.</div>
     </div>
   </div>
 </section>
@@ -185,8 +183,7 @@ p { font-size: clamp(16px, 1.2vw, 19px); line-height: 1.7; color: var(--t3); }
   <div class="inner">
     <h2>The bottom line.</h2>
     <div class="body-block center">
-      <p class="big">Every doctor gets checked. Most pass quietly. The rare flag goes to a human with one click either way. The machine never decides alone.</p>
-      <p>Fast where speed matters. Human where safety does.</p>
+      <p class="big">Every doctor checked. Most pass quietly. Rare flag, one click. The machine never decides alone.</p>
     </div>
   </div>
 </section>

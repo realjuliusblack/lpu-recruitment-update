@@ -114,17 +114,16 @@ p { font-size: clamp(15px, 1.15vw, 18px); line-height: 1.65; color: var(--t3); }
 
 <section class="hero">
   <div class="badge">Locums United</div>
-  <h1>Project: Front Office.<br><span class="cyan">MVP is live.</span></h1>
-  <p class="lead">Every page here is a snapshot of a system already running. Sourcing, qualification, background, presentation, audit. Five agents, all doing real work right now.</p>
-  <p class="lead" style="margin-top: 22px;"><strong style="color: var(--t1); font-weight: 700;">MVP</strong> means Minimum Viable Product. The first version that actually works. Enough to ship real value today, not everything we will ever build.</p>
-  <p class="lead" style="margin-top: 22px;">Development is full speed ahead. New pieces land here every week.</p>
+  <h1>Project: Front Office <span class="cyan">MVP</span></h1>
+  <p class="lead"><strong style="color: var(--t1); font-weight: 700;">MVP</strong> means Minimum Viable Product. The first working version. Not the final. Enough to ship real value today.</p>
+  <p class="lead" style="margin-top: 18px;">Every page here is a live snapshot. New pieces land every week.</p>
 </section>
 
 <section class="alt">
   <div class="inner">
     <div class="badge" style="display: block; margin: 0 auto 24px; width: fit-content;">State of the Pipeline &middot; 2026-04-18</div>
     <h2>From <span class="cyan">sourcing</span> to <span class="cyan">presentation</span>, end to end.</h2>
-    <p class="lead center">Five agents handle the full recruitment pipeline. Jobs come in automatically. Every qualified physician gets scored in seconds. Every green lands in front of a client. Background runs in parallel. The whole system watches itself twice a day.</p>
+    <p class="lead center">Jobs come in. Doctors get scored. Greens land in front of clients. Background runs in parallel. The system watches itself twice a day.</p>
     <div class="metric-row">
       <div class="metric-block"><div class="metric-num">3</div><div class="metric-label">Agents Certified</div></div>
       <div class="metric-block"><div class="metric-num">5</div><div class="metric-label">Live Code Bases</div></div>
@@ -136,11 +135,11 @@ p { font-size: clamp(15px, 1.15vw, 18px); line-height: 1.65; color: var(--t3); }
 
 <section>
   <h2>New here? Start with the basics.</h2>
-  <p class="lead center">If "agent" sounds like tech jargon, it is not. A Managed Agent is a tiny AI worker with one job, the right tools, strict rules, and a human to escalate to. Read the one-page explainer first, then the rest of this deck makes sense.</p>
+  <p class="lead center">A Managed Agent is a tiny AI worker with one job, the right tools, and a human to escalate to. Read this first.</p>
   <div class="audit-card" style="text-align: center;">
     <div class="num" style="font-size: 12px; font-weight: 700; color: var(--cyan); letter-spacing: 0.1em; text-transform: uppercase;">Read this first</div>
     <div class="name">What is a Managed Agent?</div>
-    <p>Plain-English walkthrough of what the agents are, what they actually do every day, why we need them, and the three promises that keep them safe.</p>
+    <p>One-page explainer. What the agents are, what they do, and the three rules that keep them safe.</p>
     <a class="open" href="managed-agents.html" style="margin-top: 20px;">Open explainer &rarr;</a>
   </div>
 </section>
@@ -148,7 +147,7 @@ p { font-size: clamp(15px, 1.15vw, 18px); line-height: 1.65; color: var(--t3); }
 <section class="alt">
   <div class="inner">
     <h2>The five agents.</h2>
-    <p class="lead center">Each one owns a single domain. Certified means every test case exercises the real pipeline with real data. No mocks.</p>
+    <p class="lead center">Each one owns one domain. Certified means tested with real data, not mocks.</p>
 
     <div class="agent-grid">
 
@@ -160,7 +159,7 @@ p { font-size: clamp(15px, 1.15vw, 18px); line-height: 1.65; color: var(--t3); }
           </div>
           <span class="status-chip live">Live</span>
         </div>
-        <p>The scout. Pulls roles from LocumSmart, LotusOne, and email ingest, normalizes them, and publishes to the job board. 95 live roles across 42 specialties in 21 states as of today.</p>
+        <p>The scout. Pulls every open role from every source, writes a clean description, posts to the board. 95 live roles, 42 specialties, 21 states.</p>
         <a class="open" href="job-sourcing-agent.html">Open deck &rarr;</a>
       </div>
 
@@ -172,7 +171,7 @@ p { font-size: clamp(15px, 1.15vw, 18px); line-height: 1.65; color: var(--t3); }
           </div>
           <span class="status-chip build">In Build</span>
         </div>
-        <p>The matchmaker. MVP scope is locked: email the existing qualified list first, and project shift commitments honestly per job. Sourcing-side outreach follows in v2. Its own deck lands when the MVP ships.</p>
+        <p>The matchmaker. Emails the existing qualified list on new jobs. Shift commitments projected honestly per job. Full deck when MVP ships.</p>
       </div>
 
       <div class="agent-card">
@@ -183,7 +182,7 @@ p { font-size: clamp(15px, 1.15vw, 18px); line-height: 1.65; color: var(--t3); }
           </div>
           <span class="status-chip certified">Certified</span>
         </div>
-        <p>The doorman. Every application scored in two seconds. Green, yellow, or red. The doctor gets a tailored email immediately. Tyson sees only what needs his decision. 49 of 49 tests passing.</p>
+        <p>The doorman. Every application scored in two seconds. Tailored email out. Tyson only sees what needs him. 49/49 tests.</p>
         <a class="open" href="qualification-agent.html">Open deck &rarr;</a>
       </div>
 
@@ -195,7 +194,7 @@ p { font-size: clamp(15px, 1.15vw, 18px); line-height: 1.65; color: var(--t3); }
           </div>
           <span class="status-chip certified">Certified</span>
         </div>
-        <p>The watchdog. Runs in parallel with the main pipeline. NPPES identity, federal exclusion list, and clinical references. Never auto-disqualifies. Flags go to Tyson. 39 of 40 tests passing on parallel_v1.</p>
+        <p>The watchdog. Identity, exclusion list, references, all in parallel. Never auto-DQs. Flags go to Tyson. 39/40 tests.</p>
         <a class="open" href="background-agent.html">Open deck &rarr;</a>
       </div>
 
@@ -207,7 +206,7 @@ p { font-size: clamp(15px, 1.15vw, 18px); line-height: 1.65; color: var(--t3); }
           </div>
           <span class="status-chip certified">Certified</span>
         </div>
-        <p>The handoff. For every green physician, a short name clear email goes to the client. When they reply, the agent classifies the response and advances the state. Follow-ups at 48 and 96 hours. 25 of 25 tests passing.</p>
+        <p>The handshake. Name clear out, packet on a yes, follow-ups at 48 and 96 hours. 25/25 tests.</p>
         <a class="open" href="presentation-agent.html">Open deck &rarr;</a>
       </div>
 
@@ -217,12 +216,12 @@ p { font-size: clamp(15px, 1.15vw, 18px); line-height: 1.65; color: var(--t3); }
 
 <section>
   <h2>The team that watches the team.</h2>
-  <p class="lead center">An Audit Team runs across all five agents twice a day. It reconciles every headline number against the source of truth, checks nine invariants, and raises a flag the moment a contradiction appears. The department watches itself so nothing drifts quietly.</p>
+  <p class="lead center">Twice a day, every agent and every vendor gets checked. Every number cross-checked. Any drift gets flagged before the day starts.</p>
 
   <div class="audit-card">
     <div class="num" style="font-size: 12px; font-weight: 700; color: var(--cyan); letter-spacing: 0.1em; text-transform: uppercase;">Cross-Cutting</div>
     <div class="name">Audit Team</div>
-    <p>Covers every agent, the Recruitment Manager, the scheduler, Supabase, vendor APIs (LocumSmart, LotusOne, Auth0, Gmail, GHL, Anthropic), and cross-source reconciliation for every metric that shows up in a daily digest. Runs at 11 PM and 6 AM. The 6 AM pass emails a summary. Green, yellow, red, or contradiction. Nothing hides.</p>
+    <p>Runs at 11 PM and 6 AM. Covers every agent, the Manager, the scheduler, every vendor. Green, yellow, red, or contradiction.</p>
     <a class="open" href="audit-team.html">Open Audit Team deck &rarr;</a>
   </div>
 </section>
@@ -230,38 +229,38 @@ p { font-size: clamp(15px, 1.15vw, 18px); line-height: 1.65; color: var(--t3); }
 <section class="alt">
   <div class="inner">
     <h2>What's in flight.</h2>
-    <p class="lead center">Every agent has a next step. Here's the honest picture.</p>
+    <p class="lead center">Every agent has a next step.</p>
 
     <div class="next-row">
       <div class="step-card">
         <div class="step-num">Agent 1</div>
         <div class="step-title">Source expansion</div>
-        <div class="step-desc">Adding more VMS feeds as they become available. Current three sources cover the majority of direct-contract roles.</div>
+        <div class="step-desc">More VMS feeds as they come online.</div>
       </div>
       <div class="step-card">
         <div class="step-num">Agent 2</div>
         <div class="step-title">MVP build</div>
-        <div class="step-desc">Email the existing qualified list first. Shift commitment projections per job. Everything after that is v2.</div>
+        <div class="step-desc">Email the qualified list. Honest shift projections.</div>
       </div>
       <div class="step-card">
         <div class="step-num">Agent 3</div>
         <div class="step-title">Tyson session</div>
-        <div class="step-desc">60 minutes to capture canonical question wording, actual DQ letter copy, and blind-score 10 test candidates. Then live.</div>
+        <div class="step-desc">60 min to capture his wording + 10 blind scores. Then live.</div>
       </div>
       <div class="step-card">
         <div class="step-num">Agent 4</div>
         <div class="step-title">Slack console</div>
-        <div class="step-desc">Flag-and-resolve panel. Code is in place; waiting on the Slack workspace to wire up.</div>
+        <div class="step-desc">Flag-and-resolve panel. Waiting on Slack workspace.</div>
       </div>
       <div class="step-card">
         <div class="step-num">Agent 5</div>
         <div class="step-title">Tyson session + hold flip</div>
-        <div class="step-desc">Defines the full packet content for yes-replies. Then Julius walks Tyson through the approval flow and flips the recipient from draft to real facility.</div>
+        <div class="step-desc">Define packet content. Flip recipient from Julius to real client.</div>
       </div>
       <div class="step-card">
         <div class="step-num">Audit Team</div>
-        <div class="step-title">Slack surfacing</div>
-        <div class="step-desc">Contradiction alerts already land in the incident log. Slack posts on contradiction arrive the same week the workspace is live.</div>
+        <div class="step-title">Slack alerts</div>
+        <div class="step-desc">Contradictions post to Slack the week the workspace is live.</div>
       </div>
     </div>
   </div>
