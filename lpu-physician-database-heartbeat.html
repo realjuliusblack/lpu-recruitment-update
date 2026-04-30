@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Growing the Physician Database: Heartbeat AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --cyan: #00CCFF;
+  --cyan-10: rgba(0,204,255,0.10);
+  --cyan-15: rgba(0,204,255,0.15);
+  --cyan-25: rgba(0,204,255,0.25);
+  --cyan-40: rgba(0,204,255,0.40);
+  --bg: #0a0b10;
+  --surface: #141520;
+  --surface-2: #1c1d28;
+  --border: rgba(255,255,255,0.08);
+  --border-cyan: rgba(0,204,255,0.2);
+  --t1: #ffffff;
+  --t2: rgba(255,255,255,0.90);
+  --t3: rgba(255,255,255,0.70);
+  --t4: rgba(255,255,255,0.45);
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+
+html, body {
+  font-family: 'Outfit', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--t1);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* BACKGROUND */
+.bg-grid {
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,204,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,204,255,0.025) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none; z-index: 0;
+}
+.bg-glow {
+  position: fixed; width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(0,204,255,0.06) 0%, transparent 70%);
+  pointer-events: none; z-index: 0;
+}
+.bg-glow-1 { top: -150px; left: -80px; }
+.bg-glow-2 { bottom: -150px; right: -80px; }
+
+/* TOPBAR */
+.topbar {
+  position: sticky; top: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 14px 28px;
+  background: rgba(10,11,16,0.88); backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.brand { font-weight: 700; font-size: 15px; color: var(--t1); }
+.topbar-tag {
+  font-size: 12px; font-weight: 600; color: var(--cyan);
+  padding: 5px 14px; border: 1px solid var(--border-cyan);
+  border-radius: 999px; letter-spacing: 0.06em;
+}
+
+/* SLIDES */
+.slide {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: flex-start;
+  padding: 80px 28px;
+  border-bottom: 1px solid var(--border);
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.55s cubic-bezier(0.16,1,0.3,1),
+              transform 0.55s cubic-bezier(0.16,1,0.3,1);
+}
+.slide.visible { opacity: 1; transform: translateY(0); }
+
+.inner {
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* SLIDE NUMBER */
+.slide-num {
+  display: inline-block;
+  font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+  color: var(--cyan);
+  background: var(--cyan-10);
+  border: 1px solid var(--border-cyan);
+  padding: 4px 12px; border-radius: 999px;
+  margin-bottom: 28px;
+}
+
+/* CYAN TOP RULE */
+.rule {
+  width: 48px; height: 3px;
+  background: var(--cyan);
+  border-radius: 2px;
+  margin-bottom: 28px;
+}
+
+/* HEADLINES */
+h1 {
+  font-size: clamp(36px, 5vw, 64px);
+  font-weight: 800; line-height: 1.1;
+  color: var(--t1);
+  margin-bottom: 20px;
+}
+h2 {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800; line-height: 1.15;
+  color: var(--t1);
+  margin-bottom: 20px;
+}
+
+/* BODY */
+.body {
+  font-size: clamp(17px, 2vw, 20px);
+  font-weight: 400;
+  color: var(--t2);
+  line-height: 1.65;
+  max-width: 620px;
+}
+
+/* SUBTITLE */
+.subtitle {
+  font-size: clamp(20px, 2.5vw, 28px);
+  font-weight: 500;
+  color: var(--cyan);
+  margin-bottom: 10px;
+}
+
+/* FOOTER TAG */
+.footer-tag {
+  margin-top: 56px;
+  font-size: 13px; font-weight: 500;
+  color: var(--t4);
+  letter-spacing: 0.06em;
+}
+
+/* CALLOUT NUMBER */
+.callout {
+  font-size: clamp(40px, 6vw, 72px);
+  font-weight: 800;
+  color: var(--cyan);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+/* STAT GRID */
+.stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 32px;
+  max-width: 620px;
+}
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+}
+.stat-card .stat-num {
+  font-size: 28px; font-weight: 800; color: var(--cyan); margin-bottom: 6px;
+}
+.stat-card .stat-label {
+  font-size: 14px; font-weight: 500; color: var(--t3); line-height: 1.4;
+}
+
+/* COMPARE GRID */
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 32px;
+  max-width: 620px;
+}
+.compare-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 20px;
+  background: var(--surface);
+}
+.compare-card.bad { border-color: rgba(248,113,113,0.3); }
+.compare-card.good { border-color: var(--border-cyan); }
+.compare-card .compare-label {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; margin-bottom: 14px;
+}
+.compare-card.bad .compare-label { color: #F87171; }
+.compare-card.good .compare-label { color: var(--cyan); }
+.compare-card .compare-val {
+  font-size: 26px; font-weight: 800;
+  color: var(--t1); margin-bottom: 8px;
+}
+.compare-card .compare-note {
+  font-size: 13px; color: var(--t3); line-height: 1.5;
+}
+
+/* PRINT */
+@media print {
+  .slide { page-break-after: always; min-height: 100vh; }
+  .topbar, .bg-grid, .bg-glow { display: none; }
+  .slide { opacity: 1 !important; transform: none !important; }
+}
+
+@media (max-width: 600px) {
+  .stat-grid, .compare-grid { grid-template-columns: 1fr; }
+  .slide { padding: 60px 20px; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow bg-glow-1"></div>
+<div class="bg-glow bg-glow-2"></div>
+
+<header class="topbar">
+  <span class="brand">Locums United</span>
+  <span class="topbar-tag">Internal</span>
+</header>
+
+<!-- 01 TITLE -->
+<section class="slide" id="s1">
+  <div class="inner">
+    <div class="slide-num">01 / 08</div>
+    <div class="rule"></div>
+    <h1>Growing the Physician Database</h1>
+    <div class="subtitle">Heartbeat AI</div>
+    <div class="footer-tag">Locums United &middot; Internal</div>
+  </div>
+</section>
+
+<!-- 02 BOTTLENECK -->
+<section class="slide" id="s2">
+  <div class="inner">
+    <div class="slide-num">02 / 08</div>
+    <div class="rule"></div>
+    <h2>We can find them. We can't always reach them.</h2>
+    <p class="body">Our existing pipeline pulls physician identity from NPPES. NPI, name, mailing address. To run outreach, we need verified email and phone. That is the gap.</p>
+  </div>
+</section>
+
+<!-- 03 WHAT IS HEARTBEAT -->
+<section class="slide" id="s3">
+  <div class="inner">
+    <div class="slide-num">03 / 08</div>
+    <div class="rule"></div>
+    <h2>A B2B physician contact database.</h2>
+    <p class="body">Roughly 2 million US physicians. NPI-matched. Verified email, phone, specialty, location, practice setting. Think ZoomInfo, built for healthcare.</p>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-num">2M+</div>
+        <div class="stat-label">US physicians indexed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">NPI</div>
+        <div class="stat-label">Matched to NPPES for clean identity</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 HOW IT PLUGS IN -->
+<section class="slide" id="s4">
+  <div class="inner">
+    <div class="slide-num">04 / 08</div>
+    <div class="rule"></div>
+    <h2>It drops straight into the pipe we already built.</h2>
+    <p class="body">Pull a list, e.g. "all family medicine MDs in Texas with active NPI." Get back full contact records. Push into GoHighLevel via CSV or API. Agent 2 starts the drip on day 1.</p>
+  </div>
+</section>
+
+<!-- 05 ECONOMICS -->
+<section class="slide" id="s5">
+  <div class="inner">
+    <div class="slide-num">05 / 08</div>
+    <div class="rule"></div>
+    <h2>The economics.</h2>
+    <div class="callout">$25 to $50</div>
+    <p class="body">Per qualified lead. Per record: $0.50 to $2 depending on volume. Bake in a 3 to 5% reply rate on Agent 2's drip and the true cost per qualified lead lands at $25 to $50.</p>
+  </div>
+</section>
+
+<!-- 06 WHY NOT META -->
+<section class="slide" id="s6">
+  <div class="inner">
+    <div class="slide-num">06 / 08</div>
+    <div class="rule"></div>
+    <h2>Meta is the wrong tool for physician sourcing.</h2>
+    <p class="body">Per qualified physician lead via Meta: $150 to $400+. Targeting can't reliably tell a doctor from a nurse from a curious patient. Most spend goes to noise. Heartbeat's NPI match is binary. Physician, full stop. 5 to 10x cheaper per real conversation.</p>
+    <div class="compare-grid">
+      <div class="compare-card bad">
+        <div class="compare-label">Meta Ads</div>
+        <div class="compare-val">$150 to $400+</div>
+        <div class="compare-note">Per qualified physician lead. Noisy targeting.</div>
+      </div>
+      <div class="compare-card good">
+        <div class="compare-label">Heartbeat AI</div>
+        <div class="compare-val">$25 to $50</div>
+        <div class="compare-note">NPI-matched. Binary physician verify.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 DATA OWNERSHIP -->
+<section class="slide" id="s7">
+  <div class="inner">
+    <div class="slide-num">07 / 08</div>
+    <div class="rule"></div>
+    <h2>We own the contacts.</h2>
+    <p class="body">Records are purchased outright. Export as CSV or pull via API. Push into GoHighLevel. Use them for drip, retarget, follow-up, long-term relationships. No platform lock-in. No ad-account-flagged risk.</p>
+  </div>
+</section>
+
+<!-- 08 BOTTOM LINE -->
+<section class="slide" id="s8">
+  <div class="inner">
+    <div class="slide-num">08 / 08</div>
+    <div class="rule"></div>
+    <h2>The cheapest, cleanest way to scale.</h2>
+    <p class="body">Heartbeat plugs into our existing pipe and turns Agent 2 from a finder into a closer. Next step: pull live pricing tiers and scope a pilot.</p>
+  </div>
+</section>
+
+<script>
+(function() {
+  var slides = document.querySelectorAll('.slide');
+  var io = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.15 });
+  slides.forEach(function(s) { io.observe(s); });
+})();
+</script>
+
+</body>
+</html>
